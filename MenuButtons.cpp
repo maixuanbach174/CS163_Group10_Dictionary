@@ -14,15 +14,15 @@ MenuButtons::MenuButtons(float w, float h, float X, float Y)
     for(int i = 0; i < 6; ++i)
     {
         buttons[i].setSize(sf::Vector2f(width, height / 6));
-        buttons[i].setPosition(0, position.y + i * height / 6);
-        buttons[i].setFillColor(lightGrey);
+        buttons[i].setPosition(position.x, position.y + i * height / 6);
+        buttons[i].setFillColor(sf::Color::Transparent);
     }
 }
 
 int MenuButtons::isInBound(sf::Vector2i mousepos)
 {
     if(mousepos.x < 0 || mousepos.y < position.y || 
-    mousepos.x > width || mousepos.y >= position.y + height) return -1;
+    mousepos.x > position.x + width || mousepos.y >= position.y + height) return -1;
     return floor((mousepos.y - position.y) / height * 6);  
 }
 
@@ -41,8 +41,6 @@ void MenuButtons::setColorButtons(int index)
 
 void MenuButtons::MoveColor(int index)
 {
-    if(index == selected) return;
-
     if(index == -1)
     {
         if(selectMove == -1 || selectMove == selected) return;
@@ -50,12 +48,24 @@ void MenuButtons::MoveColor(int index)
         selectMove = -1;
         return;
     }
+
+    if(index == selected) return;
   
     if(index == selectMove) return;
 
     if(selectMove != -1 && selectMove != selected) buttons[selectMove].setFillColor(sf::Color::Transparent);
     buttons[index].setFillColor(DarkOrange);
     selectMove = index;
+}
+
+void MenuButtons::move(sf::Vector2f movement)
+{
+    position.x = movement.x;
+
+    for(int i = 0; i < 6; ++i)
+    {
+        buttons[i].move(movement);
+    }
 }
 
 

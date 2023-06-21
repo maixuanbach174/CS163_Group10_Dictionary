@@ -12,8 +12,9 @@ Dictionary::Dictionary()
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
 , MenButCol(250, 150, 100)
-, menubuttons(350, 650, 0, 138)
+, menubuttons(350, 650, -250, 138)
 , Menu(sf::Vector2f(350.f, 1000.f))
+, movement(250, 0)
 {
     Menu.setFillColor(LightGrey);
     for(int i = 0; i < 6; ++i)
@@ -100,6 +101,8 @@ Dictionary::Dictionary()
     {
         cout << "Cannot load Font" << endl;
     }
+
+    Menu.setPosition(-250, 0);
     
 }
 
@@ -138,7 +141,7 @@ void Dictionary::processEvent()
             mIsPaused = true;
             break;
         case sf::Event::MouseMoved :
-            if(openedMenu) HandleMenuColor();
+            HandleMenuColor();
             break;
         case sf::Event::MouseButtonPressed : 
             if(event.mouseButton.button == sf::Mouse::Left)
@@ -162,12 +165,11 @@ void Dictionary::render()
 {
     mWindow.clear(DarkGrey);
 
-    if(openedMenu) 
-    {
-        mWindow.draw(Menu);
-        for(int i = 0; i < 6; ++i) mWindow.draw(menubuttons.buttons[i]);
+    mWindow.draw(Menu);
+    for(int i = 0; i < 6; ++i) mWindow.draw(menubuttons.buttons[i]);
+
+    if(openedMenu)
         for(int i = 0; i < 6; ++i) mWindow.draw(MenuTexts[i]);
-    }
 
     mWindow.draw(MenuHome);
     mWindow.draw(MenuHistory);
@@ -199,16 +201,28 @@ void Dictionary::HandleMenuClick(sf::Vector2i mousepos)
     if(LinesButton.isInBound(mousepos))
     {
         openedMenu = !openedMenu;
-    }
-                
-    if(openedMenu)
-    {
-        int index = menubuttons.isInBound(mousepos);
-        if(mousepos.x > 350) openedMenu = false;
+        if(openedMenu)
+        {
+            Menu.move(movement);
+            menubuttons.move(movement);
+        }
         else
         {
-            menubuttons.setColorButtons(index);
+            Menu.move(-1.f * movement);
+            menubuttons.move(-1.f * movement);
         }
-    } 
+    }
+                
+    int index = menubuttons.isInBound(mousepos);
+    if(mousepos.x > 350 && openedMenu == true) 
+    { 
+        openedMenu = false;
+        Menu.move(-1.f * movement);
+        menubuttons.move(-1.f * movement);
+    }
+    else
+    {
+        menubuttons.setColorButtons(index);
+    }
 }
 

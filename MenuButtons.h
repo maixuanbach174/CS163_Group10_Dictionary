@@ -26,6 +26,8 @@ struct MenuButtons
     void setColorButtons(int index);
 
     void MoveColor(int index);
+
+    void move(sf::Vector2f movement);
 };
 
 #endif

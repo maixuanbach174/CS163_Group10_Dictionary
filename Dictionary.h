@@ -45,6 +45,8 @@ private:
     sf::Text MenuTexts[6];
     sf::Color MenButCol;
 private:
+    sf::Vector2f movement;
+private:
     void processEvent();
     void update();
     void render();
