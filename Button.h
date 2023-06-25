@@ -10,8 +10,11 @@ struct Button
     sf::Vector2f position;
     float width;
     float height;
+    sf::RectangleShape rect;
 
+    Button(float w, float h, float X, float Y);
     bool isInBound(sf::Vector2i mousepos);
+
 };
 
 #endif

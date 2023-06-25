@@ -15,6 +15,7 @@ Dictionary::Dictionary()
 , menubuttons(350, 650, -250, 138)
 , Menu(sf::Vector2f(350.f, 1000.f))
 , movement(250, 0)
+, LinesButton(100.f, 650.f / 6.f, 0, 138.f - 650.f / 6.f)
 {
     Menu.setFillColor(LightGrey);
     for(int i = 0; i < 6; ++i)
@@ -29,11 +30,7 @@ Dictionary::Dictionary()
     }
     MenuLines.setTexture(LinesTexture);
     MenuLines.setScale(sf::Vector2f(50.f / LinesTexture.getSize().x * 0.75, 50.f / LinesTexture.getSize().y * 0.75));
-    MenuLines.setPosition(30.f, 70.f);
-
-    LinesButton.position = MenuLines.getPosition();
-    LinesButton.width = 50 * 0.75;
-    LinesButton.height = 50 * 0.75;
+    MenuLines.setPosition(30.f, 65.f);
 
     if(!HomeTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/HomeButton.png"))
     {
@@ -51,9 +48,9 @@ Dictionary::Dictionary()
     }
     MenuHistory.setTexture(HistoryTexture);
     MenuHistory.setScale(sf::Vector2f(58.f / HistoryTexture.getSize().x * 0.75, 50.f / HistoryTexture.getSize().y * 0.75));
-    MenuHistory.setPosition(25.f, 270.f);
+    MenuHistory.setPosition(25.f, 280.f);
     MenuTexts[1].setString("History");
-    MenuTexts[1].setPosition(145.f, 272.f);
+    MenuTexts[1].setPosition(145.f, 282.f);
 
     if(!FavoriteTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/FavoriteButton.png"))
     {
@@ -61,9 +58,9 @@ Dictionary::Dictionary()
     }
     MenuFavorite.setTexture(FavoriteTexture);
     MenuFavorite.setScale(sf::Vector2f(60.f / FavoriteTexture.getSize().x * 0.75,  60.f / FavoriteTexture.getSize().y * 0.75));
-    MenuFavorite.setPosition(25.f, 370.f);
+    MenuFavorite.setPosition(25.f, 383.f);
     MenuTexts[2].setString("Favorite");
-    MenuTexts[2].setPosition(145.f, 377.f);
+    MenuTexts[2].setPosition(145.f, 390.f);
 
     if(!SettingTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/SettingButton.png"))
     {
@@ -71,9 +68,9 @@ Dictionary::Dictionary()
     }
     MenuSetting.setTexture(SettingTexture);
     MenuSetting.setScale(sf::Vector2f(60.f / SettingTexture.getSize().x * 0.75,  60.f / SettingTexture.getSize().y * 0.75));
-    MenuSetting.setPosition(25.f, 480.f);
+    MenuSetting.setPosition(25.f, 494.f);
     MenuTexts[3].setString("Setting");
-    MenuTexts[3].setPosition(145.f, 486.f);
+    MenuTexts[3].setPosition(145.f, 500.f);
 
     if(!QuizTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/QuizButton.png"))
     {
@@ -81,9 +78,9 @@ Dictionary::Dictionary()
     }
     MenuQuiz.setTexture(QuizTexture);
     MenuQuiz.setScale(sf::Vector2f(75.f / QuizTexture.getSize().x * 0.75,  75.f / QuizTexture.getSize().y * 0.75));
-    MenuQuiz.setPosition(20.f, 590.f);
+    MenuQuiz.setPosition(20.f, 594.f);
     MenuTexts[4].setString("Quiz");
-    MenuTexts[4].setPosition(145.f, 596.f);
+    MenuTexts[4].setPosition(145.f, 600.f);
 
     if(!AboutTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/AboutButton.png"))
     {
@@ -167,6 +164,7 @@ void Dictionary::render()
 
     mWindow.draw(Menu);
     for(int i = 0; i < 6; ++i) mWindow.draw(menubuttons.buttons[i]);
+    mWindow.draw(LinesButton.rect);
 
     if(openedMenu)
         for(int i = 0; i < 6; ++i) mWindow.draw(MenuTexts[i]);
@@ -189,7 +187,14 @@ void Dictionary::HandleUserInput(sf::Keyboard::Key key)
 
 void Dictionary::HandleMenuColor()
 {
-    int index = menubuttons.isInBound(sf::Mouse::getPosition(mWindow));
+    sf::Vector2i mousepos= sf::Mouse::getPosition(mWindow);
+
+    if(LinesButton.isInBound(mousepos))
+    {
+        LinesButton.rect.setFillColor(sf::Color(200, 100, 0, 60));
+    } else LinesButton.rect.setFillColor(sf::Color::Transparent);
+
+    int index = menubuttons.isInBound(mousepos);
 
     if(index == -1 && menubuttons.selected == -1 && menubuttons.selectMove == -1) return;
 

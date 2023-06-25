@@ -2,7 +2,7 @@
 
 MenuButtons::MenuButtons(float w, float h, float X, float Y)
 : lightGrey(50, 50, 50, 50)
-, DarkOrange(200, 100, 0, 100)
+, DarkOrange(200, 100, 0, 60)
 , LightOrange(200, 100, 0)
 , selected(-1)
 , selectMove(-1)
@@ -48,19 +48,23 @@ void MenuButtons::MoveColor(int index)
         selectMove = -1;
         return;
     }
-
-    if(index == selected) return;
   
     if(index == selectMove) return;
 
     if(selectMove != -1 && selectMove != selected) buttons[selectMove].setFillColor(sf::Color::Transparent);
+    if(index == selected) 
+    {
+        selectMove = -1;
+        return;
+    }
     buttons[index].setFillColor(DarkOrange);
     selectMove = index;
 }
 
 void MenuButtons::move(sf::Vector2f movement)
 {
-    position.x = movement.x;
+    if(movement.x < 0) position.x = movement.x;
+    else position.x = 0;
 
     for(int i = 0; i < 6; ++i)
     {
