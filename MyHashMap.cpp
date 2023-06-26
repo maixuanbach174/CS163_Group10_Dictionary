@@ -64,6 +64,7 @@ template<class K, class V>
 bool MyHashMap<K, V>::insert(K nkey, V nval)
 {
 
+    if(si == capacity) return false;
     int index = hash(nkey) % capacity;
 
     while(arr[index] != nullptr && arr[index]->key != nkey && arr[index]->key != "")
@@ -85,6 +86,7 @@ bool MyHashMap<K, V>::insert(K nkey, V nval)
 template<class K, class V>
 V MyHashMap<K, V>::erase(K nkey)
 {
+    if(si == 0) return "";
     HashNode<K, V> *tempptr = find(nkey);
     if(tempptr == nullptr) return "";
     
