@@ -17,7 +17,7 @@ struct TrieNode
 bool insert(TrieNode *root, string& word); // return false if the word is already in Trie.
 
 TrieNode* find(TrieNode* root, string& word); // return the found node.
-
-void erase(TrieNode* root, string& word); // remove a word. Remove the unneccessary path to that node if you can.
+bool isEmpty(TrieNode* root);
+void erase(TrieNode* root, string& word,int depth=0); // remove a word. Remove the unneccessary path to that node if you can.
 
 #endif
