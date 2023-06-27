@@ -1,6 +1,10 @@
 #ifndef MYHASHMAP_H
 #define MYHASHMAP_H
 
+#include <typeinfo>
+#include <string>
+using namespace std;
+
 template<class K, class V>
 class HashNode
 {
@@ -19,6 +23,8 @@ private:
     int si;
     HashNode<K, V>* dummy;
 private:
+    int hashfunction(string nkey);
+    int hashfunction(int nkey);
     int hash(K nkey);
 public:
     MyHashMap(int cap);
@@ -29,7 +35,6 @@ public:
     int size();
     bool empty();
 };
-
 #include "MyHashMap.cpp"
 
 #endif
