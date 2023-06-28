@@ -31,10 +31,11 @@ bool isEmpty(TrieNode* root)
             return false;
     return true;
 }
-TriNode* remove(TrieNode* root, string& word, int depth = 0)
+
+TrieNode* removefunction(TrieNode* root, string& word, int depth)
 {
     
-    if (root == nullptr)
+    if (!root)
         return nullptr;
     if (word.size() == depth)
     {
@@ -42,19 +43,28 @@ TriNode* remove(TrieNode* root, string& word, int depth = 0)
         {
             root->isEndOfWord = false;
         }
-    }
-    if (isEmpty(root))
-    {
-        delete(root);
-        root = nullptr;
+
+        if (isEmpty(root))
+        {
+            delete(root);
+            root = nullptr;
+        }
+        return root;
     }
     int index = word[depth] - 'a';
-    root->children[index] = remove(root->children[index], word, depth + 1);
+    root->children[index] = removefunction(root->children[index], word, depth + 1);
    if (isEmpty(root) && root->isEndOfWord == false) {
         delete (root);
         root = nullptr;
     }
+   return root;
 
     
+}
+
+TrieNode* remove(TrieNode* root, string& word)
+{
+    int depth = 0;
+    return removefunction(root, word, depth);
 }
 

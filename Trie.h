@@ -18,6 +18,7 @@ bool insert(TrieNode *root, string& word); // return false if the word is alread
 
 TrieNode* find(TrieNode* root, string& word); // return the found node.
 bool isEmpty(TrieNode* root);
-TriNode* remove(TrieNode* root, string& word,int depth=0); // remove a word. Remove the unneccessary path to that node if you can.
+TrieNode* removefunction(TrieNode* root, string& word, int depth); // remove a word. Remove the unneccessary path to that node if you can.
+TrieNode* remove(TrieNode* root, string& word);
 
 #endif
