@@ -31,11 +31,11 @@ bool isEmpty(TrieNode* root)
             return false;
     return true;
 }
-void erase(TrieNode* root, string& word, int depth = 0)
+TriNode* remove(TrieNode* root, string& word, int depth = 0)
 {
     
     if (root == nullptr)
-        return;
+        return nullptr;
     if (word.size() == depth)
     {
         if (root->isEndOfWord)
@@ -48,9 +48,8 @@ void erase(TrieNode* root, string& word, int depth = 0)
         delete(root);
         root = nullptr;
     }
-    int index = key[depth] - 'a';
-    root->children[index] =
-        erase(root->children[index], key, depth + 1);
+    int index = word[depth] - 'a';
+    root->children[index] = remove(root->children[index], word, depth + 1);
    if (isEmpty(root) && root->isEndOfWord == false) {
         delete (root);
         root = nullptr;
