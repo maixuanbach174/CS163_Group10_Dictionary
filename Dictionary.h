@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "Button.h"
 #include "MenuButtons.h"
+#include "TextBox.h"
 using namespace std;
 
 class Dictionary
@@ -38,6 +39,12 @@ private:
     sf::Font MenuFont;
     sf::Text MenuTexts[6];
     sf::Color MenButCol;
+    sf::Texture SearchTexture;
+    sf::Sprite SearchSprite;
+    TextBox searchbox;
+    sf::Text searchtext;
+    sf::Font searchfont;
+    Button searchbutton;
 private:
     sf::Vector2f movement;
 private:

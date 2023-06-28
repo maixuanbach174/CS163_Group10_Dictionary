@@ -16,6 +16,8 @@ Dictionary::Dictionary()
 , Menu(sf::Vector2f(350.f, 1000.f))
 , movement(250, 0)
 , LinesButton(100.f, 650.f / 6.f, 0, 138.f - 650.f / 6.f)
+, searchbox(450.f, 50.f, 8.f)
+, searchbutton(50, 33, 1393.f, 65.f)
 {
     Menu.setFillColor(LightGrey);
     for(int i = 0; i < 6; ++i)
@@ -100,7 +102,28 @@ Dictionary::Dictionary()
     }
 
     Menu.setPosition(-250, 0);
-    
+
+    if(!SearchTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/SearchIcon.png"));
+    {
+        cout << "Cannot load search icon" << endl;
+    }
+    SearchSprite.setTexture(SearchTexture);
+    SearchSprite.setPosition(1400.f, 65.f);
+
+    searchbox.setPos(sf::Vector2f(1000, 58.f));
+    searchbox.setColor(LightGrey, sf::Color::White);
+
+    if(!searchfont.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Fonts/SearchFont.ttf"))
+    {
+        cout << "Cannot load font" << endl;
+    }
+
+    searchtext.setFont(searchfont);
+    searchtext.setPosition(1040.f ,70.f);
+    searchtext.setCharacterSize(20);
+    searchtext.setString("Search");
+
+    searchbutton.rect.setFillColor(sf::Color::White);
 }
 
 Dictionary::~Dictionary() {}
@@ -176,6 +199,11 @@ void Dictionary::render()
     mWindow.draw(MenuSetting);
     mWindow.draw(MenuQuiz);
     mWindow.draw(MenuAbout);
+    mWindow.draw(searchbox.box);
+    mWindow.draw(searchbox.line);
+    mWindow.draw(searchbutton.rect);
+    mWindow.draw(SearchSprite);
+    mWindow.draw(searchtext);
    
     mWindow.display();
 }
@@ -193,6 +221,11 @@ void Dictionary::HandleMenuColor()
     {
         LinesButton.rect.setFillColor(sf::Color(200, 100, 0, 60));
     } else LinesButton.rect.setFillColor(sf::Color::Transparent);
+
+    if(searchbutton.isInBound(mousepos))
+    {
+        searchbutton.rect.setFillColor(sf::Color(100, 100, 100, 255));
+    } else searchbutton.rect.setFillColor(sf::Color::Transparent);
 
     int index = menubuttons.isInBound(mousepos);
 
@@ -229,5 +262,14 @@ void Dictionary::HandleMenuClick(sf::Vector2i mousepos)
     {
         menubuttons.setColorButtons(index);
     }
+
+    if(searchbox.isInBound(mousepos))
+    {
+        searchbox.setColor(sf::Color(20, 20, 20, 255), sf::Color::Blue);
+    } else
+    {
+        searchbox.setColor(LightGrey, sf::Color::White);
+    }
+    
 }
 
