@@ -14,10 +14,10 @@ struct TrieNode
     TrieNode();
 };
 
-bool insert(TrieNode *root, string& word); // return false if the word is already in Trie.
+bool insert(TrieNode*& root, string word, string def); // return false if the word is already in Trie.
 
-TrieNode* find(TrieNode* root, string& word); // return the found node.
+TrieNode* find(TrieNode*& root, string word); // return the found node.
 
-void erase(TrieNode* root, string& word); // remove a word. Remove the unneccessary path to that node if you can.
+void deallocate(TrieNode* root);
 
 #endif
