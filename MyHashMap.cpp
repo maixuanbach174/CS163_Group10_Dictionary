@@ -11,7 +11,7 @@ HashNode<K, V>::HashNode(K nkey, V nval)
 }
 
 template<class K, class V>
-int MyHashMap<K, V>::hashfunction(string nkey)
+int MyHashMap<K, V>::hash(K nkey)
 {
     int sum = 0;
     for(int i = 0; nkey[i] != '\0'; ++i)
@@ -22,25 +22,12 @@ int MyHashMap<K, V>::hashfunction(string nkey)
 }
 
 template<class K, class V>
-int MyHashMap<K, V>::hashfunction(int nkey)
-{
-    return nkey % capacity;
-}
-
-template<class K, class V>
-int MyHashMap<K, V>::hash(K nkey)
-{
-    return hashfunction(nkey);
-}
-
-template<class K, class V>
 MyHashMap<K, V>::MyHashMap(int cap)
 {
     capacity = cap;
     arr = new HashNode<K, V>* [capacity];
     si = 0;
     for(int i = 0; i < capacity; ++i) arr[i] = nullptr;
-    dummy = new HashNode<K, V>("", "");
 }
 
 template<class K, class V>
@@ -52,7 +39,6 @@ MyHashMap<K, V>::~MyHashMap()
     }
 
     delete [] arr;
-    delete dummy;
 }
 
 template<class K, class V>
@@ -97,19 +83,16 @@ bool MyHashMap<K, V>::insert(K nkey, V nval)
 }
 
 template<class K, class V>
-V MyHashMap<K, V>::erase(K nkey)
+HashNode<K, V>* MyHashMap<K, V>::erase(K nkey)
 {
-    if(si == 0) return "";
+    if(si == 0) return nullptr;
     HashNode<K, V> *tempptr = find(nkey);
-    if(tempptr == nullptr) return "";
-    
-    V temp = tempptr->val;
+    if(tempptr == nullptr) return nullptr;
 
     tempptr->key = "";
-    tempptr->val = "";
     si--;
 
-    return temp;
+    return tempptr;
 }
 
 template<class K, class V>
