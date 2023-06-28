@@ -27,8 +27,10 @@ void deallocateTrie(TrieNode* node)
     delete node;
 }
 
-bool insert(TrieNode* root, string& word)
+bool insert(TrieNode* &root, string& word, string &def)
 {
+    if (root == nullptr)
+        root = new TrieNode();
     TrieNode* pCrawl = root;
     for (int i = 0; i < word.length(); i++)
     {
@@ -39,6 +41,8 @@ bool insert(TrieNode* root, string& word)
         pCrawl = pCrawl->children[index];
     }
     pCrawl->isEndOfWord = true;
+    pCrawl->definition = def;
     return pCrawl->isEndOfWord;
 }
+
 
