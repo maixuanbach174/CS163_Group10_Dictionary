@@ -39,11 +39,14 @@ int main()
     _setmode(_fileno(stdin), _O_U8TEXT);
     _setmode(_fileno(stdout), _O_U8TEXT);
 
-    wchar_t c = L'ă';
-    wcout <<  c << endl;
+    // wchar_t c = L'ă';
+    // wcout <<  c << endl;
+    MyHashMap<string, wstring> m(3);
+    m.insert("a book", L"sách");
+    m.insert("chicken", L"gà");
 
-
-
+    wcout << m.find("a book")->val << endl;
+    wcout << m.find("chicken")->val << endl;
 
     return 0;
 }
