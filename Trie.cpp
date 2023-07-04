@@ -42,6 +42,51 @@ bool insert(TrieNode*& root, string word, string def)
     return pCrawl->isEndOfWord;
 }
 
+bool isEmpty(TrieNode* root)
+{
+    for (int i = 0; i < ALPHABET_SIZE; i++)
+        if (root->children[i])
+            return false;
+    return true;
+}
+
+TrieNode* removefunction(TrieNode* root, string word, int depth)
+{
+    
+    if (!root)
+        return nullptr;
+    if (word.size() == depth)
+    {
+        if (root->isEndOfWord)
+        {
+            root->isEndOfWord = false;
+        }
+
+        if (isEmpty(root))
+        {
+            delete(root);
+            root = nullptr;
+        }
+        return root;
+    }
+    int index = word[depth] - 'a';
+    root->children[index] = removefunction(root->children[index], word, depth + 1);
+   if (isEmpty(root) && root->isEndOfWord == false) {
+        delete (root);
+        root = nullptr;
+    }
+   return root;
+
+    
+}
+
+TrieNode* remove(TrieNode* root, string word)
+{
+    int depth = 0;
+    return removefunction(root, word, depth);
+}
+
+
 void deallocate(TrieNode* root)
 {
     if(root == nullptr) return;

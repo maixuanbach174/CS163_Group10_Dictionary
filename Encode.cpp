@@ -50,8 +50,6 @@ string unicodeToUtf8(const wstring& unicodeString) {
     string toconv = "";
     for (const unsigned char& byte : utf8String) {
         toconv += decToHexa(byte);
-        toconv += "#";
     }
-    toconv.pop_back();
     return toconv;
 }

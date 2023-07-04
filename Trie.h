@@ -18,6 +18,12 @@ bool insert(TrieNode*& root, string word, string def); // return false if the wo
 
 TrieNode* find(TrieNode*& root, string word); // return the found node.
 
+bool isEmpty(TrieNode* root);
+
+TrieNode* removefunction(TrieNode* root, string word, int depth);
+
+TrieNode* remove(TrieNode* root, string word);
+
 void deallocate(TrieNode* root);
 
 #endif
