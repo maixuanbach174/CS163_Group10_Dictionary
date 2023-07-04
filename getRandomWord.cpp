@@ -1,5 +1,5 @@
 #include "Trie.h"
-#include "Random.h"
+#include "getRandomWord.h"
 #include <bits/stdc++.h>
 using namespace std;
 string getRandomWord(TrieNode *root)

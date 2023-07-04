@@ -15,7 +15,7 @@ string getRandomDefintion(TrieNode* root)
             index=rand()%26;
         }
         while (!cur->children[index]);
-        cur=cur->children[i];
+        cur=cur->children[index];
         if ((cur)&&(cur->isEndOfWord)) return cur->definition;
     }
 
