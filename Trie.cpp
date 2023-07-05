@@ -7,7 +7,7 @@ TrieNode::TrieNode()
     definition = "";
 }
 
-TrieNode* find(TrieNode* root, string& word)
+TrieNode* find(TrieNode*& root, string word)
 {
     if(root == nullptr) return nullptr;
     
@@ -24,6 +24,26 @@ TrieNode* find(TrieNode* root, string& word)
     if(cur->isEndOfWord) return cur;
     return nullptr;
 }
+
+
+bool insert(TrieNode*& root, string word, string def)
+{
+    if(root == nullptr) root = new TrieNode();
+    TrieNode* pCrawl = root;
+    for (int i = 0; i < word.length(); i++)
+    {
+        int index = word[i] - 'a';
+        if (!pCrawl->children[index])
+            pCrawl->children[index] = new TrieNode();
+
+        pCrawl = pCrawl->children[index];
+    }
+    pCrawl->isEndOfWord = true;
+    pCrawl->definition = def;
+    return pCrawl->isEndOfWord;
+}
+
+
 bool isEmpty(TrieNode* root)
 {
     for (int i = 0; i < ALPHABET_SIZE; i++)
@@ -32,7 +52,11 @@ bool isEmpty(TrieNode* root)
     return true;
 }
 
-TrieNode* removefunction(TrieNode* root, string& word, int depth)
+
+
+
+TrieNode* removefunction(TrieNode* root, string word, int depth)
+
 {
     
     if (!root)
@@ -62,9 +86,26 @@ TrieNode* removefunction(TrieNode* root, string& word, int depth)
     
 }
 
-TrieNode* remove(TrieNode* root, string& word)
+
+TrieNode* remove(TrieNode* root, string word)
+
 {
     int depth = 0;
     return removefunction(root, word, depth);
 }
+
+
+
+void deallocate(TrieNode* root)
+{
+    if(root == nullptr) return;
+    for(int i = 0; i < ALPHABET_SIZE; ++i)
+    {
+        deallocate(root->children[i]);
+    }
+
+    delete root;
+}
+
+
 

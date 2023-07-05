@@ -1,17 +1,41 @@
-#include "Trie.h"
-#include "MyHashMap.h"
 #include <iostream>
+#include "Trie.h"
+#include "VieTrie.h"
 using namespace std;
 
 int main()
 {
-    MyHashMap <string, string> m(3);
-    m.insert("A fruit which is red", "apple");
-    m.insert("a common animal with four legs, especially kept by people as a pet or to hunt or guard things", "dog");
-    m.insert("an animal", "cat");
-    cout << m.erase("an animal") << endl;
-    cout << m.find("an animal") << endl;
-    cout << m.find("a common animal with four legs, especially kept by people as a pet or to hunt or guard things")->val << endl;
-    cout << m.find("A fruit which is red")->val << endl;
+    VieTrieNode *root = nullptr;
+
+    cout << VieInsert(root, L"Mai", "a flower") << endl;
+
+    cout << VieInsert(root, L"Mai Xuân Bách", "a name") << endl;
+    cout << VieInsert(root, L"Bóng đá", "a sport") << endl;
+
+    cout << "___________________________________________________" << endl;
+
+    cout << VieFind(root, L"Mai")->definition << endl;
+    cout << VieFind(root, L"tôi") << endl;
+    cout << VieFind(root, L"Mai Xuân Bách")->definition << endl;
+    cout << VieFind(root, L"Bóng đá")->definition << endl;
+
+    // TrieNode *root = nullptr;
+
+    // insert(root, "app", "sortware");
+    // insert(root, "apple", "a fruit");
+    // insert(root, "application", "ssss");
+
+    // remove(root, "apple");
+    // remove(root, "app");
+
+    // cout << find(root, "application")->definition << endl;
+    // cout << find(root, "apple") << endl; 
+    // cout << find(root, "app") << endl;
+
+    // cout << find(root, "car") << endl;
+    // cout << find(root, "chicken") << endl;
+
+
+
     return 0;
 }
