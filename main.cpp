@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Trie.h"
+
 #include "VieTrie.h"
 using namespace std;
 
@@ -13,8 +13,8 @@ int main()
     cout << VieInsert(root, L"Bóng đá", "a sport") << endl;
 
     cout << "___________________________________________________" << endl;
-
-    cout << VieFind(root, L"Mai")->definition << endl;
+    root = remove(root, L"Mai");
+    cout << VieFind(root, L"Mai") << endl;
     cout << VieFind(root, L"tôi") << endl;
     cout << VieFind(root, L"Mai Xuân Bách")->definition << endl;
     cout << VieFind(root, L"Bóng đá")->definition << endl;

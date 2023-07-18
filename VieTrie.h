@@ -19,5 +19,5 @@ VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword);
 void VieDeallocate(VieTrieNode * root);
 VieTrieNode* removefunction(VieTrieNode* root, string word, int depth);
 bool isEmpty(VieTrieNode* root);
-VieTrieNode* remove(VieTrieNode* root, string word);
+VieTrieNode* remove(VieTrieNode* root, wstring vieword);
 #endif

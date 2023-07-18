@@ -80,6 +80,7 @@ VieTrieNode* removefunction(VieTrieNode* root, string word, int depth)
     
     if (!root)
         return nullptr;
+    
     if (word.size() == depth)
     {
         if (root->isEndOfWord)
@@ -94,7 +95,9 @@ VieTrieNode* removefunction(VieTrieNode* root, string word, int depth)
         }
         return root;
     }
-    int index = word[depth] - 'a';
+    int index;
+    if (isdigit(word[depth])) index = word[depth] - '0';
+    else index = word[depth] - 'A' + 10;
     root->children[index] = removefunction(root->children[index], word, depth + 1);
    if (isEmpty(root) && root->isEndOfWord == false) {
         delete (root);
@@ -105,8 +108,9 @@ VieTrieNode* removefunction(VieTrieNode* root, string word, int depth)
     
 }
 
-VieTrieNode* remove(VieTrieNode* root, string word)
+VieTrieNode* remove(VieTrieNode* root, wstring vieword)
 {
+    string word = unicodeToUtf8(vieword);
     int depth = 0;
     return removefunction(root, word, depth);
 }
