@@ -2,9 +2,9 @@
 
 MenuButtons::MenuButtons(float w, float h, float X, float Y)
 : lightGrey(50, 50, 50, 50)
-, DarkOrange(200, 100, 0, 60)
+, DarkOrange(220, 110, 0, 100)
 , LightOrange(200, 100, 0)
-, selected(-1)
+, selected(0)
 , selectMove(-1)
 {
     width = w;
@@ -17,6 +17,8 @@ MenuButtons::MenuButtons(float w, float h, float X, float Y)
         buttons[i].setPosition(position.x, position.y + i * height / 6);
         buttons[i].setFillColor(sf::Color::Transparent);
     }
+
+    buttons[0].setFillColor(LightOrange);
 }
 
 int MenuButtons::isInBound(sf::Vector2i mousepos)

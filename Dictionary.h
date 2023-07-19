@@ -7,53 +7,28 @@
 #include "Button.h"
 #include "MenuButtons.h"
 #include "TextBox.h"
+#include "screens.hpp"
 using namespace std;
 
 class Dictionary
 {
 private:
-    bool mIsPaused;
-    bool openedMenu;
-    bool outofMenu;
-    MenuButtons menubuttons;
-private:
     sf::RenderWindow mWindow;
-    sf::Texture HomeTexture;
-    sf::Sprite MenuHome;
-    sf::Texture HistoryTexture;
-    sf::Sprite MenuHistory;
-    sf::Texture FavoriteTexture;
-    sf::Sprite MenuFavorite;
-    sf::Texture LinesTexture;
-    sf::Sprite MenuLines;
-    Button LinesButton;
-    sf::Texture SettingTexture;
-    sf::Sprite MenuSetting;
-    sf::Texture QuizTexture;
-    sf::Sprite MenuQuiz;
-    sf::Texture AboutTexture;
-    sf::Sprite MenuAbout;
     sf::Color DarkGrey;
-    sf::RectangleShape Menu;
     sf::Color LightGrey;
-    sf::Font MenuFont;
-    sf::Text MenuTexts[6];
-    sf::Color MenButCol;
-    sf::Texture SearchTexture;
-    sf::Sprite SearchSprite;
-    TextBox searchbox;
-    sf::Text searchtext;
-    sf::Font searchfont;
-    Button searchbutton;
-private:
-    sf::Vector2f movement;
+    MainMenu mainmenu;
+    HomeScreen homescreen;
+    HistoryScreen historyscreen;
+    FavouriteScreen favouritescreen;
+    SettingScreen settingscreen;
+    QuizScreen quizscreen;
+    AboutScreen aboutscreen;
+    vector<cscreen*> screens;
+    int CurScreen = 0;
 private:
     void processEvent();
     void update();
     void render();
-    void HandleUserInput(sf::Keyboard::Key key);
-    void HandleMenuColor();
-    void HandleMenuClick(sf::Vector2i mousepos);
 public:
     Dictionary();
     ~Dictionary();
