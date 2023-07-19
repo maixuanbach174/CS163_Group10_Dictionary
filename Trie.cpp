@@ -4,13 +4,13 @@ TrieNode::TrieNode()
 {
     for(int i = 0; i < ALPHABET_SIZE; ++i) children[i] = nullptr;
     isEndOfWord = false;
-    definition = "";
+    definition = L"";
 }
 
 TrieNode* find(TrieNode*& root, string word)
 {
     if(root == nullptr) return nullptr;
-    
+
     TrieNode *cur = root;
 
     for(int i = 0; word[i] != '\0'; ++i)
@@ -25,7 +25,7 @@ TrieNode* find(TrieNode*& root, string word)
     return nullptr;
 }
 
-bool insert(TrieNode*& root, string word, string def)
+bool insert(TrieNode*& root, string word, wstring def)
 {
     if(root == nullptr) root = new TrieNode();
     TrieNode* pCrawl = root;
@@ -52,7 +52,7 @@ bool isEmpty(TrieNode* root)
 
 TrieNode* removefunction(TrieNode* root, string word, int depth)
 {
-    
+
     if (!root)
         return nullptr;
     if (word.size() == depth)
@@ -77,7 +77,7 @@ TrieNode* removefunction(TrieNode* root, string word, int depth)
     }
    return root;
 
-    
+
 }
 
 TrieNode* remove(TrieNode* root, string word)

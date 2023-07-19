@@ -1,6 +1,6 @@
 #ifndef TRIE_H
 #define TRIE_H
-
+//#include <wstring>
 #include <string>
 using namespace std;
 
@@ -10,7 +10,7 @@ struct TrieNode
 {
     TrieNode *children[ALPHABET_SIZE];
     bool isEndOfWord;
-    string definition;
+    wstring definition;
     TrieNode();
 };
 
