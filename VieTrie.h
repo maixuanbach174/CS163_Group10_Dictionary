@@ -20,4 +20,7 @@ void VieDeallocate(VieTrieNode * root);
 VieTrieNode* removefunction(VieTrieNode* root, string word, int depth);
 bool isEmpty(VieTrieNode* root);
 VieTrieNode* remove(VieTrieNode* root, wstring vieword);
+bool isLeafNode(VieTrieNode* root);
+void serialize(VieTrieNode* root, char str[], int level, ofstream& newfile);
+
 #endif

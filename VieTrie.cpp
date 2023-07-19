@@ -1,5 +1,6 @@
 #include "VieTrie.h"
-
+#include <iostream>
+#include <fstream>
 VieTrieNode::VieTrieNode()
 {
     for(int i = 0; i < 16; ++i) children[i] = nullptr;
@@ -113,4 +114,29 @@ VieTrieNode* remove(VieTrieNode* root, wstring vieword)
     string word = unicodeToUtf8(vieword);
     int depth = 0;
     return removefunction(root, word, depth);
+}
+bool isLeafNode(VieTrieNode* root)
+{
+    return root->isEndOfWord != false;
+}
+void serialize(VieTrieNode* root, char str[], int level, ofstream& newfile) {
+
+    if (isLeafNode(root)) {
+        str[level] = '\0';
+        newfile.open("new_friends.txt", ios::out | ios::app);
+        if (newfile.is_open()) {
+            newfile << str << "\n";
+            newfile.close();
+        }
+        cout << "Added: " << str << endl;
+    }
+
+    int i;
+    for (i = 0; i < 16; i++) {
+
+        if (root->children[i]) {
+            str[level] = i + 'a';
+            serialize(root->children[i], str, level + 1, newfile);
+        }
+    }
 }

@@ -1,5 +1,7 @@
 #include "Trie.h"
-
+#include <iostream>
+#include <fstream>
+using namespace std;
 TrieNode::TrieNode()
 {
     for(int i = 0; i < ALPHABET_SIZE; ++i) children[i] = nullptr;
@@ -7,7 +9,7 @@ TrieNode::TrieNode()
     definition = "";
 }
 
-TrieNode* find(TrieNode*& root, string word)
+TrieNode* find(TrieNode* root, string word)
 {
     if(root == nullptr) return nullptr;
     
@@ -107,5 +109,28 @@ void deallocate(TrieNode* root)
     delete root;
 }
 
+bool isLeafNode(TrieNode* root)
+{
+    return root->isEndOfWord != false;
+}
+void serialize(TrieNode* root, char str[], int level, ofstream& newfile) {
+   
+    if (isLeafNode(root)) {
+        str[level] = '\0';
+        newfile.open("new_friends.txt", ios::out | ios::app);  
+        if (newfile.is_open()) {
+            newfile << str << "\n"; 
+            newfile.close(); 
+        }
+        cout << "Added: " << str << endl;
+    }
 
-
+    int i;
+    for (i = 0; i < ALPHABET_SIZE; i++) {
+        
+        if (root->children[i]) {
+            str[level] = i + 'a';
+            serialize(root->children[i], str, level + 1, newfile);
+        }
+    }
+}
