@@ -11,6 +11,7 @@ Dictionary::Dictionary()
     screens.push_back(&settingscreen);
     screens.push_back(&quizscreen);
     screens.push_back(&aboutscreen);
+    screens.push_back(&searchscreen);
 }
 
 Dictionary::~Dictionary() {}
@@ -30,14 +31,19 @@ void Dictionary::run()
 
 void Dictionary::processEvent()
 {
-    screens[CurScreen]->processEvent(mWindow, mainmenu);
+    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex);
 }
 
 void Dictionary::update()
 {
-    if(mainmenu.menubuttons.selected >= 0 && mainmenu.menubuttons.selected <= 6) CurScreen = mainmenu.menubuttons.selected;
+    if(mainmenu.menubuttons.selected == 0 && screenIndex != -1) CurScreen = screenIndex;
+    else 
+    {
+        screenIndex = -1;
+        CurScreen = mainmenu.menubuttons.selected;
+    } 
 
-    screens[CurScreen]->update();
+    screens[CurScreen]->update(mainmenu);
 }
 
 void Dictionary::render()

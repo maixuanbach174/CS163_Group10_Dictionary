@@ -8,5 +8,6 @@
 #include "SettingScreen.hpp"
 #include "QuizScreen.hpp"
 #include "AboutScreen.hpp"
+#include "SearchScreen.hpp"
 
 #endif

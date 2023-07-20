@@ -23,8 +23,10 @@ private:
     SettingScreen settingscreen;
     QuizScreen quizscreen;
     AboutScreen aboutscreen;
+    SearchScreen searchscreen;
     vector<cscreen*> screens;
     int CurScreen = 0;
+    int screenIndex = -1;
 private:
     void processEvent();
     void update();

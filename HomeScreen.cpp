@@ -34,7 +34,7 @@ HomeScreen::HomeScreen()
 
 HomeScreen::~HomeScreen() {}
 
-void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
+void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex)
 {
     sf::Event event;
     while(App.pollEvent(event))
@@ -63,7 +63,7 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
             {
                 sf::Vector2i mousepos = sf::Mouse::getPosition(App);
                 mainmenu.HandleMenuClick(mousepos);
-                HandleSearchClick(mousepos);
+                screenIndex = HandleSearchClick(mousepos);
             }
             break;
         case sf::Event::TextEntered:
@@ -95,7 +95,7 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
     }
 }
 
-void HomeScreen::update() {
+void HomeScreen::update(MainMenu& mainmenu) {
 
     if(!IsSearching && InputText.empty()) 
     {
@@ -142,8 +142,10 @@ void HomeScreen::HandleSearchColor(sf::RenderWindow& App)
     } else searchbutton.rect.setFillColor(sf::Color::Transparent);
 }
 
-void HomeScreen::HandleSearchClick(sf::Vector2i mousepos)
+int HomeScreen::HandleSearchClick(sf::Vector2i mousepos)
 {
+    if(searchbutton.isInBound(mousepos)) return 6;
+
     if(searchbox.isInBound(mousepos))
     {
         searchbox.setColor(sf::Color(20, 20, 20, 255), sf::Color(200, 100, 0));
@@ -153,5 +155,7 @@ void HomeScreen::HandleSearchClick(sf::Vector2i mousepos)
         searchbox.setColor(LightGrey, sf::Color::White);
         IsSearching = false;
     }
+
+    return 0;
 }
 

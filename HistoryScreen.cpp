@@ -4,7 +4,7 @@ HistoryScreen::HistoryScreen() {}
 
 HistoryScreen::~HistoryScreen() {}
 
-void HistoryScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
+void HistoryScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex)
 {
     sf::Event event;
     while(App.pollEvent(event))
@@ -39,7 +39,7 @@ void HistoryScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
     }
 }
 
-void HistoryScreen::update()
+void HistoryScreen::update(MainMenu& mainmenu)
 {
 
 }

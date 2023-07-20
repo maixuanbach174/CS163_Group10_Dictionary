@@ -4,7 +4,7 @@ AboutScreen::AboutScreen() {}
 
 AboutScreen::~AboutScreen() {}
 
-void AboutScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
+void AboutScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex)
 {
     sf::Event event;
     while(App.pollEvent(event))
@@ -39,7 +39,7 @@ void AboutScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
     }
 }
 
-void AboutScreen::update()
+void AboutScreen::update(MainMenu& mainmenu)
 {
 
 }

@@ -4,7 +4,7 @@ QuizScreen::QuizScreen() {}
 
 QuizScreen::~QuizScreen() {}
 
-void QuizScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
+void QuizScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex)
 {
     sf::Event event;
     while(App.pollEvent(event))
@@ -39,7 +39,7 @@ void QuizScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
     }
 }
 
-void QuizScreen::update()
+void QuizScreen::update(MainMenu& mainmenu)
 {
 
 }

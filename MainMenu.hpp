@@ -38,7 +38,7 @@ private:
     sf::Font MenuFont;
     sf::Text MenuTexts[6];
     sf::Color MenButCol;
-private:
+public:
     sf::Vector2f movement;
 public:
     void render(sf::RenderWindow& App);

@@ -12,8 +12,8 @@ private:
 public:
     HistoryScreen();
     ~HistoryScreen();
-    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu);
-    virtual void update();
+    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex);
+    virtual void update(MainMenu& mainmenu);
     virtual void render(sf::RenderWindow& App);
 };
 

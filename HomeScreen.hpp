@@ -31,12 +31,12 @@ private:
     bool isTyping = false;
 private:
     void HandleSearchColor(sf::RenderWindow& App);
-    void HandleSearchClick(sf::Vector2i mousepos);
+    int HandleSearchClick(sf::Vector2i mousepos);
 public:
     HomeScreen();
     ~HomeScreen();
-    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu);
-    virtual void update();
+    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex);
+    virtual void update(MainMenu& mainmenu);
     virtual void render(sf::RenderWindow& App);
    
 };

@@ -4,7 +4,7 @@ FavouriteScreen::FavouriteScreen() {}
 
 FavouriteScreen::~FavouriteScreen() {}
 
-void FavouriteScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
+void FavouriteScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex)
 {
     sf::Event event;
     while(App.pollEvent(event))
@@ -39,7 +39,7 @@ void FavouriteScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu)
     }
 }
 
-void FavouriteScreen::update()
+void FavouriteScreen::update(MainMenu& mainmenu)
 {
 
 }
