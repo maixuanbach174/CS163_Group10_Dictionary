@@ -28,16 +28,13 @@ TrieNode* find(TrieNode* root, string word)
 }
 
 
-<<<<<<< HEAD
-bool insert(TrieNode*& root, string word, string def)
-{
-    if(root == nullptr) root = new TrieNode();
-=======
+
+
 bool insert(TrieNode* &root, string word, string def)
 {
     if (root == nullptr)
         root = new TrieNode();
->>>>>>> origin/Insert_Minh
+
     TrieNode* pCrawl = root;
     for (int i = 0; i < word.length(); i++)
     {
@@ -53,7 +50,7 @@ bool insert(TrieNode* &root, string word, string def)
 }
 
 
-<<<<<<< HEAD
+
 bool isEmpty(TrieNode* root)
 {
     for (int i = 0; i < ALPHABET_SIZE; i++)
@@ -122,25 +119,26 @@ bool isLeafNode(TrieNode* root)
     return root->isEndOfWord != false;
 }
 void serialize(TrieNode* root, char str[], int level, ofstream& newfile) {
-   
+
     if (isLeafNode(root)) {
         str[level] = '\0';
-        newfile.open("new_friends.txt", ios::out | ios::app);  
+        newfile.open("new_friends.txt", ios::out | ios::app);
         if (newfile.is_open()) {
-            newfile << str << "\n"; 
-            newfile.close(); 
+            newfile << str << "\n";
+            newfile.close();
         }
         cout << "Added: " << str << endl;
     }
 
     int i;
     for (i = 0; i < ALPHABET_SIZE; i++) {
-        
+
         if (root->children[i]) {
             str[level] = i + 'a';
             serialize(root->children[i], str, level + 1, newfile);
         }
-=======
+    }
+}
 void readEngEng(TrieNode* root)
 {
     string filename = "english_english.csv";
@@ -174,6 +172,6 @@ void readEngEng(TrieNode* root)
             }
         }
         insert(root, word, def);
->>>>>>> origin/Insert_Minh
+
     }
 }

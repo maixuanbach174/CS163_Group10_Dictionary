@@ -2,6 +2,7 @@
 #define TRIE_H
 
 #include <string>
+#include <sstream>
 using namespace std;
 
 const int ALPHABET_SIZE = 26;
@@ -14,7 +15,7 @@ struct TrieNode
     TrieNode();
 };
 
-<<<<<<< HEAD
+
 bool insert(TrieNode*& root, string word, string def); // return false if the word is already in Trie.
 
 
@@ -28,7 +29,3 @@ void serialize(TrieNode* root, char str[], int level, ofstream& newfile);
 
 #endif
 
-=======
-bool insert(TrieNode *root, string& word); // return false if the word is already in Trie.
-#endif
->>>>>>> origin/Insert_Minh
