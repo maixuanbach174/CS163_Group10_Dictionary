@@ -44,3 +44,36 @@ bool insert(TrieNode* &root, string word, string def)
     return pCrawl->isEndOfWord;
 }
 
+
+void readEngEng(TrieNode* root)
+{
+    string filename = "english_english.csv";
+    ifstream dict(filename);
+    if (!dict)
+    {
+        cout << "Can't open file!";
+        return;
+    }
+    string line, separator = "\"\"", word, def;
+    while (getline(dict, line))
+    {
+        stringstream ss(line);
+        string tmp;
+        getline(ss, tmp, ',');
+        word = tmp;
+        cout << word << endl;
+        getline(ss, tmp);
+        def = tmp;
+        if (line.find("\"\"") != string::npos)
+        {
+            while (getline(dict, line))
+            {
+                if (line.find("\"\"") == string::npos)
+                    def += line.substr(0, line.length() - 3);
+                else
+                    def += line;
+            }
+        }
+        insert(root, word, def);
+    }
+}
