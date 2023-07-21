@@ -69,7 +69,10 @@ void readEngEng(TrieNode* root)
             while (getline(dict, line))
             {
                 if (line.find("\"\"") == string::npos)
+                {
                     def += line.substr(0, line.length() - 3);
+                    break;
+                }
                 else
                     def += line;
             }
