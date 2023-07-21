@@ -28,9 +28,16 @@ TrieNode* find(TrieNode* root, string word)
 }
 
 
+<<<<<<< HEAD
 bool insert(TrieNode*& root, string word, string def)
 {
     if(root == nullptr) root = new TrieNode();
+=======
+bool insert(TrieNode* &root, string word, string def)
+{
+    if (root == nullptr)
+        root = new TrieNode();
+>>>>>>> origin/Insert_Minh
     TrieNode* pCrawl = root;
     for (int i = 0; i < word.length(); i++)
     {
@@ -46,6 +53,7 @@ bool insert(TrieNode*& root, string word, string def)
 }
 
 
+<<<<<<< HEAD
 bool isEmpty(TrieNode* root)
 {
     for (int i = 0; i < ALPHABET_SIZE; i++)
@@ -132,5 +140,40 @@ void serialize(TrieNode* root, char str[], int level, ofstream& newfile) {
             str[level] = i + 'a';
             serialize(root->children[i], str, level + 1, newfile);
         }
+=======
+void readEngEng(TrieNode* root)
+{
+    string filename = "english_english.csv";
+    ifstream dict(filename);
+    if (!dict)
+    {
+        cout << "Can't open file!";
+        return;
+    }
+    string line, separator = "\"\"", word, def;
+    while (getline(dict, line))
+    {
+        stringstream ss(line);
+        string tmp;
+        getline(ss, tmp, ',');
+        word = tmp;
+        cout << word << endl;
+        getline(ss, tmp);
+        def = tmp;
+        if (line.find("\"\"") != string::npos)
+        {
+            while (getline(dict, line))
+            {
+                if (line.find("\"\"") == string::npos)
+                {
+                    def += line.substr(0, line.length() - 3);
+                    break;
+                }
+                else
+                    def += line;
+            }
+        }
+        insert(root, word, def);
+>>>>>>> origin/Insert_Minh
     }
 }
