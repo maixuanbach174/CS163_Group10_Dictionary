@@ -2,7 +2,7 @@
 #include "Trie.h"
 using namespace std;
 
-const int ALPHABET_SIZE = 26;
+
 
 
 TrieNode::TrieNode()

@@ -26,6 +26,6 @@ TrieNode* remove(TrieNode* root, string word);
 void deallocate(TrieNode* root);
 bool isLeafNode(TrieNode* root);
 void serialize(TrieNode* root, char str[], int level, ofstream& newfile);
-
+void deserialize(TrieNode*& root, ifstream& newfile);
 #endif
 

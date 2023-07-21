@@ -122,9 +122,10 @@ void serialize(TrieNode* root, char str[], int level, ofstream& newfile) {
 
     if (isLeafNode(root)) {
         str[level] = '\0';
-        newfile.open("new_friends.txt", ios::out | ios::app);
+        newfile.open("serialize.txt", ios::out | ios::app);
         if (newfile.is_open()) {
-            newfile << str << "\n";
+            newfile << str << "/";
+            newfile << root->definition<< "\n";
             newfile.close();
         }
         cout << "Added: " << str << endl;
@@ -137,6 +138,29 @@ void serialize(TrieNode* root, char str[], int level, ofstream& newfile) {
             str[level] = i + 'a';
             serialize(root->children[i], str, level + 1, newfile);
         }
+    }
+}
+
+void deserialize(TrieNode*& root, ifstream& newfile)
+{
+    newfile.open("serialize.txt", ios::in);
+    
+    if (newfile.is_open()) {
+        string line, word, def; 
+
+        while (getline(newfile, line))
+        {
+            stringstream stream(line);
+            string tempword;
+            getline(stream, tempword, '/');
+            word = tempword;
+            getline(stream, tempword);
+            def = line.substr(line.find("/")+1, line.length() - word.length());
+            insert(root, word, def);
+        }
+
+        
+       
     }
 }
 void readEngEng(TrieNode* root)

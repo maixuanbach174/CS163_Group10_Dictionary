@@ -23,19 +23,22 @@ int main()
     //cout << VieFind(root, L"Mai Xuân Bách")->definition << endl;
     //cout << VieFind(root, L"Bóng đá")->definition << endl;
 
-     TrieNode *root = nullptr;
+     //TrieNode *root = nullptr;
 
-     insert(root, "app", "sortware");
-     insert(root, "apple", "a fruit");
-     insert(root, "application", "ssss");
+     //insert(root, "app", "sortware");
+     //insert(root, "apple", "a fruit");
+     //insert(root, "application", "ssss");
 
    
-    ofstream newfile;
-    char str[20];
-    int level = 0;
-    serialize(root, str, level, newfile);
+    //ofstream newfile;
+    //char str[20];
+    //int level = 0;
+    //serialize(root, str, level, newfile);
+    TrieNode* root = nullptr;
+    ifstream newfile;
+    deserialize(root, newfile);
     cout << find(root, "application")->definition << endl;
-     cout << find(root, "apple") << endl; 
+    cout << find(root, "apple")->definition << endl; 
     cout << find(root, "app")<< endl;
 
      cout << find(root, "car")<< endl;
