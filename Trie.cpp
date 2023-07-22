@@ -76,7 +76,7 @@ bool insert(TrieNode*& root, wstring word, wstring def)
 
 void readEngEng(TrieNode* root)
 {
-    string filename = "Text.txt";
+    string filename = "engwords.csv";
     wifstream dict(filename, std::ios::binary);
     wstring word, line, def, limiter = L".";
     if (!dict)
