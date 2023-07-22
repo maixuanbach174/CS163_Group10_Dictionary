@@ -1,39 +1,22 @@
-#include <iostream>
-#include "Trie.h"
-#include "VieTrie.h"
+#include "readDatasetEngVie.hpp"
 using namespace std;
 
 int main()
 {
-    VieTrieNode *root = nullptr;
 
-    cout << VieInsert(root, L"Mai", "a flower") << endl;
+    TrieNode* root=new TrieNode();
 
-    cout << VieInsert(root, L"Mai Xuân Bách", "a name") << endl;
-    cout << VieInsert(root, L"Bóng đá", "a sport") << endl;
+    readDatasetEngVie(root);
+    wstring word;
+    getline(wcin,word);
 
-    cout << "___________________________________________________" << endl;
+    if (find(root,word))
+    {
+        wcout<<find(root,word)->definition;
+    }
+    else wcout<<L"not found";
 
-    cout << VieFind(root, L"Mai")->definition << endl;
-    cout << VieFind(root, L"tôi") << endl;
-    cout << VieFind(root, L"Mai Xuân Bách")->definition << endl;
-    cout << VieFind(root, L"Bóng đá")->definition << endl;
-
-    // TrieNode *root = nullptr;
-
-    // insert(root, "app", "sortware");
-    // insert(root, "apple", "a fruit");
-    // insert(root, "application", "ssss");
-
-    // remove(root, "apple");
-    // remove(root, "app");
-
-    // cout << find(root, "application")->definition << endl;
-    // cout << find(root, "apple") << endl; 
-    // cout << find(root, "app") << endl;
-
-    // cout << find(root, "car") << endl;
-    // cout << find(root, "chicken") << endl;
+    deallocate(root);
 
 
 

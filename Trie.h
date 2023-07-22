@@ -10,13 +10,13 @@ struct TrieNode
 {
     TrieNode *children[ALPHABET_SIZE];
     bool isEndOfWord;
-    string definition;
+    wstring definition;
     TrieNode();
 };
 
-bool insert(TrieNode*& root, string word, string def); // return false if the word is already in Trie.
+bool insert(TrieNode*& root, wstring word, wstring def);
 
-TrieNode* find(TrieNode*& root, string word); // return the found node.
+TrieNode* find(TrieNode*& root, wstring word);
 
 bool isEmpty(TrieNode* root);
 
