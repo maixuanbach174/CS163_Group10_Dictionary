@@ -5,6 +5,8 @@ Dictionary::Dictionary()
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
 {
+    root = new TrieNode();
+    readDatasetEngVie(root);
     screens.push_back(&homescreen);
     screens.push_back(&historyscreen);
     screens.push_back(&favouritescreen);
@@ -14,7 +16,9 @@ Dictionary::Dictionary()
     screens.push_back(&searchscreen);
 }
 
-Dictionary::~Dictionary() {}
+Dictionary::~Dictionary() {
+    deallocate(root);
+}
 
 void Dictionary::run()
 {
@@ -31,19 +35,28 @@ void Dictionary::run()
 
 void Dictionary::processEvent()
 {
-    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex);
+    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex, input);
 }
 
 void Dictionary::update()
 {
-    if(mainmenu.menubuttons.selected == 0 && screenIndex != -1) CurScreen = screenIndex;
+    if(mainmenu.menubuttons.selected == 0 && screenIndex != -1) 
+    {
+        if(screenIndex == 6)
+        {
+            TrieNode* temp = find(root, input);
+            if(!temp) passedContent = L"Not found!";
+            else passedContent = temp->definition;
+        }
+        CurScreen = screenIndex;
+    }
     else 
     {
         screenIndex = -1;
         CurScreen = mainmenu.menubuttons.selected;
     } 
 
-    screens[CurScreen]->update(mainmenu);
+    screens[CurScreen]->update(mainmenu, passedContent);
 }
 
 void Dictionary::render()

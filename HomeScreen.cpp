@@ -34,7 +34,7 @@ HomeScreen::HomeScreen()
 
 HomeScreen::~HomeScreen() {}
 
-void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex)
+void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input)
 {
     sf::Event event;
     while(App.pollEvent(event))
@@ -64,6 +64,10 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
                 sf::Vector2i mousepos = sf::Mouse::getPosition(App);
                 mainmenu.HandleMenuClick(mousepos);
                 screenIndex = HandleSearchClick(mousepos);
+                if(screenIndex == 6)
+                {
+                    input = InputText;
+                }
             }
             break;
         case sf::Event::TextEntered:
@@ -87,6 +91,15 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
             }
             break;
         case sf::Event::KeyPressed:
+            if(event.key.code == sf::Keyboard::Enter && IsSearching)
+            {
+                input = InputText;
+                screenIndex = 6;
+                InputText = L"";
+                IsSearching = false;
+                cursor.showCursor = false;
+                isTyping = false;
+            }
             isTyping = true;
             break;
         default:
@@ -95,7 +108,7 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
     }
 }
 
-void HomeScreen::update(MainMenu& mainmenu) {
+void HomeScreen::update(MainMenu& mainmenu, wstring& passedContent) {
 
     if(!IsSearching && InputText.empty()) 
     {

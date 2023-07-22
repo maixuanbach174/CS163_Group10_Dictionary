@@ -8,6 +8,7 @@
 #include "MenuButtons.h"
 #include "TextBox.h"
 #include "screens.hpp"
+#include "readDatasetEngVie.hpp"
 using namespace std;
 
 class Dictionary
@@ -27,6 +28,9 @@ private:
     vector<cscreen*> screens;
     int CurScreen = 0;
     int screenIndex = -1;
+    TrieNode * root;
+    wstring input;
+    wstring passedContent;
 private:
     void processEvent();
     void update();
