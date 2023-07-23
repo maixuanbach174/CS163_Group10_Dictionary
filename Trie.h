@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-const int ALPHABET_SIZE = 28;
+const int ALPHABET_SIZE = 26;
 
 struct TrieNode
 {
@@ -24,6 +24,6 @@ TrieNode* removefunction(TrieNode* root, string word, int depth);
 
 TrieNode* remove(TrieNode* root, string word);
 
-void deallocate(TrieNode* root);
+void deallocate(TrieNode*& root);
 
 #endif

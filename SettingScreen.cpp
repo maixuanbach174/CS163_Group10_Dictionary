@@ -4,7 +4,7 @@ SettingScreen::SettingScreen() {}
 
 SettingScreen::~SettingScreen() {}
 
-void SettingScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input)
+void SettingScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input, sf::View& view)
 {
     sf::Event event;
     while(App.pollEvent(event))

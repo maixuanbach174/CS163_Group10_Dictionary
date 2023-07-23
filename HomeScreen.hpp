@@ -35,7 +35,7 @@ private:
 public:
     HomeScreen();
     ~HomeScreen();
-    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input);
+    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input, sf::View& view);
     virtual void update(MainMenu& mainmenu, wstring& passedContent);
     virtual void render(sf::RenderWindow& App);
    

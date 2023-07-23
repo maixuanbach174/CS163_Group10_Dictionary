@@ -2,7 +2,7 @@
 
 MenuButtons::MenuButtons(float w, float h, float X, float Y)
 : lightGrey(50, 50, 50, 50)
-, DarkOrange(220, 110, 0, 100)
+, DarkOrange(170, 70, 0, 60)
 , LightOrange(200, 100, 0)
 , selected(0)
 , selectMove(-1)

@@ -89,7 +89,7 @@ TrieNode* remove(TrieNode* root, string word)
 }
 
 
-void deallocate(TrieNode* root)
+void deallocate(TrieNode*& root)
 {
     if(root == nullptr) return;
     for(int i = 0; i < ALPHABET_SIZE; ++i)
@@ -98,6 +98,7 @@ void deallocate(TrieNode* root)
     }
 
     delete root;
+    root = nullptr;
 }
 
 

@@ -120,7 +120,7 @@ void MainMenu::HandleMenuColor(sf::RenderWindow& App)
 
     if(LinesButton.isInBound(mousepos))
     {
-        LinesButton.rect.setFillColor(sf::Color(200, 100, 0, 60));
+        LinesButton.rect.setFillColor(sf::Color(170, 70, 0, 60));
     } else LinesButton.rect.setFillColor(sf::Color::Transparent);
 
     int index = menubuttons.isInBound(mousepos);

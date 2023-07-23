@@ -4,7 +4,9 @@ Dictionary::Dictionary()
 : mWindow(sf::VideoMode(1550, 1000), "Better Than Cambridge")
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
+, view(sf::FloatRect(100, 115, 1450, 885))
 {
+    // mWindow.setView(view);
     root = new TrieNode();
     readDatasetEngVie(root);
     screens.push_back(&homescreen);
@@ -35,7 +37,7 @@ void Dictionary::run()
 
 void Dictionary::processEvent()
 {
-    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex, input);
+    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex, input, view);
 }
 
 void Dictionary::update()
