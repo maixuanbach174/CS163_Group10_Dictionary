@@ -34,7 +34,7 @@ HomeScreen::HomeScreen()
 
 HomeScreen::~HomeScreen() {}
 
-void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input, sf::View& view)
+void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input)
 {
     sf::Event event;
     while(App.pollEvent(event))

@@ -31,7 +31,6 @@ private:
     TrieNode * root;
     wstring input;
     wstring passedContent;
-    sf::View view;
 private:
     void processEvent();
     void update();

@@ -12,6 +12,8 @@ using namespace std;
 
 class SearchScreen : public cscreen
 {
+public:
+    sf::Sprite closeSprite;
 private:
     TitleBar titleBar;
     wstring content;
@@ -19,12 +21,11 @@ private:
     sf::Text textContent;
     Button closeButton;
     sf::Texture closeTexture;
-    sf::Sprite closeSprite;
     ScrollBar scrollBar;
 public:
     SearchScreen();
     ~SearchScreen();
-    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input, sf::View& view);
+    virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input);
     virtual void update(MainMenu& mainmenu, wstring& passedContent);
     virtual void render(sf::RenderWindow& App);
     void HandleCloseColor(sf::RenderWindow& App);

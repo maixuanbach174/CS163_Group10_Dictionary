@@ -4,9 +4,7 @@ Dictionary::Dictionary()
 : mWindow(sf::VideoMode(1550, 1000), "Better Than Cambridge")
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
-, view(sf::FloatRect(100, 115, 1450, 885))
 {
-    // mWindow.setView(view);
     root = new TrieNode();
     readDatasetEngVie(root);
     screens.push_back(&homescreen);
@@ -37,7 +35,7 @@ void Dictionary::run()
 
 void Dictionary::processEvent()
 {
-    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex, input, view);
+    screens[CurScreen]->processEvent(mWindow, mainmenu, screenIndex, input);
 }
 
 void Dictionary::update()
@@ -54,7 +52,7 @@ void Dictionary::update()
     }
     else 
     {
-        screenIndex = -1;
+        screenIndex = searchscreen.HandleCloseClick(sf::Vector2i(int(searchscreen.closeSprite.getPosition().x), int(searchscreen.closeSprite.getPosition().y)));
         CurScreen = mainmenu.menubuttons.selected;
     } 
 

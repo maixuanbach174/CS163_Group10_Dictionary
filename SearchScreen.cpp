@@ -35,7 +35,7 @@ SearchScreen::SearchScreen()
 
 SearchScreen::~SearchScreen() {}
 
-void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input, sf::View& view)
+void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input)
 {
     sf::Event event;
     while(App.pollEvent(event))
