@@ -78,28 +78,33 @@ void readEngEng(TrieNode* root)
 {
     string filename = "engwords.csv";
     wifstream dict(filename, std::ios::binary);
-    wstring word, line, def, limiter = L".";
+    wstring line, def, limiter = L". ";
+    bool flag = true;
+
     if (!dict)
     {
         cout << "Can't open file!";
         return;
     }
+
     while (getline(dict, line))
     {
-        wstringstream ss(line);
-        wstring tmp;
-        getline(ss, tmp, L',');
-        word = tmp;
-        getline(ss, tmp, L',');
-        def = tmp;
-        while (getline(dict, line) && line.find(limiter) == wstring::npos)
+        size_t firstCommaPos = line.find(L',');
+        wstring word = line.substr(0, firstCommaPos);
+        //wcout << word << " ";
+        def = line.substr(firstCommaPos + 1);
+        //wcout << def << endl;
+        while (getline(dict, line) && flag)
         {
             def += line;
+            if (line.find(limiter) != wstring::npos)
+                flag = false;
         }
-        def += L" " + line;
+        //wcout << word << " " << def << 111 << endl;
         insert(root, word, def);
     }
 }
+
   
 vector <string> addFavorite(string word, vector<string> &favList)
 {
