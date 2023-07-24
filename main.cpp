@@ -1,11 +1,13 @@
+
 #include <iostream>
-#include <fstream>
-#include "Trie.h"
+#include "SerializeDeserialize.h"
+#include "readDatasetEngVie.hpp"
+
 using namespace std;
 
 int main()
 {
-    //*VieTrieNode *root = nullptr;
+ //*VieTrieNode *root = nullptr;
 
     //cout << VieInsert(root, L"Mai", "a flower") << endl;
 
@@ -29,20 +31,36 @@ int main()
      //insert(root, "apple", "a fruit");
      //insert(root, "application", "ssss");
 
-   
-    //ofstream newfile;
-    //char str[20];
-    //int level = 0;
-    //serialize(root, str, level, newfile);
-    TrieNode* root = nullptr;
-    ifstream newfile;
-    deserialize(root, newfile);
-    cout << find(root, "application")->definition << endl;
-    cout << find(root, "apple")->definition << endl; 
-    cout << find(root, "app")<< endl;
+    TrieNode* root=nullptr;
+    insert(root, L"An apple", L"A fruit");
 
-     cout << find(root, "car")<< endl;
-     cout << find(root, "chicken") << endl;
+    wofstream newfile;
+    char str[26];
+    int level = 0;
+    serialize(root, str, level, newfile);
+    //TrieNode* root = nullptr;
+    //ifstream newfile;
+   
+    //cout << find(root, L"application")->definition << endl;
+    //cout << find(root, L"apple")->definition << endl; 
+    //cout << find(root, L"app")<< endl;
+
+     //cout << find(root, "car")<< endl;
+     //cout << find(root, "chicken") << endl;
+     //TrieNode* root=new TrieNode();
+
+    //readDatasetEngVie(root);
+    //wstring word;
+    //getline(wcin,word);
+
+    //if (find(root,word))
+    //{
+        //wcout<<find(root,word)->definition;
+    //}
+    //else wcout<<L"not found";
+
+    //deallocate(root);
+
 
 
 
