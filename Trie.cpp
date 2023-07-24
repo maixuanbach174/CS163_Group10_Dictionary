@@ -78,9 +78,7 @@ void readEngEng(TrieNode* root)
 {
     string filename = "engwords.csv";
     wifstream dict(filename, std::ios::binary);
-    wstring line, def, limiter = L". ";
-    bool flag = true;
-
+    wstring line, def, limiter = L".";
     if (!dict)
     {
         cout << "Can't open file!";
@@ -93,17 +91,18 @@ void readEngEng(TrieNode* root)
         wstring word = line.substr(0, firstCommaPos);
         //wcout << word << " ";
         def = line.substr(firstCommaPos + 1);
-        //wcout << def << endl;
-        while (getline(dict, line) && flag)
+        //wcout << def << endl << endl;
+        if (def.find(limiter) != wstring::npos) continue;
+        while (getline(dict, line))
         {
             def += line;
             if (line.find(limiter) != wstring::npos)
-                flag = false;
+                break;
         }
-        //wcout << word << " " << def << 111 << endl;
         insert(root, word, def);
     }
 }
+
 
   
 vector <string> addFavorite(string word, vector<string> &favList)
