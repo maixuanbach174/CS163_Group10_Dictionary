@@ -1,5 +1,5 @@
 #ifndef TITLEBAR_HPP
-#define TITLEBAR_CPP
+#define TITLEBAR_HPP
 
 #include <SFML/Graphics.hpp>
 using namespace std;
