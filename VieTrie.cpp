@@ -134,11 +134,7 @@ void VieEng(VieTrieNode* root)
         cout << "not found";
         return;
     }
-
-    wstring flag = L"*", line, word, def;
-    bool added = false;
-    bool flagFound = false; 
-
+    wstring flag = L"*", line, word, def; 
     while (getline(in, line))
     {
         size_t pos = line.find(flag);
@@ -155,9 +151,6 @@ void VieEng(VieTrieNode* root)
             else
                 def += L" " + track;
         }
-        if (!flagFound) 
-            getline(in, track);
-        flagFound = false;
         VieInsert(root, word, def);
         wcout << word << " " << def << endl << endl;
     }
