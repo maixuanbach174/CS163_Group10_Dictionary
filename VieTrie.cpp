@@ -137,7 +137,7 @@ void VieEng(VieTrieNode* root)
 
     wstring flag = L"*", line, word, def;
     bool added = false;
-    bool flagFound = false; // New boolean variable to track if the flag is found
+    bool flagFound = false; 
 
     while (getline(in, line))
     {
@@ -149,44 +149,21 @@ void VieEng(VieTrieNode* root)
         {
             if (track.find(flag) != wstring::npos)
             {
-                flagFound = true; // Set the flag indicating the flag is found
+                flagFound = true;
                 break;
             }
             else
                 def += L" " + track;
         }
-
-        if (!flagFound) // If the flag is not found, read the next line
+        if (!flagFound) 
             getline(in, track);
-        flagFound = false; // Reset the flagFound variable for the next iteration
+        flagFound = false;
         VieInsert(root, word, def);
         wcout << word << " " << def << endl << endl;
     }
     in.close();
 }
 
-
-void serialize(VieTrieNode* root, char str[], int level, ofstream& newfile) {
-
-    if (isLeafNode(root)) {
-        str[level] = '\0';
-        newfile.open("new_friends.txt", ios::out | ios::app);
-        if (newfile.is_open()) {
-            newfile << str << "\n";
-            newfile.close();
-        }
-        cout << "Added: " << str << endl;
-    }
-
-    int i;
-    for (i = 0; i < 16; i++) {
-
-        if (root->children[i]) {
-            str[level] = i + 'a';
-            serialize(root->children[i], str, level + 1, newfile);
-        }
-    }
-}
 
 
 int main()
