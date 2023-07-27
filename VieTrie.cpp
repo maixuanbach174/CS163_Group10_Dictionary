@@ -141,7 +141,7 @@ void VieEng(VieTrieNode* root)
         word = line.substr(0, pos);
         def = line.substr(pos + 1);
         wstring track;
-        while (getline(in, track))
+        /*while (getline(in, track))
         {
             if (track.find(flag) != wstring::npos)
             {
@@ -150,7 +150,7 @@ void VieEng(VieTrieNode* root)
             }
             else
                 def += L" " + track;
-        }
+        }*/
         VieInsert(root, word, def);
         wcout << word << " " << def << endl << endl;
     }
