@@ -8,6 +8,7 @@ Dictionary::Dictionary()
 {
     root = new TrieNode();
     readDatasetEngVie(root);
+    // readEngEng(root);
     screens.push_back(&homescreen);
     screens.push_back(&historyscreen);
     screens.push_back(&favouritescreen);

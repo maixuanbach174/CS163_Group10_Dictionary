@@ -10,6 +10,7 @@
 #include "screens.hpp"
 #include "readDatasetEngVie.hpp"
 #include "MyHashMap.h"
+#include "ReadEngEng.hpp"
 using namespace std;
 
 class Dictionary

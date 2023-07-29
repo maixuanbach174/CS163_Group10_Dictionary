@@ -33,7 +33,7 @@ bool insert(TrieNode*& root, wstring word, wstring def)
     for (int i = 0; i < word.length(); i++)
     {
         if (!isalpha(word[i])) continue;
-        int index = word[i] - L'a';
+        int index = tolower(word[i]) - L'a';
         if (!pCrawl->children[index])
             pCrawl->children[index] = new TrieNode();
 
