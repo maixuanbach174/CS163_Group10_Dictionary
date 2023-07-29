@@ -1,4 +1,4 @@
-﻿#include "VieTrie.h"
+#include "VieTrie.h"
 #include <iostream>
 #include <io.h>
 #include <codecvt>
@@ -118,11 +118,49 @@ bool isLeafNode(VieTrieNode* root)
 {
     return root->isEndOfWord != false;
 }
-
+/*
+void processLine(VieTrieNode* root, wstring line, wifstream& in, wstring& word, wstring& def, wstring &flag)
+{
+   size_t pos = line.find(flag);
+   word = line.substr(0, pos);
+   def = line.substr(pos + 1);
+   wstring track;
+   while (getline(in, track) && in.is_open())
+   {
+            if (track.find(flag) != wstring::npos)
+            {
+                VieInsert(root, word, def);
+                wcout << word << " " << def << endl << endl;
+                processLine(root, track, in, word, def, flag);
+                break;
+            }
+            else
+                def += L" " + track;
+   }
+}
 void VieEng(VieTrieNode* root)
 {
     if (!root)
         return;
+    wifstream in("Text.txt");
+    if (!in)
+    {
+        cout << "not found";
+        return;
+    }
+
+    wstring flag = L"*", line, word, def;
+    while (in.is_open())
+    {
+        processLine(root, line, in, word, def, flag);
+        in.close();
+    }
+}*/
+void VieEng(VieTrieNode* root)
+{
+    if (!root)
+        return;
+    int count = 0;
     wifstream in("Text.txt");
     _setmode(_fileno(stdin), _O_U8TEXT);
     _setmode(_fileno(stdout), _O_U8TEXT);
@@ -134,30 +172,43 @@ void VieEng(VieTrieNode* root)
         cout << "not found";
         return;
     }
-    wstring flag = L"*", line, word, def; 
+    wstring flag = L"*";
+    wstring line, word, def;
+    bool flagFound = false;
     while (getline(in, line))
     {
         size_t pos = line.find(flag);
         word = line.substr(0, pos);
         def = line.substr(pos + 1);
-        wstring track;
-        /*while (getline(in, track))
+        size_t subPos = 0;
+        wstring subDef;
+        for (int i = 0; i < def.size(); i++)
         {
-            if (track.find(flag) != wstring::npos)
+            if (def[i] == L'=' || def[i] == L'+' || i == def.size() - 1)
             {
-                flagFound = true;
-                break;
+                if (i == def.size() - 1)
+                    subDef += def.substr(subPos, i - subPos + 1);
+                subDef += def.substr(subPos, i - subPos + 1) + L"\n";
+                subPos = i+1;
             }
-            else
-                def += L" " + track;
-        }*/
-        VieInsert(root, word, def);
-        wcout << word << " " << def << endl << endl;
+
+        }
+        wcout << subDef << endl <<endl;
+        /* wstring track;
+         while (getline(in, track))
+         {
+             if (track.find(flag) != wstring::npos)
+                 break;
+             else
+             {
+                 def += L" " + track;
+             }
+         }*/
+        VieInsert(root, word, subDef);
     }
+
     in.close();
 }
-
-
 
 int main()
 {
