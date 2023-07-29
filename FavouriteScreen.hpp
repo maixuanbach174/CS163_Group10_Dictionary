@@ -3,12 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 #include "cscreen.hpp"
+#include "TitleBar.hpp"
+#include "TextList.hpp"
 using namespace std;
 
 class FavouriteScreen : public cscreen
 {
-private:
-    
+public:
+    TitleBar titleBar;
+public:
+    TextList textList;
 public:
     FavouriteScreen();
     ~FavouriteScreen();

@@ -31,6 +31,8 @@ SearchScreen::SearchScreen()
     scrollBar.bar.setSize(sf::Vector2f(20.f, 885.f));
     scrollBar.bar.setFillColor(sf::Color(sf::Color(128, 128, 128, 255)));
     scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
+
+    favouriteButton.heartSprite.setPosition(sf::Vector2f(1110.f, 34.f));
 }
 
 SearchScreen::~SearchScreen() {}
@@ -57,6 +59,7 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
         case sf::Event::MouseMoved :
             mainmenu.HandleMenuColor(App);
             HandleCloseColor(App);
+            favouriteButton.isInBound(sf::Mouse::getPosition(App));
             break;
         case sf::Event::MouseButtonPressed : 
             if(event.mouseButton.button == sf::Mouse::Left)
@@ -120,6 +123,7 @@ void SearchScreen::render(sf::RenderWindow& App)
     App.draw(closeSprite);
     App.draw(scrollBar.railWay);
     App.draw(scrollBar.bar);
+    App.draw(favouriteButton.heartSprite);
 }
 
 void SearchScreen::HandleCloseColor(sf::RenderWindow& App)

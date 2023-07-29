@@ -4,6 +4,7 @@ Dictionary::Dictionary()
 : mWindow(sf::VideoMode(1550, 1000), "Better Than Cambridge")
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
+, myHashMap(100000)
 {
     root = new TrieNode();
     readDatasetEngVie(root);
@@ -40,21 +41,37 @@ void Dictionary::processEvent()
 
 void Dictionary::update()
 {
-    if(mainmenu.menubuttons.selected == 0 && screenIndex != -1) 
+    if(mainmenu.menubuttons.selected != prevScreen)
     {
-        if(screenIndex == 6)
+        CurScreen = mainmenu.menubuttons.selected;
+        prevScreen = mainmenu.menubuttons.selected;
+    } else if(screenIndex == 6)
+    {
+        if(input != L"")
         {
             TrieNode* temp = find(root, input);
             if(!temp) passedContent = L"Not found!";
-            else passedContent = temp->definition;
+            else 
+            {
+                passedContent = temp->definition;
+                if(prevScreen == 0 && myHashMap.find(input) == nullptr) 
+                {
+                    historyscreen.textList.addText(input);
+                    myHashMap.insert(input, 1);
+                    if(historyscreen.titleBar.isMove && historyscreen.textList.contents.size() == 1) 
+                    {
+                        historyscreen.textList.contents.back()->move(mainmenu.movement);
+                        historyscreen.textList.buttons.back()->move(mainmenu.movement);
+                    }
+                }
+            }
+            input = L"";
+            CurScreen = screenIndex;
         }
-        CurScreen = screenIndex;
-    }
-    else 
+    } else
     {
-        screenIndex = searchscreen.HandleCloseClick(sf::Vector2i(int(searchscreen.closeSprite.getPosition().x), int(searchscreen.closeSprite.getPosition().y)));
-        CurScreen = mainmenu.menubuttons.selected;
-    } 
+        CurScreen = prevScreen;
+    }
 
     screens[CurScreen]->update(mainmenu, passedContent);
 }

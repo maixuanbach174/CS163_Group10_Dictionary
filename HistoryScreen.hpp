@@ -3,12 +3,18 @@
 
 #include <SFML/Graphics.hpp>
 #include "cscreen.hpp"
+#include "TitleBar.hpp"
+#include <string>
+#include <vector>
+#include "TextList.hpp"
 using namespace std;
 
 class HistoryScreen : public cscreen
 {
-private:
-   
+public:
+    TitleBar titleBar;
+public:
+    TextList textList;
 public:
     HistoryScreen();
     ~HistoryScreen();

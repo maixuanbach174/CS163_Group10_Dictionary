@@ -8,12 +8,14 @@
 #include "string"
 #include "Button.h"
 #include "ScrollBar.hpp"
+#include "FavouriteButton.hpp"
 using namespace std;
 
 class SearchScreen : public cscreen
 {
 public:
     sf::Sprite closeSprite;
+    FavouriteButton favouriteButton;
 private:
     TitleBar titleBar;
     wstring content;

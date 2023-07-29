@@ -157,7 +157,7 @@ void HomeScreen::HandleSearchColor(sf::RenderWindow& App)
 
 int HomeScreen::HandleSearchClick(sf::Vector2i mousepos)
 {
-    if(searchbutton.isInBound(mousepos)) return 6;
+    if(searchbutton.isInBound(mousepos) && InputText != L"") return 6;
 
     if(searchbox.isInBound(mousepos))
     {

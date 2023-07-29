@@ -9,6 +9,7 @@
 #include "TextBox.h"
 #include "screens.hpp"
 #include "readDatasetEngVie.hpp"
+#include "MyHashMap.h"
 using namespace std;
 
 class Dictionary
@@ -28,9 +29,11 @@ private:
     vector<cscreen*> screens;
     int CurScreen = 0;
     int screenIndex = -1;
+    int prevScreen = 0;
     TrieNode * root;
     wstring input;
     wstring passedContent;
+    MyHashMap <wstring, int> myHashMap;
 private:
     void processEvent();
     void update();
