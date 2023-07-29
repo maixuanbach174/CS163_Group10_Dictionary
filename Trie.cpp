@@ -37,21 +37,21 @@ void deallocateTrie(TrieNode* node)
     delete node;
 }
 
-TrieNode* find(TrieNode* root, string& word)
+TrieNode* find(TrieNode*& root, wstring word)
 {
-    if(root == nullptr) return nullptr;
-    
-    TrieNode *cur = root;
+    if (root == nullptr) return nullptr;
 
-    for(int i = 0; word[i] != '\0'; ++i)
+    TrieNode* cur = root;
+
+    for (int i = 0; i < word.size(); ++i)
     {
-        int index = word[i] - 'a';
-        if(cur->children[index] == nullptr) return nullptr;
-
+        if (!isalpha(word[i])) continue;
+        int index = tolower(word[i]) - L'a';
+        if (cur->children[index] == nullptr) return nullptr;
         cur = cur->children[index];
     }
 
-    if(cur->isEndOfWord) return cur;
+    if (cur->isEndOfWord) return cur;
     return nullptr;
 }
 
@@ -74,11 +74,11 @@ bool insert(TrieNode*& root, wstring word, wstring def)
     return pCrawl->isEndOfWord;
 }
 
-void readEngEng(TrieNode* root)
+void readEngEng(TrieNode* root)                                                  
 {
     string filename = "engwords.csv";
     wifstream dict(filename, std::ios::binary);
-    wstring line, def;
+    wstring line, def, limiter = L".";
     if (!dict)
     {
         cout << "Can't open file!";
@@ -89,13 +89,10 @@ void readEngEng(TrieNode* root)
     {
         size_t firstCommaPos = line.find(L',');
         wstring word = line.substr(0, firstCommaPos);
-        //wcout << word << " ";
         def = line.substr(firstCommaPos + 1);
-        //wcout << def << endl << endl;
         insert(root, word, def);
     }
 }
-
 
   
 vector <string> addFavorite(string word, vector<string> &favList)
@@ -104,6 +101,10 @@ vector <string> addFavorite(string word, vector<string> &favList)
     return favList;
 }
 
+void readVieEng(TrieNode* root)
+{
+
+}
 void removeFavorite(string word, vector<string>& favList)
 {
     for (int i=0; i<favList.size(); i++)
@@ -116,11 +117,12 @@ void removeFavorite(string word, vector<string>& favList)
     }
 }
 
+
 int main()
 {
     // Input keys (use only 'a' through 'z'
-    // and lower case)
+    // and lower cas;
     TrieNode* root = new TrieNode();
     readEngEng(root);
-    cout << "Succesful!";
+    wcout << find(root, L"business")->definition;
 }
