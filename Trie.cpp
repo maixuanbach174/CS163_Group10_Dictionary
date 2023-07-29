@@ -43,7 +43,7 @@ bool insert(TrieNode* &root, wstring word, wstring def)
         if (!isalpha(word[i])) continue;
         int index = word[i] - L'a';
         if (!pCrawl->children[index])
-            pCrawl->children[index] = new TrieNode();
+            (pCrawl->children[index] = new TrieNode());
 
         pCrawl = pCrawl->children[index];
     }
@@ -122,8 +122,8 @@ bool isLeafNode(TrieNode* root)
     return root->isEndOfWord != false;
 }
 void serialize(TrieNode* root, char str[], int level, wofstream& newfile) {
-
-    if (isLeafNode(root)) {
+    TrieNode* pcrawl = root;
+    if (isLeafNode(pcrawl)) {
         str[level] = '\0';
         newfile.open(L"serialize.txt", ios::out | ios::app);
         if (newfile.is_open()) {
@@ -133,7 +133,6 @@ void serialize(TrieNode* root, char str[], int level, wofstream& newfile) {
         }
         
     }
-
     int i;
     for (i = 0; i < ALPHABET_SIZE; i++) {
 
@@ -145,39 +144,4 @@ void serialize(TrieNode* root, char str[], int level, wofstream& newfile) {
 }
 
 
-void readEngEng(TrieNode* root)
-{
-    wstring filename = L"english_english.csv";
-    wifstream dict(filename);
-    if (!dict)
-    {
-        cout << "Can't open file!";
-        return;
-    }
-    wstring line, separator = L"\"\"", word, def;
-    while (getline(dict, line))
-    {
-        wstringstream ss(line);
-        wstring tmp;
-        getline(ss, tmp, L',');
-        word = tmp;
-        wcout << word << endl;
-        getline(ss, tmp);
-        def = tmp;
-        if (line.find(L"\"\"") != string::npos)
-        {
-            while (getline(dict, line))
-            {
-                if (line.find(L"\"\"") == string::npos)
-                {
-                    def += line.substr(0, line.length() - 3);
-                    break;
-                }
-                else
-                    def += line;
-            }
-        }
-        insert(root, word, def);
 
-    }
-}

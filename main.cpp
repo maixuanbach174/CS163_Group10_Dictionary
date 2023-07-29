@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include "readDatasetEngVie.hpp"
-#include "VieTrie.h"
+#include "Trie.h"
 
 using namespace std;
 
@@ -31,17 +31,13 @@ int main()
      //insert(root, "apple", "a fruit");
      //insert(root, "application", "ssss");
 
-    VieTrieNode* root=nullptr;
-    VieInsert(root, L"Apple", L"A fruit");
-
+    TrieNode* root = new TrieNode();
+    insert(root, L"Tin", L"Người");
     wofstream newfile;
-    char str[16];
+    char str[26];
     int level = 0;
-    Vieserialize(root, str, level, newfile);
-    //TrieNode* root = nullptr;
-    //ifstream newfile;
-   
-    //cout << find(root, L"application")->definition << endl;
+    serialize(root, str, level, newfile);
+        //cout << find(root, L"application")->definition << endl;
     //cout << find(root, L"apple")->definition << endl; 
     //cout << find(root, L"app")<< endl;
 
@@ -59,7 +55,6 @@ int main()
     //}
     //else wcout<<L"not found";
 
-    //deallocate(root);
 
 
 
