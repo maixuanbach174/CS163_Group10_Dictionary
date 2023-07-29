@@ -1,7 +1,7 @@
 
 #include <iostream>
-#include "SerializeDeserialize.h"
 #include "readDatasetEngVie.hpp"
+#include "VieTrie.h"
 
 using namespace std;
 
@@ -31,13 +31,13 @@ int main()
      //insert(root, "apple", "a fruit");
      //insert(root, "application", "ssss");
 
-    TrieNode* root=nullptr;
-    insert(root, L"An apple", L"A fruit");
+    VieTrieNode* root=nullptr;
+    VieInsert(root, L"Apple", L"A fruit");
 
     wofstream newfile;
-    char str[26];
+    char str[16];
     int level = 0;
-    serialize(root, str, level, newfile);
+    Vieserialize(root, str, level, newfile);
     //TrieNode* root = nullptr;
     //ifstream newfile;
    

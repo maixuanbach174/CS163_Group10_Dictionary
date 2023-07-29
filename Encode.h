@@ -6,5 +6,6 @@ using namespace std;
 
 string decToHexa(int n);
 string unicodeToUtf8(const wstring& unicodeString);
+wstring UTF8toUnicode(const string& s);
 
 #endif

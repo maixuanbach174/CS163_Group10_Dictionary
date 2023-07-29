@@ -1,23 +1,25 @@
 #include "Trie.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace std;
 TrieNode::TrieNode()
 {
     for(int i = 0; i < ALPHABET_SIZE; ++i) children[i] = nullptr;
     isEndOfWord = false;
-    definition = "";
+    definition = L"";
 }
 
-TrieNode* find(TrieNode* root, string word)
+TrieNode* find(TrieNode* root, wstring word)
 {
     if(root == nullptr) return nullptr;
     
     TrieNode *cur = root;
 
-    for(int i = 0; word[i] != '\0'; ++i)
+    for(int i = 0; i < word.size(); ++i)
     {
-        int index = word[i] - 'a';
+        if (isalpha(word[i])) continue;
+        int index = tolower(word[i]) - L'a';
         if(cur->children[index] == nullptr) return nullptr;
 
         cur = cur->children[index];
@@ -30,7 +32,7 @@ TrieNode* find(TrieNode* root, string word)
 
 
 
-bool insert(TrieNode* &root, string word, string def)
+bool insert(TrieNode* &root, wstring word, wstring def)
 {
     if (root == nullptr)
         root = new TrieNode();
@@ -38,7 +40,8 @@ bool insert(TrieNode* &root, string word, string def)
     TrieNode* pCrawl = root;
     for (int i = 0; i < word.length(); i++)
     {
-        int index = word[i] - 'a';
+        if (!isalpha(word[i])) continue;
+        int index = word[i] - L'a';
         if (!pCrawl->children[index])
             pCrawl->children[index] = new TrieNode();
 
@@ -118,75 +121,54 @@ bool isLeafNode(TrieNode* root)
 {
     return root->isEndOfWord != false;
 }
-void serialize(TrieNode* root, char str[], int level, ofstream& newfile) {
+void serialize(TrieNode* root, char str[], int level, wofstream& newfile) {
 
     if (isLeafNode(root)) {
         str[level] = '\0';
-        newfile.open("serialize.txt", ios::out | ios::app);
+        newfile.open(L"serialize.txt", ios::out | ios::app);
         if (newfile.is_open()) {
-            newfile << str << "/";
+            newfile << str << "\n";
             newfile << root->definition<< "\n";
             newfile.close();
         }
-        cout << "Added: " << str << endl;
+        
     }
 
     int i;
     for (i = 0; i < ALPHABET_SIZE; i++) {
 
         if (root->children[i]) {
-            str[level] = i + 'a';
+            str[level] = i + L'a';
             serialize(root->children[i], str, level + 1, newfile);
         }
     }
 }
 
-void deserialize(TrieNode*& root, ifstream& newfile)
-{
-    newfile.open("serialize.txt", ios::in);
-    
-    if (newfile.is_open()) {
-        string line, word, def; 
 
-        while (getline(newfile, line))
-        {
-            stringstream stream(line);
-            string tempword;
-            getline(stream, tempword, '/');
-            word = tempword;
-            getline(stream, tempword);
-            def = line.substr(line.find("/")+1, line.length() - word.length());
-            insert(root, word, def);
-        }
-
-        
-       
-    }
-}
 void readEngEng(TrieNode* root)
 {
-    string filename = "english_english.csv";
-    ifstream dict(filename);
+    wstring filename = L"english_english.csv";
+    wifstream dict(filename);
     if (!dict)
     {
         cout << "Can't open file!";
         return;
     }
-    string line, separator = "\"\"", word, def;
+    wstring line, separator = L"\"\"", word, def;
     while (getline(dict, line))
     {
-        stringstream ss(line);
-        string tmp;
-        getline(ss, tmp, ',');
+        wstringstream ss(line);
+        wstring tmp;
+        getline(ss, tmp, L',');
         word = tmp;
-        cout << word << endl;
+        wcout << word << endl;
         getline(ss, tmp);
         def = tmp;
-        if (line.find("\"\"") != string::npos)
+        if (line.find(L"\"\"") != string::npos)
         {
             while (getline(dict, line))
             {
-                if (line.find("\"\"") == string::npos)
+                if (line.find(L"\"\"") == string::npos)
                 {
                     def += line.substr(0, line.length() - 3);
                     break;

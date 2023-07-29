@@ -6,7 +6,7 @@ VieTrieNode::VieTrieNode()
     for(int i = 0; i < 16; ++i) children[i] = nullptr;
 
     isEndOfWord = false;
-    definition = "";
+    definition = L"";
 }
 
 VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword)
@@ -32,7 +32,7 @@ VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword)
     return nullptr;
 }
 
-bool VieInsert(VieTrieNode *& root, wstring vieword, string def)
+bool VieInsert(VieTrieNode *& root, wstring vieword, wstring def)
 {
     if(root == nullptr) root = new VieTrieNode();
 
@@ -119,13 +119,16 @@ bool isLeafNode(VieTrieNode* root)
 {
     return root->isEndOfWord != false;
 }
-void serialize(VieTrieNode* root, char str[], int level, ofstream& newfile) {
+void Vieserialize(VieTrieNode* root, char str[], int level, wofstream& newfile) {
 
     if (isLeafNode(root)) {
         str[level] = '\0';
-        newfile.open("new_friends.txt", ios::out | ios::app);
+        string t = str;
+        wstring s = UTF8toUnicode(t);
+        newfile.open(L"VieSerialize.txt", ios::out | ios::app);
         if (newfile.is_open()) {
-            newfile << str << "\n";
+            newfile << s << "\n";
+            newfile << root->definition;
             newfile.close();
         }
         cout << "Added: " << str << endl;
@@ -135,8 +138,10 @@ void serialize(VieTrieNode* root, char str[], int level, ofstream& newfile) {
     for (i = 0; i < 16; i++) {
 
         if (root->children[i]) {
-            str[level] = i + 'a';
-            serialize(root->children[i], str, level + 1, newfile);
+            if (i < 10)
+                str[level] = i + 48;
+            else str[level] = i + 55;
+            Vieserialize(root->children[i], str, level + 1, newfile);
         }
     }
 }
