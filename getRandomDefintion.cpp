@@ -1,7 +1,7 @@
 #include "Trie.h"
 #include <bits/stdc++.h>
 using namespace std;
-string getRandomDefintion(TrieNode* root)
+wstring getRandomDefintion(TrieNode* root)
 {
     TrieNode *cur = root;
 

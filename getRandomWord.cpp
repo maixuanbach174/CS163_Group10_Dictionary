@@ -2,9 +2,9 @@
 #include "getRandomWord.h"
 #include <bits/stdc++.h>
 using namespace std;
-string getRandomWord(TrieNode *root)
+wstring getRandomWord(TrieNode *root)
 {
-    string randomWord="";
+    wstring randomWord=L"";
     TrieNode *cur = root;
 
     srand(time(0));
@@ -17,7 +17,7 @@ string getRandomWord(TrieNode *root)
             index=rand()%26;
         }
         while (!cur->children[index]);
-        randomWord+=char('a'+index);
+        randomWord+=char(L'a'+index);
         cur=cur->children[index];
 
 
