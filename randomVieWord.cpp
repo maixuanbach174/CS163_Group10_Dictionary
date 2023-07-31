@@ -1,0 +1,106 @@
+#include<bits/stdc++.h>
+#include<VieTrie.h>
+
+using namespace std;
+//string decToHexa(int n)
+//{
+//    string result;
+//
+//    while(n)
+//    {
+//        int rem;
+//        char c;
+//
+//        rem = n % 16;
+//
+//        if(rem < 10)
+//        {
+//            c = '0' + rem;
+//        } else
+//        {
+//            c = 'A' + rem - 10;
+//        }
+//
+//        result = c + result;
+//
+//        n /= 16;
+//    }
+//
+//    return result;
+//}
+//struct VieTrieNode
+//{
+//    VieTrieNode *children[16];
+//    bool isEndOfWord;
+//    wstring definition;
+//    VieTrieNode();
+//};
+//string unicodeToUtf8(const wstring& unicodeString) {
+//    string utf8String;
+//
+//    for (const wchar_t& wchar : unicodeString) {
+//        if (wchar <= 0x7F) {
+//            utf8String += static_cast<char>(wchar);
+//        } else if (wchar <= 0x7FF) {
+//            utf8String += static_cast<char>(0xC0 | ((wchar >> 6) & 0x1F));
+//            utf8String += static_cast<char>(0x80 | (wchar & 0x3F));
+//        } else if (wchar <= 0xFFFF) {
+//            utf8String += static_cast<char>(0xE0 | ((wchar >> 12) & 0x0F));
+//            utf8String += static_cast<char>(0x80 | ((wchar >> 6) & 0x3F));
+//            utf8String += static_cast<char>(0x80 | (wchar & 0x3F));
+//        } else {
+//            utf8String += static_cast<char>(0xF0 | ((wchar >> 18) & 0x07));
+//            utf8String += static_cast<char>(0x80 | ((wchar >> 12) & 0x3F));
+//            utf8String += static_cast<char>(0x80 | ((wchar >> 6) & 0x3F));
+//            utf8String += static_cast<char>(0x80 | (wchar & 0x3F));
+//        }
+//    }
+//    string toconv = "";
+//    for (const unsigned char& byte : utf8String) {
+//        toconv += decToHexa(byte);
+//    }
+//    return toconv;
+//}
+std::wstring hexToUnicode(const std::string& hexString) {
+    std::wstring unicodeString;
+    unsigned int value;
+
+    for (size_t i = 0; i < hexString.length(); i += 2) {
+        std::string byteStr = hexString.substr(i, 2);
+        sscanf(byteStr.c_str(), "%x", &value);
+        unicodeString += static_cast<wchar_t>(value);
+    }
+
+    return unicodeString;
+}
+wstring randomVieWord(VieTrieNode* root)
+{
+    wstring word=L"";
+    srand(time(0));
+    VieTrieNode* cur=root;
+    string utf8word="";
+      while ((cur != nullptr) && (!cur->isEndOfWord))
+      {
+        int index;
+        do
+        {
+            index=rand()%16;
+        }
+        while (!cur->children[index]);
+        char letter;
+        if (index>=10)
+        {
+            letter=index-10+'A';
+        }
+        else
+        {
+            letter=index+'0';
+        }
+        utf8word+=letter;
+
+
+      }
+      word=hexToUnicode(utf8word);
+      return word;
+}
+
