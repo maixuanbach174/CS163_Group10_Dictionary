@@ -15,7 +15,7 @@ struct TextList
     int inBound = -1;
     void HandleTextListColor(sf::Vector2i mousepos);
     void addText(wstring newText);
-    void removeText(int index);
+    void removeText(wstring remText);
     int isInBound(sf::Vector2i mousepos);
     TextList();
     TextList(sf::Color color);

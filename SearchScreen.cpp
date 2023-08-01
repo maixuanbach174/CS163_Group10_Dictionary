@@ -67,6 +67,12 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
                 sf::Vector2i mousepos = sf::Mouse::getPosition(App);
                 mainmenu.HandleMenuClick(mousepos);
                 screenIndex = HandleCloseClick(mousepos);
+                if(favouriteButton.isInBound(mousepos))
+                {
+                    favouriteButton.isFavourite = !favouriteButton.isFavourite;
+                    if(favouriteButton.isFavourite) favouriteButton.heartSprite.setColor(sf::Color::Red);
+                    else favouriteButton.heartSprite.setColor(sf::Color::White);
+                }
             }
 
             break;
@@ -91,6 +97,7 @@ void SearchScreen::update(MainMenu& mainmenu, wstring& passedContent)
             closeSprite.move(mainmenu.movement);
             closeButton.rect.move(mainmenu.movement);
             closeButton.position += mainmenu.movement;
+            favouriteButton.heartSprite.move(mainmenu.movement);
         } else
         {
             titleBar.Move(-1.f * mainmenu.movement);
@@ -98,6 +105,7 @@ void SearchScreen::update(MainMenu& mainmenu, wstring& passedContent)
             closeSprite.move(-1.f * mainmenu.movement);
             closeButton.rect.move(-1.f * mainmenu.movement);
             closeButton.position += -1.f * mainmenu.movement;
+            favouriteButton.heartSprite.move(-1.f * mainmenu.movement);
         }
 
         titleBar.isMove = mainmenu.openedMenu;

@@ -33,8 +33,10 @@ private:
     int prevScreen = 0;
     TrieNode * root;
     wstring input;
+    wstring prev;
     wstring passedContent;
     MyHashMap <wstring, int> myHashMap;
+    MyHashMap <wstring, int> favouriteMap;
 private:
     void processEvent();
     void update();
@@ -43,6 +45,7 @@ public:
     Dictionary();
     ~Dictionary();
     void run();
+    
 
 };
 

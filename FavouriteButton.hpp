@@ -13,13 +13,7 @@ struct FavouriteButton
         if(mousepos.x >= heartSprite.getPosition().x && mousepos.x <= heartSprite.getPosition().x + heartSprite.getLocalBounds().width
         && mousepos.y >= heartSprite.getPosition().y && mousepos.y <= heartSprite.getPosition().y + heartSprite.getLocalBounds().height)
         {
-            heartSprite.setColor(sf::Color::Red);
             return true;
-        }
-    
-        if(heartSprite.getColor() != sf::Color::White)
-        {
-            heartSprite.setColor(sf::Color::White);
         }
         return false;
     }

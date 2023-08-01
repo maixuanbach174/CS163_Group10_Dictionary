@@ -57,3 +57,25 @@ int TextList::isInBound(sf::Vector2i mousepos)
     int index = (mousepos.y - buttons[0]->getPosition().y) / buttons[0]->getLocalBounds().height;
     return index;
 }
+
+void TextList::removeText(wstring remText)
+{
+    int i = 0;
+    for(i; i < contents.size(); ++i)
+    {
+        if(contents[i]->getString() == remText)
+        {
+            delete contents[i];
+            delete buttons[i];
+            contents.erase(contents.begin() + i);
+            buttons.erase(buttons.begin() + i);
+            break;
+        }
+    }
+    
+    for(i; i < contents.size(); ++i)
+    {
+        contents[i]->move(sf::Vector2f(0.f, -55.f));
+        buttons[i]->move(sf::Vector2f(0.f, -55.f));
+    }
+}

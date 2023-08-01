@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "ScrollBar.hpp"
 #include "FavouriteButton.hpp"
+#include "Announcement.hpp"
 using namespace std;
 
 class SearchScreen : public cscreen

@@ -5,6 +5,7 @@ Dictionary::Dictionary()
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
 , myHashMap(100000)
+, favouriteMap(100000)
 {
     root = new TrieNode();
     readDatasetEngVie(root);
@@ -51,24 +52,57 @@ void Dictionary::update()
         if(input != L"")
         {
             TrieNode* temp = find(root, input);
-            if(!temp) passedContent = L"Not found!";
+            if(!temp) 
+            {
+                passedContent = L"Not found!";
+                prev = L"";
+            }
             else 
             {
+                prev = input;
                 passedContent = temp->definition;
                 if(prevScreen == 0 && myHashMap.find(input) == nullptr) 
                 {
                     historyscreen.textList.addText(input);
                     myHashMap.insert(input, 1);
-                    if(historyscreen.titleBar.isMove && historyscreen.textList.contents.size() == 1) 
+                    if(historyscreen.titleBar.isMove) 
                     {
-                        historyscreen.textList.contents.back()->move(mainmenu.movement);
-                        historyscreen.textList.buttons.back()->move(mainmenu.movement);
+                        historyscreen.textList.contents[0]->move(mainmenu.movement);
+                        historyscreen.textList.buttons[0]->move(mainmenu.movement);
                     }
+                }
+
+                if(favouriteMap.find(input)) 
+                {
+                    searchscreen.favouriteButton.isFavourite = true;
+                    searchscreen.favouriteButton.heartSprite.setColor(sf::Color::Red);
+                } else
+                {
+                    searchscreen.favouriteButton.isFavourite = false;
+                    searchscreen.favouriteButton.heartSprite.setColor(sf::Color::White);
                 }
             }
             input = L"";
             CurScreen = screenIndex;
         }
+
+        if(prev != L"" && searchscreen.favouriteButton.isFavourite && favouriteMap.find(prev) == nullptr)
+        {
+            favouriteMap.insert(prev, 1);
+            favouritescreen.textList.addText(prev);
+            if(favouritescreen.titleBar.isMove) 
+            {
+                favouritescreen.textList.contents[0]->move(mainmenu.movement);
+                favouritescreen.textList.buttons[0]->move(mainmenu.movement);
+            }
+        }
+
+        if(prev != L"" && !searchscreen.favouriteButton.isFavourite && favouriteMap.find(prev))
+        {
+            favouriteMap.erase(prev);
+            favouritescreen.textList.removeText(prev);
+        }
+
     } else
     {
         CurScreen = prevScreen;
