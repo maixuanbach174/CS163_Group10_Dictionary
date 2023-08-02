@@ -74,6 +74,7 @@ bool insert(TrieNode*& root, wstring word, wstring def)
     return pCrawl->isEndOfWord;
 }
 
+
 void readEngEng(TrieNode* root)                                                  
 {
     string filename = "engwords.csv";
@@ -88,11 +89,22 @@ void readEngEng(TrieNode* root)
     while (getline(dict, line))
     {
         size_t firstCommaPos = line.find(L',');
-        wstring word = line.substr(0, firstCommaPos);
+        wstring word = line.substr(0, firstCommaPos), subDef = L"";
         def = line.substr(firstCommaPos + 1);
-        insert(root, word, def);
+        for (int i = 0; i < def.size(); i++)
+        {
+            if (def[i] == L',')
+            {
+                subDef += def.substr(0, i) + L"\n" + def.substr(i + 1);
+                //wcout << subDef << endl << endl;
+            }
+
+        }
+        insert(root, word, subDef);
     }
 }
+
+  
 
   
 vector <string> addFavorite(string word, vector<string> &favList)
