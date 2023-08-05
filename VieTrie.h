@@ -10,11 +10,11 @@ struct VieTrieNode
 {
     VieTrieNode *children[16];
     bool isEndOfWord;
-    string definition;
+    wstring definition;
     VieTrieNode();
 };
 
-bool VieInsert(VieTrieNode *& root, wstring vieword, string def);
+bool VieInsert(VieTrieNode *& root, wstring vieword, wstring def);
 VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword);
 void VieDeallocate(VieTrieNode * root);
 

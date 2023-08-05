@@ -2,7 +2,6 @@
 #define TRIE_H
 
 #include <string>
-#include "Tree.hpp"
 using namespace std;
 
 const int ALPHABET_SIZE = 26;
@@ -14,14 +13,6 @@ struct TrieNode
     wstring definition;
     TrieNode();
 };
-
-class Trie : Tree
-{
-public:
-    Trie(/* args */);
-    ~Trie();
-};
-
 
 bool insert(TrieNode*& root, wstring word, wstring def);
 

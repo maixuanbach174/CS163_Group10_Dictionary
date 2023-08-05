@@ -5,7 +5,7 @@ VieTrieNode::VieTrieNode()
     for(int i = 0; i < 16; ++i) children[i] = nullptr;
 
     isEndOfWord = false;
-    definition = "";
+    definition = L"";
 }
 
 VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword)
@@ -31,7 +31,7 @@ VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword)
     return nullptr;
 }
 
-bool VieInsert(VieTrieNode *& root, wstring vieword, string def)
+bool VieInsert(VieTrieNode *& root, wstring vieword, wstring def)
 {
     if(root == nullptr) root = new VieTrieNode();
 

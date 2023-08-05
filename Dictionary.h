@@ -11,6 +11,8 @@
 #include "readDatasetEngVie.hpp"
 #include "MyHashMap.h"
 #include "ReadEngEng.hpp"
+#include "VieTrie.h"
+#include "ReadVieEng.hpp"
 using namespace std;
 
 class Dictionary
@@ -31,16 +33,24 @@ private:
     int CurScreen = 0;
     int screenIndex = -1;
     int prevScreen = 0;
-    TrieNode * root;
+    TrieNode * EVroot = nullptr;
+    TrieNode * EEroot = nullptr;
+    VieTrieNode * VEroot = nullptr;
     wstring input;
     wstring prev;
     wstring passedContent;
-    MyHashMap <wstring, int> myHashMap;
-    MyHashMap <wstring, int> favouriteMap;
+    MyHashMap <wstring, int> EVHistory;
+    MyHashMap <wstring, int> EVFavourite;
 private:
     void processEvent();
     void update();
     void render();
+    void handleEngVieSearch();
+    void handleEngEngSearch();
+    void handleVieEngSearch();
+    void handleHistory();
+    void handleFavourite();
+    void handleFavouriteColor();
 public:
     Dictionary();
     ~Dictionary();

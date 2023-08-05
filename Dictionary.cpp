@@ -4,12 +4,15 @@ Dictionary::Dictionary()
 : mWindow(sf::VideoMode(1550, 1000), "Better Than Cambridge")
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
-, myHashMap(100000)
-, favouriteMap(100000)
+, EVHistory(100000)
+, EVFavourite(100000)
 {
-    root = new TrieNode();
-    readDatasetEngVie(root);
-    // readEngEng(root);
+    EVroot = new TrieNode();
+    readDatasetEngVie(EVroot);
+    EEroot = new TrieNode();
+    readEngEng(EEroot);
+    VEroot = new VieTrieNode();
+    VieEng(VEroot);
     screens.push_back(&homescreen);
     screens.push_back(&historyscreen);
     screens.push_back(&favouritescreen);
@@ -20,7 +23,8 @@ Dictionary::Dictionary()
 }
 
 Dictionary::~Dictionary() {
-    deallocate(root);
+    deallocate(EVroot);
+    deallocate(EEroot);
 }
 
 void Dictionary::run()
@@ -49,58 +53,18 @@ void Dictionary::update()
         prevScreen = mainmenu.menubuttons.selected;
     } else if(screenIndex == 6)
     {
-        if(input != L"")
+        switch (settingscreen.dataSet)
         {
-            TrieNode* temp = find(root, input);
-            if(!temp) 
-            {
-                passedContent = L"Not found!";
-                prev = L"";
-            }
-            else 
-            {
-                prev = input;
-                passedContent = temp->definition;
-                if(prevScreen == 0 && myHashMap.find(input) == nullptr) 
-                {
-                    historyscreen.textList.addText(input);
-                    myHashMap.insert(input, 1);
-                    if(historyscreen.titleBar.isMove) 
-                    {
-                        historyscreen.textList.contents[0]->move(mainmenu.movement);
-                        historyscreen.textList.buttons[0]->move(mainmenu.movement);
-                    }
-                }
-
-                if(favouriteMap.find(input)) 
-                {
-                    searchscreen.favouriteButton.isFavourite = true;
-                    searchscreen.favouriteButton.heartSprite.setColor(sf::Color::Red);
-                } else
-                {
-                    searchscreen.favouriteButton.isFavourite = false;
-                    searchscreen.favouriteButton.heartSprite.setColor(sf::Color::White);
-                }
-            }
-            input = L"";
-            CurScreen = screenIndex;
-        }
-
-        if(prev != L"" && searchscreen.favouriteButton.isFavourite && favouriteMap.find(prev) == nullptr)
-        {
-            favouriteMap.insert(prev, 1);
-            favouritescreen.textList.addText(prev);
-            if(favouritescreen.titleBar.isMove) 
-            {
-                favouritescreen.textList.contents[0]->move(mainmenu.movement);
-                favouritescreen.textList.buttons[0]->move(mainmenu.movement);
-            }
-        }
-
-        if(prev != L"" && !searchscreen.favouriteButton.isFavourite && favouriteMap.find(prev))
-        {
-            favouriteMap.erase(prev);
-            favouritescreen.textList.removeText(prev);
+        case 0:
+            handleEngEngSearch();
+            break;
+        case 1:
+            handleEngVieSearch();
+            break;
+        case 2:
+            handleVieEngSearch();
+        default:
+            break;
         }
 
     } else
@@ -118,3 +82,124 @@ void Dictionary::render()
     screens[CurScreen]->render(mWindow); 
     mWindow.display();
 }
+
+void Dictionary::handleEngVieSearch()
+{
+    if(input != L"")
+    {
+        TrieNode* temp = find(EVroot, input);
+        if(!temp) 
+        {
+            passedContent = L"Not found!";
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = temp->definition;
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
+
+    handleFavourite();
+}
+
+void Dictionary::handleEngEngSearch()
+{
+    if(input != L"")
+    {
+        TrieNode* temp = find(EEroot, input);
+        if(!temp) 
+        {
+            passedContent = L"Not found!";
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = temp->definition;
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
+
+    handleFavourite();
+}
+
+void Dictionary::handleVieEngSearch()
+{
+    if(input != L"")
+    {
+        VieTrieNode* temp = VieFind(VEroot, input);
+        if(!temp) 
+        {
+            passedContent = L"Not found!";
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = temp->definition;
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
+
+    handleFavourite();
+}
+
+void Dictionary::handleHistory()
+{
+    if(prevScreen == 0 && EVHistory.find(input) == nullptr) 
+    {
+        historyscreen.textList.addText(input);
+        EVHistory.insert(input, 1);
+        if(historyscreen.titleBar.isMove) 
+        {
+            historyscreen.textList.contents[0]->move(mainmenu.movement);
+            historyscreen.textList.buttons[0]->move(mainmenu.movement);
+        }
+    }
+}
+
+void Dictionary::handleFavouriteColor()
+{
+    if(EVFavourite.find(input)) 
+    {
+        searchscreen.favouriteButton.isFavourite = true;
+        searchscreen.favouriteButton.heartSprite.setColor(sf::Color::Red);
+    } else
+    {
+        searchscreen.favouriteButton.isFavourite = false;
+        searchscreen.favouriteButton.heartSprite.setColor(sf::Color::White);
+    }
+}
+
+void Dictionary::handleFavourite()
+{
+    if(prev != L"" && searchscreen.favouriteButton.isFavourite && EVFavourite.find(prev) == nullptr)
+    {
+        EVFavourite.insert(prev, 1);
+        favouritescreen.textList.addText(prev);
+        if(favouritescreen.titleBar.isMove) 
+        {
+            favouritescreen.textList.contents[0]->move(mainmenu.movement);
+            favouritescreen.textList.buttons[0]->move(mainmenu.movement);
+        }
+    }
+
+    if(prev != L"" && !searchscreen.favouriteButton.isFavourite && EVFavourite.find(prev))
+    {
+        EVFavourite.erase(prev);
+        favouritescreen.textList.removeText(prev);
+    }
+}
+
+
