@@ -16,7 +16,7 @@ void VieEng(VieTrieNode* root)
         cout << "not found";
         return;
     }
-    wstring flag = L"*";
+    wstring flag = L"*", wordFlag = L"\t";
     wstring line, word, def;
     bool flagFound = false;
     while (getline(in, line))
@@ -24,6 +24,8 @@ void VieEng(VieTrieNode* root)
         size_t pos = line.find(flag);
         word = line.substr(0, pos);
         def = line.substr(pos + 1);
+        size_t wordPos = line.find(wordFlag);
+        word = word.substr(0, wordPos);
         size_t subPos = 0;
         wstring subDef;
         for (int i = 0; i < def.size(); i++)
@@ -38,5 +40,6 @@ void VieEng(VieTrieNode* root)
         }
         VieInsert(root, word, subDef);
     }
+
     in.close();
 }
