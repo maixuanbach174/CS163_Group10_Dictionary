@@ -4,17 +4,18 @@
 #include <string>
 #include "Encode.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 
 struct VieTrieNode
 {
     VieTrieNode *children[16];
     bool isEndOfWord;
-    wstring definition;
+    vector<wstring> definition;
     VieTrieNode();
 };
 
-bool VieInsert(VieTrieNode *& root, wstring vieword, wstring def);
+bool VieInsert(VieTrieNode *& root, wstring vieword, vector<wstring> def);
 VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword);
 void VieDeallocate(VieTrieNode * root);
 

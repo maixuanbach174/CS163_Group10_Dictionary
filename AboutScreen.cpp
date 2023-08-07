@@ -39,7 +39,7 @@ void AboutScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& s
     }
 }
 
-void AboutScreen::update(MainMenu& mainmenu, wstring& passedContent)
+void AboutScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
 {
 
 }

@@ -85,50 +85,50 @@ void Dictionary::render()
 
 void Dictionary::handleEngVieSearch()
 {
-    if(input != L"")
-    {
-        TrieNode* temp = find(EVroot, input);
-        if(!temp) 
-        {
-            passedContent = L"Not found!";
-            prev = L"";
-        }
-        else 
-        {
-            prev = input;
-            passedContent = temp->definition;
-            handleHistory();
-        }
-        handleFavouriteColor();
-        input = L"";
-        CurScreen = screenIndex;
-    }
+    // if(input != L"")
+    // {
+    //     TrieNode* temp = find(EVroot, input);
+    //     if(!temp) 
+    //     {
+    //         passedContent = L"Not found!";
+    //         prev = L"";
+    //     }
+    //     else 
+    //     {
+    //         prev = input;
+    //         passedContent = temp->definition;
+    //         handleHistory();
+    //     }
+    //     handleFavouriteColor();
+    //     input = L"";
+    //     CurScreen = screenIndex;
+    // }
 
-    handleFavourite();
+    // handleFavourite();
 }
 
 void Dictionary::handleEngEngSearch()
 {
-    if(input != L"")
-    {
-        TrieNode* temp = find(EEroot, input);
-        if(!temp) 
-        {
-            passedContent = L"Not found!";
-            prev = L"";
-        }
-        else 
-        {
-            prev = input;
-            passedContent = temp->definition;
-            handleHistory();
-        }
-        handleFavouriteColor();
-        input = L"";
-        CurScreen = screenIndex;
-    }
+    // if(input != L"")
+    // {
+    //     TrieNode* temp = find(EEroot, input);
+    //     if(!temp) 
+    //     {
+    //         passedContent = L"Not found!";
+    //         prev = L"";
+    //     }
+    //     else 
+    //     {
+    //         prev = input;
+    //         passedContent = temp->definition;
+    //         handleHistory();
+    //     }
+    //     handleFavouriteColor();
+    //     input = L"";
+    //     CurScreen = screenIndex;
+    // }
 
-    handleFavourite();
+    // handleFavourite();
 }
 
 void Dictionary::handleVieEngSearch()
@@ -138,13 +138,13 @@ void Dictionary::handleVieEngSearch()
         VieTrieNode* temp = VieFind(VEroot, input);
         if(!temp) 
         {
-            passedContent = L"Not found!";
+            passedContent = nullptr;
             prev = L"";
         }
         else 
         {
             prev = input;
-            passedContent = temp->definition;
+            passedContent = &temp->definition;
             handleHistory();
         }
         handleFavouriteColor();

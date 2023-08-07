@@ -62,7 +62,7 @@ void FavouriteScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, in
     }
 }
 
-void FavouriteScreen::update(MainMenu& mainmenu, wstring& passedContent)
+void FavouriteScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
 {
     if(mainmenu.openedMenu != titleBar.isMove)
     {

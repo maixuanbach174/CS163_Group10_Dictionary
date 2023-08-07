@@ -5,6 +5,7 @@
 #include "cscreen.hpp"
 #include "TitleBar.hpp"
 #include "TextList.hpp"
+#include "vector"
 using namespace std;
 
 class FavouriteScreen : public cscreen
@@ -17,7 +18,7 @@ public:
     FavouriteScreen();
     ~FavouriteScreen();
     virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input);
-    virtual void update(MainMenu& mainmenu, wstring& passedContent);
+    virtual void update(MainMenu& mainmenu, vector<wstring>*& passedContent);
     virtual void render(sf::RenderWindow& App);
 };
 

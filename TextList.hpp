@@ -17,8 +17,10 @@ struct TextList
     void addText(wstring newText);
     void removeText(wstring remText);
     int isInBound(sf::Vector2i mousepos);
+    void clearAll();
     TextList();
     TextList(sf::Color color);
+    void moveText(sf::Vector2f delta);
 };
 
 

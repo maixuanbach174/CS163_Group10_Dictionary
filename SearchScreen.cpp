@@ -2,6 +2,8 @@
 
 SearchScreen::SearchScreen()
 : closeButton(70, 50, 1180, 25)
+, textlist(sf::Color(50, 50, 100, 255))
+, editButton(70, 50, 1003, 25)
 {
     titleBar.lineshape.setSize(sf::Vector2f(1450.f, 15.f));
     titleBar.titleShape.setSize(sf::Vector2f(1450.f, 100.f));
@@ -16,11 +18,6 @@ SearchScreen::SearchScreen()
     titleBar.titleText.setFillColor(sf::Color::White);
     titleBar.titleText.setPosition(sf::Vector2f(250.f, 25.f));
     titleBar.isMove = false;
-    FontContent.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Fonts/arial.ttf");
-    textContent.setCharacterSize(35);
-    textContent.setFillColor(sf::Color::White);
-    textContent.setFont(FontContent);
-    textContent.setPosition(sf::Vector2f(150.f, 210.f));
     closeTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/CloseButton.png");
     closeSprite.setTexture(closeTexture);
     closeSprite.setColor(sf::Color::Red);
@@ -33,6 +30,12 @@ SearchScreen::SearchScreen()
     scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
 
     favouriteButton.heartSprite.setPosition(sf::Vector2f(1110.f, 34.f));
+    textlist.addText(L"Not found!");
+
+    editTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/EditIcon.png");
+    editSprite.setTexture(editTexture);
+    editSprite.setPosition(sf::Vector2f(1020.f, 34.f));
+    editButton.rect.setFillColor(sf::Color::Transparent);
 }
 
 SearchScreen::~SearchScreen() {}
@@ -73,6 +76,9 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
                     if(favouriteButton.isFavourite) favouriteButton.heartSprite.setColor(sf::Color::Red);
                     else favouriteButton.heartSprite.setColor(sf::Color::White);
                 }
+
+                if(isEdit) textlist.HandleTextListColor(mousepos);
+                HandleEditClick(mousepos);
             }
 
             break;
@@ -85,7 +91,7 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
     }
 }
 
-void SearchScreen::update(MainMenu& mainmenu, wstring& passedContent)
+void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
 {
 
     if(mainmenu.openedMenu != titleBar.isMove)
@@ -93,19 +99,19 @@ void SearchScreen::update(MainMenu& mainmenu, wstring& passedContent)
         if(mainmenu.openedMenu)
         {
             titleBar.Move(mainmenu.movement);
-            textContent.move(mainmenu.movement);
             closeSprite.move(mainmenu.movement);
             closeButton.rect.move(mainmenu.movement);
             closeButton.position += mainmenu.movement;
             favouriteButton.heartSprite.move(mainmenu.movement);
+            textlist.moveText(mainmenu.movement);
         } else
         {
             titleBar.Move(-1.f * mainmenu.movement);
-            textContent.move(-1.f * mainmenu.movement);
             closeSprite.move(-1.f * mainmenu.movement);
             closeButton.rect.move(-1.f * mainmenu.movement);
             closeButton.position += -1.f * mainmenu.movement;
             favouriteButton.heartSprite.move(-1.f * mainmenu.movement);
+            textlist.moveText(-1.f * mainmenu.movement);
         }
 
         titleBar.isMove = mainmenu.openedMenu;
@@ -114,16 +120,36 @@ void SearchScreen::update(MainMenu& mainmenu, wstring& passedContent)
     if(content != passedContent)
     {
         content = passedContent;
-        textContent.setString(content);
-        scrollBar.remain = textContent.getPosition().y + textContent.getLocalBounds().height - 1000;
-        scrollBar.bar.setSize(sf::Vector2f(20.f, 885.f - scrollBar.remain));
+        // textContent.setString(content);
+        // scrollBar.remain = textContent.getPosition().y + textContent.getLocalBounds().height - 1000;
+        // scrollBar.bar.setSize(sf::Vector2f(20.f, 885.f - scrollBar.remain));
+        textlist.clearAll();
+        if(content)
+        {
+            for(int i = content->size() - 1; i >= 0; i--)
+            {
+                textlist.addText((*content)[i]);
+            }
+        } else 
+        {
+            textlist.addText(L"Not Found!");
+        }
     }
 
 }
 
 void SearchScreen::render(sf::RenderWindow& App)
 {
-    App.draw(textContent);
+    for(auto &i : textlist.buttons)
+    {
+        App.draw(*i);
+    }
+
+    for(auto &i : textlist.contents)
+    {
+        App.draw(*i);
+    }
+
     App.draw(titleBar.titleShape);
     App.draw(titleBar.titleText);
     App.draw(titleBar.lineshape);
@@ -132,6 +158,8 @@ void SearchScreen::render(sf::RenderWindow& App)
     App.draw(scrollBar.railWay);
     App.draw(scrollBar.bar);
     App.draw(favouriteButton.heartSprite);
+    App.draw(editButton.rect);
+    App.draw(editSprite);
 }
 
 void SearchScreen::HandleCloseColor(sf::RenderWindow& App)
@@ -149,8 +177,9 @@ int SearchScreen::HandleCloseClick(sf::Vector2i mousepos)
     if(closeButton.isInBound(mousepos))
     {
         closeButton.rect.setFillColor(sf::Color::Transparent);
-        textContent.setPosition(sf::Vector2f(textContent.getPosition().x, 210.f));
         scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
+        isEdit = false;
+        editButton.rect.setFillColor(sf::Color::Transparent);
         return -1;
     }
     return 6;
@@ -158,10 +187,21 @@ int SearchScreen::HandleCloseClick(sf::Vector2i mousepos)
 
 void SearchScreen::HandleScroll(int delta)
 {
-    if((delta > 0 && textContent.getPosition().y < 210)
-    || (delta < 0 && textContent.getPosition().y + textContent.getLocalBounds().height > 1000))
+    if((delta > 0 && textlist.contents[0]->getPosition().y < 197)
+    || (delta < 0 && textlist.contents[textlist.contents.size() - 1]->getPosition().y + textlist.contents[textlist.contents.size() - 1]->getLocalBounds().height > 918))
     {
-        textContent.move(float(delta) * sf::Vector2f(0, 70));
-        scrollBar.bar.move(-1.f * float(delta) * sf::Vector2f(0, 70));
+        // scrollBar.bar.move(-1.f * float(delta) * sf::Vector2f(0, 70));
+        textlist.moveText(float(delta) * sf::Vector2f(0, 60));
     }
 }
+
+void SearchScreen::HandleEditClick(sf::Vector2i mousepos)
+{
+    if(editButton.isInBound(mousepos))
+    {
+        isEdit = !isEdit;
+        if(isEdit) editButton.rect.setFillColor(sf::Color(50, 50, 100, 255));
+        else editButton.rect.setFillColor(sf::Color::Transparent);
+    }
+}
+

@@ -11,5 +11,6 @@
 using namespace std;
 
 void VieEng(VieTrieNode* root);
+vector<wstring> FormatVieEng(wstring def);
 
 #endif

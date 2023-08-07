@@ -108,7 +108,7 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
     }
 }
 
-void HomeScreen::update(MainMenu& mainmenu, wstring& passedContent) {
+void HomeScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent) {
 
     if(!IsSearching && InputText.empty()) 
     {

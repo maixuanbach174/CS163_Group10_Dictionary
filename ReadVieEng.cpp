@@ -26,20 +26,76 @@ void VieEng(VieTrieNode* root)
         def = line.substr(pos + 1);
         size_t wordPos = line.find(wordFlag);
         word = word.substr(0, wordPos);
-        size_t subPos = 0;
-        wstring subDef;
-        for (int i = 0; i < def.size(); i++)
-        {
-            if (def[i] == L'=' || def[i] == L'+' || i == def.size() - 1)
-            {
-                if (i == def.size() - 1)
-                    subDef += def.substr(subPos, i - subPos + 1);
-                subDef += def.substr(subPos, i - subPos + 1) + L"\n";
-                subPos = i+1;
-            }
-        }
-        VieInsert(root, word, subDef);
+        vector<wstring> temp = FormatVieEng(def);
+        VieInsert(root, word, temp);
     }
 
     in.close();
+}
+
+vector<wstring> FormatVieEng(wstring def)
+{
+    vector<wstring> sol;
+    int temp;
+    wstring type;
+    for(temp = 0; def[temp] != L';' && def[temp] != L'+' &&
+        def[temp] != L'=' && temp < def.size() && def[temp] != L'-'; ++temp)
+    {
+        type.push_back(def[temp]);
+    }
+
+    while(!type.empty() && type[0] == L' ')
+    {
+        type.erase(type.begin());
+    }
+
+    sol.push_back(type);
+
+    if(temp == def.size())
+    {
+        return sol;
+    }
+
+    for(int index = temp; index < def.size(); ++index)
+    {  
+        if(def[index] == L'-' || def[index] == L';')
+        {
+            wstring definition;
+            int temp;
+            for(temp = index + 1; def[temp] != L';' && def[temp] != L'+' &&
+            def[temp] != L'=' && temp < def.size() && def[temp] != L'-'; ++temp)
+            {
+                definition.push_back(def[temp]);
+            }
+
+            index = temp - 1;
+            while(!definition.empty() && definition[0] == L' ')
+            {
+                definition.erase(definition.begin());
+            }
+
+            sol.push_back(definition);
+        }
+
+        if(def[index] == L'=' || def[index] == L'+')
+        {
+            wstring ex;
+            int temp;
+            for(temp = index + 1; def[temp] != L';' && def[temp] != L'-' &&
+            def[temp] != L'+' && temp < def.size() && def[temp] != L'='; ++temp)
+            {
+                ex.push_back(def[temp]);
+            }
+
+            index = temp - 1; 
+            while(!ex.empty() && ex[0] == L' ')
+            {
+                ex.erase(ex.begin());
+            }
+
+            sol.push_back(ex);           
+        }
+    }
+
+    return sol;
 }

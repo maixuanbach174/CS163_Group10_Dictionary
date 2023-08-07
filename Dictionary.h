@@ -38,7 +38,7 @@ private:
     VieTrieNode * VEroot = nullptr;
     wstring input;
     wstring prev;
-    wstring passedContent;
+    vector<wstring>* passedContent;
     MyHashMap <wstring, int> EVHistory;
     MyHashMap <wstring, int> EVFavourite;
 private:

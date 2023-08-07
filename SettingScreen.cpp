@@ -47,6 +47,35 @@ SettingScreen::SettingScreen()
     titleText.setCharacterSize(30);
     titleText.setString("Swap languages:");
     titleText.setPosition(150.f, 178);
+
+    modeFont.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Fonts/arial.ttf");
+    modeText.setFont(modeFont);
+    modeText.setFillColor(sf::Color::White);
+    modeText.setCharacterSize(30);
+    modeText.setString("Swap mode:");
+    modeText.setPosition(150.f, 578.f);
+
+    for(int i = 0; i < 2; ++i)
+    {
+       options[i].border.setRadius(15);
+       options[i].reset();
+    }
+
+   options[0].border.setRadius(13);
+   options[0].border.setOutlineThickness(5);
+   options[0].border.setOutlineColor(sf::Color(100, 100, 255, 255));
+   options[0].border.setFillColor(sf::Color(30, 30, 75, 255));
+
+   options[0].border.setPosition(150.f, 680.f);
+   options[1].border.setPosition(150.f, 780.f);
+
+   options[0].border.setPosition(150.f + 2.f, 680.f + 2.f);
+
+   options[0].selectText.setString("Search for a keyword");
+   options[1].selectText.setString("Search for a definition");
+
+   options[0].selectText.setPosition(200.f, 678.f);
+   options[1].selectText.setPosition(200.f, 778.f);
 }
 
 SettingScreen::~SettingScreen() {}
@@ -92,6 +121,21 @@ void SettingScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int&
                         break;
                     }
                 }
+
+                for(int i = 0; i < 2; ++i)
+                {
+                    if(options[i].IsInBound(mousepos))
+                    {
+                        if(i != mode)
+                        {
+                            options[mode].reset();
+                            options[i].set();
+                            mode = i;
+                        }
+
+                        break;
+                    }
+                }
             }
             break;
         default:
@@ -100,7 +144,7 @@ void SettingScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int&
     }
 }
 
-void SettingScreen::update(MainMenu& mainmenu, wstring& passedContent)
+void SettingScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
 {
      if(mainmenu.openedMenu != titleBar.isMove)
     {
@@ -113,6 +157,13 @@ void SettingScreen::update(MainMenu& mainmenu, wstring& passedContent)
                 selectButtons[i].border.move(mainmenu.movement);
                 selectButtons[i].selectText.move(mainmenu.movement);
             }
+
+            modeText.move(mainmenu.movement);
+            for(int i = 0; i < 2; ++i)
+            {
+                options[i].border.move(mainmenu.movement);
+                options[i].selectText.move(mainmenu.movement);
+            }
         } else
         {
             titleBar.Move(-1.f * mainmenu.movement);
@@ -121,6 +172,12 @@ void SettingScreen::update(MainMenu& mainmenu, wstring& passedContent)
             {
                 selectButtons[i].border.move(-1.f * mainmenu.movement);
                 selectButtons[i].selectText.move(-1.f * mainmenu.movement);
+            }
+            modeText.move(-1.f * mainmenu.movement);
+            for(int i = 0; i < 2; ++i)
+            {
+                options[i].border.move(-1.f * mainmenu.movement);
+                options[i].selectText.move(-1.f * mainmenu.movement);
             }
         }
 
@@ -139,5 +196,13 @@ void SettingScreen::render(sf::RenderWindow& App)
     {
         App.draw(selectButtons[i].border);
         App.draw(selectButtons[i].selectText);
+    }
+
+    App.draw(modeText);
+
+    for(int i = 0; i < 2; ++i)
+    {
+        App.draw(options[i].border);
+        App.draw(options[i].selectText);
     }
 }

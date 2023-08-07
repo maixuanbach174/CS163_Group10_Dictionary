@@ -62,7 +62,7 @@ void HistoryScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int&
     }
 }
 
-void HistoryScreen::update(MainMenu& mainmenu, wstring& passedContent)
+void HistoryScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
 {
 
     if(mainmenu.openedMenu != titleBar.isMove)
