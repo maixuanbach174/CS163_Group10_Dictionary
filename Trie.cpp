@@ -1,47 +1,66 @@
+
 #include "Trie.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
 using namespace std;
+
+
+
+
 TrieNode::TrieNode()
 {
     for(int i = 0; i < ALPHABET_SIZE; ++i) children[i] = nullptr;
     isEndOfWord = false;
     definition = L"";
+
 }
 
-TrieNode* find(TrieNode* root, wstring word)
+void deallocateTrie(TrieNode* node)
 {
-    if(root == nullptr) return nullptr;
-    
-    TrieNode *cur = root;
+    if (node == nullptr)
+        return;
 
-    for(int i = 0; i < word.size(); ++i)
+    for (int i = 0; i < ALPHABET_SIZE; ++i)
     {
-        if (isalpha(word[i])) continue;
-        int index = tolower(word[i]) - L'a';
-        if(cur->children[index] == nullptr) return nullptr;
-
-        cur = cur->children[index];
+        if (node->children[i] != nullptr)
+        {
+            deallocateTrie(node->children[i]);
+            node->children[i] = nullptr;
+        }
     }
 
-    if(cur->isEndOfWord) return cur;
-    return nullptr;
+    delete node;
 }
 
-
-
-
-bool insert(TrieNode* &root, wstring word, wstring def)
+TrieNode* find(TrieNode*& root, wstring word)
 {
-    if (root == nullptr)
-        root = new TrieNode();
+    if (root == nullptr) return nullptr;
+TrieNode* cur = root;
+for (int i = 0; i < word.size(); ++i)
+        {
+            if (!isalpha(word[i])) continue;
+            int index = tolower(word[i]) - L'a';
+            if (cur->children[index] == nullptr) return nullptr;
 
+            cur = cur->children[index];
+        }
+
+        if (cur->isEndOfWord) return cur;
+        return nullptr;
+   }
+
+
+
+
+
+bool insert(TrieNode*& root, wstring word, wstring def)
+{
+    if (root == nullptr) root = new TrieNode();
     TrieNode* pCrawl = root;
     for (int i = 0; i < word.length(); i++)
     {
+        wchar_t check = tolower(word[i]);
         if (!isalpha(word[i])) continue;
-        int index = word[i] - L'a';
+        int index = check - L'a';
+
         if (!pCrawl->children[index])
             (pCrawl->children[index] = new TrieNode());
 
@@ -144,4 +163,30 @@ void serialize(TrieNode* root, char str[], int level, wofstream& newfile) {
 }
 
 
+
+
+
+  
+
+  
+vector <string> addFavorite(string word, vector<string> &favList)
+{
+    favList.push_back(word);
+    return favList;
+}
+
+
+
+
+void removeFavorite(string word, vector<string>& favList)
+{
+    for (int i=0; i<favList.size(); i++)
+    {
+        if (favList[i] == word)
+        {
+            swap(favList[i], favList[favList.size() - 1]);
+            favList.pop_back();
+        }
+    }
+}
 
