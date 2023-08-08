@@ -79,7 +79,7 @@ void readEngEng(TrieNode* root)
 {
     string filename = "engwords.csv";
     wifstream dict(filename, std::ios::binary);
-    wstring line, def, limiter = L".", word;
+    wstring line, def, limiter = L",";
     if (!dict)
     {
         cout << "Can't open file!";
@@ -88,12 +88,24 @@ void readEngEng(TrieNode* root)
 
     while (getline(dict, line))
     {
-        size_t firstCommaPos = line.find(L',');
-        word = line.substr(0, firstCommaPos);
+        size_t firstCommaPos = line.find(limiter), count = 1;
+        wstring word = line.substr(0, firstCommaPos);
         def = line.substr(firstCommaPos + 1);
+        for (int i = 0; i < def.size(); i++)
+        {
+            if (def[i] == '"')
+                def.erase(def.begin() + i);
+            if (isupper(def[i]) && count <= 1)
+            {
+                def = def.substr(0, i-1) + L"\n" + def.substr(i);
+                count++;
+            }
+        }
+        wcout << word << " "  << def << endl;
         insert(root, word, def);
     }
 }
+
 
   
 
