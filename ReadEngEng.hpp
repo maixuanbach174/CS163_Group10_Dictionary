@@ -11,5 +11,6 @@
 using namespace std;
 
 void readEngEng(TrieNode* root);
+vector<wstring> splitEngEng(wstring definition);
 
 #endif

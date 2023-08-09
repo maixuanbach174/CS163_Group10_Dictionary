@@ -74,38 +74,37 @@ bool isEmpty(VieTrieNode* root)
     return true;
 }
 
-VieTrieNode* removefunction(VieTrieNode* root, string word, int depth)
+VieTrieNode* VieErase(VieTrieNode* root, wstring vieword)
 {
-    
+    string encode = unicodeToUtf8(vieword);
+    return VieRemove(root, encode, 0);
+}
+ 
+VieTrieNode* VieRemove(VieTrieNode* root, string key, int depth)
+{
     if (!root)
-        return nullptr;
-    if (word.size() == depth)
-    {
+        return NULL;
+    if (depth == key.size()) {
         if (root->isEndOfWord)
-        {
-            root->isEndOfWord = false;
-        }
-
-        if (isEmpty(root))
-        {
-            delete(root);
-            root = nullptr;
+            {
+                root->isEndOfWord = false;
+                root->definition.clear();
+            }
+        if (isEmpty(root)) {
+            delete (root);
+            root = NULL;
         }
         return root;
     }
-    int index = word[depth] - 'a';
-    root->children[index] = removefunction(root->children[index], word, depth + 1);
-   if (isEmpty(root) && root->isEndOfWord == false) {
+    int index;
+    if(isdigit(key[depth])) index = key[depth] - '0';
+        else index = key[depth] - 'A' + 10;
+    root->children[index] =
+          VieRemove(root->children[index], key, depth + 1);
+    if (isEmpty(root) && root->isEndOfWord == false) {
         delete (root);
-        root = nullptr;
+        root = NULL;
     }
-   return root;
-
-    
+    return root;
 }
 
-VieTrieNode* remove(VieTrieNode* root, string word)
-{
-    int depth = 0;
-    return removefunction(root, word, depth);
-}

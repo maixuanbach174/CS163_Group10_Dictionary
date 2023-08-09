@@ -23,6 +23,28 @@ void readEngEng(TrieNode* root)
                 subDef += def.substr(0, i) + L"\n" + def.substr(i + 1);
             }
         }
-        insert(root, word, subDef);
+        vector<wstring> top = splitEngEng(subDef);
+        insert(root, word, top);
     }
+}
+
+vector<wstring> splitEngEng(wstring definition)
+{
+	    vector<wstring> Split; 
+		wstring temp = definition;
+	    while (!temp.empty())
+		{
+			int count1;
+			count1 = temp.find(L'\n');
+			wstring def = temp.substr(0, count1);
+			Split.push_back(def);
+			temp=temp.erase(0, count1+1);
+			int count2;
+			count2 = temp.find(L'.');
+			wstring ex = temp.substr(0, count2 + 1);
+			Split.push_back(ex);
+			temp=temp.erase(0, count2+2);
+		}
+		return Split;
+    
 }

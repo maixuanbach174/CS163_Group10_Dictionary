@@ -4,7 +4,6 @@ TrieNode::TrieNode()
 {
     for(int i = 0; i < ALPHABET_SIZE; ++i) children[i] = nullptr;
     isEndOfWord = false;
-    definition = L"";
 }
 
 TrieNode* find(TrieNode*& root, wstring word)
@@ -26,7 +25,7 @@ TrieNode* find(TrieNode*& root, wstring word)
     return nullptr;
 }
 
-bool insert(TrieNode*& root, wstring word, wstring def)
+bool insert(TrieNode*& root, wstring word, vector<wstring> def)
 {
     if(root == nullptr) root = new TrieNode();
     TrieNode* pCrawl = root;
@@ -51,54 +50,33 @@ bool isEmpty(TrieNode* root)
             return false;
     return true;
 }
-
-TrieNode* removefunction(TrieNode* root, string word, int depth)
+ 
+TrieNode* remove(TrieNode* root, wstring key, int depth)
 {
-
     if (!root)
-        return nullptr;
-    if (word.size() == depth)
-    {
-        if (root->isEndOfWord)
-        {
-            root->isEndOfWord = false;
-        }
+        return NULL;
+    if (depth == key.size()) {
 
-        if (isEmpty(root))
-        {
-            delete(root);
-            root = nullptr;
+        if (root->isEndOfWord)
+            root->isEndOfWord = false;
+        if (isEmpty(root)) {
+            delete (root);
+            root = NULL;
         }
+ 
         return root;
     }
-    int index = word[depth] - L'a';
-    root->children[index] = removefunction(root->children[index], word, depth + 1);
-   if (isEmpty(root) && root->isEndOfWord == false) {
+    int index = key[depth] - L'a';
+    root->children[index] =
+          remove(root->children[index], key, depth + 1);
+    if (isEmpty(root) && root->isEndOfWord == false) {
         delete (root);
-        root = nullptr;
+        root = NULL;
     }
-   return root;
-
-
+    return root;
 }
 
-TrieNode* remove(TrieNode* root, string word)
+TrieNode* erase(TrieNode* root, wstring word)
 {
-    int depth = 0;
-    return removefunction(root, word, depth);
+    return remove(root, word, 0);
 }
-
-
-void deallocate(TrieNode*& root)
-{
-    if(root == nullptr) return;
-    for(int i = 0; i < ALPHABET_SIZE; ++i)
-    {
-        deallocate(root->children[i]);
-    }
-
-    delete root;
-    root = nullptr;
-}
-
-

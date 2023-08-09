@@ -4,6 +4,8 @@ SearchScreen::SearchScreen()
 : closeButton(70, 50, 1180, 25)
 , textlist(sf::Color(50, 50, 100, 255))
 , editButton(70, 50, 1003, 25)
+, binButton(70, 50, 913, 25)
+, cursor(5.0f, 45.f)
 {
     titleBar.lineshape.setSize(sf::Vector2f(1450.f, 15.f));
     titleBar.titleShape.setSize(sf::Vector2f(1450.f, 100.f));
@@ -36,6 +38,12 @@ SearchScreen::SearchScreen()
     editSprite.setTexture(editTexture);
     editSprite.setPosition(sf::Vector2f(1020.f, 34.f));
     editButton.rect.setFillColor(sf::Color::Transparent);
+
+    cursor.cursorShape.setFillColor(sf::Color::White);
+
+    binTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/BinIcon.png");
+    binSprite.setTexture(binTexture);
+    binSprite.setPosition(sf::Vector2f(930.f, 34.f));
 }
 
 SearchScreen::~SearchScreen() {}
@@ -63,13 +71,15 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
             mainmenu.HandleMenuColor(App);
             HandleCloseColor(App);
             favouriteButton.isInBound(sf::Mouse::getPosition(App));
+            HandleBinColor(App);
             break;
         case sf::Event::MouseButtonPressed : 
             if(event.mouseButton.button == sf::Mouse::Left)
             {
                 sf::Vector2i mousepos = sf::Mouse::getPosition(App);
                 mainmenu.HandleMenuClick(mousepos);
-                screenIndex = HandleCloseClick(mousepos);
+                screenIndex = HandleBinClick(mousepos);
+                if(screenIndex != -1) screenIndex = HandleCloseClick(mousepos);
                 if(favouriteButton.isInBound(mousepos))
                 {
                     favouriteButton.isFavourite = !favouriteButton.isFavourite;
@@ -84,6 +94,29 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
             break;
         case sf::Event::MouseWheelMoved:
             HandleScroll(event.mouseWheel.delta);
+            break;
+        case sf::Event::TextEntered:
+            if(isEdit && textlist.inBound != -1)
+            {
+                if(event.text.unicode < 128 && event.text.unicode != '\b')
+                {
+                    (*content)[textlist.inBound] += wchar_t(event.text.unicode);
+                } else if(event.text.unicode >= 128)
+                {
+                    (*content)[textlist.inBound] += event.text.unicode;
+                } else if(!(*content)[textlist.inBound].empty()) (*content)[textlist.inBound].pop_back();
+
+                int index = 0;
+                textlist.contents[textlist.inBound]->setString((*content)[textlist.inBound].substr(index, (*content)[textlist.inBound].size() - index));
+                while( textlist.contents[textlist.inBound]->getLocalBounds().width > 1390)
+                {
+                    index++;
+                    textlist.contents[textlist.inBound]->setString((*content)[textlist.inBound].substr(index, (*content)[textlist.inBound].size() - index));
+                }
+            }
+            isTyping = true;
+            break;
+        case sf::Event::KeyPressed:
             break;
         default:
             break;
@@ -136,6 +169,22 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
         }
     }
 
+    if(isEdit && textlist.inBound != -1)
+    {
+        int si = textlist.contents[textlist.inBound]->getString().getSize();
+        cursor.cursorShape.setPosition(textlist.contents[textlist.inBound]->findCharacterPos(si));
+        if(isTyping) cursor.showCursor = true;
+        else if(cursorTimer.getElapsedTime() >= cursor.cursorBlinkTime)
+        {
+            cursor.showCursor = !cursor.showCursor;
+            cursorTimer.restart();
+        }
+        isTyping = false;
+    } else if(textlist.inBound == -1)
+    {
+        cursor.showCursor = false;
+    }
+
 }
 
 void SearchScreen::render(sf::RenderWindow& App)
@@ -160,6 +209,9 @@ void SearchScreen::render(sf::RenderWindow& App)
     App.draw(favouriteButton.heartSprite);
     App.draw(editButton.rect);
     App.draw(editSprite);
+    App.draw(binButton.rect);
+    App.draw(binSprite);
+    if(cursor.showCursor) App.draw(cursor.cursorShape);
 }
 
 void SearchScreen::HandleCloseColor(sf::RenderWindow& App)
@@ -180,6 +232,11 @@ int SearchScreen::HandleCloseClick(sf::Vector2i mousepos)
         scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
         isEdit = false;
         editButton.rect.setFillColor(sf::Color::Transparent);
+        if(textlist.inBound != -1)
+        {
+            textlist.buttons[textlist.inBound]->setFillColor(sf::Color::Transparent);
+            textlist.inBound = -1;
+        }
         return -1;
     }
     return 6;
@@ -204,4 +261,28 @@ void SearchScreen::HandleEditClick(sf::Vector2i mousepos)
         else editButton.rect.setFillColor(sf::Color::Transparent);
     }
 }
+
+void SearchScreen::HandleBinColor(sf::RenderWindow& App)
+{
+    sf::Vector2i mousepos= sf::Mouse::getPosition(App);
+
+    if(binButton.isInBound(mousepos))
+    {
+        binButton.rect.setFillColor(sf::Color(50, 50, 100, 255));
+    } else binButton.rect.setFillColor(sf::Color::Transparent);
+}
+
+int SearchScreen::HandleBinClick(sf::Vector2i mousepos)
+{
+    if(binButton.isInBound(mousepos))
+    {
+        binButton.rect.setFillColor(sf::Color::Transparent);
+        isDel = true;
+        return -1;
+    }
+
+    return 6;
+}
+
+
 

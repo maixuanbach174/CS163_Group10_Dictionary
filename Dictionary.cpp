@@ -23,8 +23,9 @@ Dictionary::Dictionary()
 }
 
 Dictionary::~Dictionary() {
-    deallocate(EVroot);
-    deallocate(EEroot);
+    // deallocate(EVroot);
+    // deallocate(EEroot);
+    // VieDeallocate(VEroot);
 }
 
 void Dictionary::run()
@@ -47,10 +48,35 @@ void Dictionary::processEvent()
 
 void Dictionary::update()
 {
+    if(searchscreen.isDel)
+    {
+        switch (settingscreen.dataSet)
+        {
+        case 0:
+            if(prev != L"")
+            EEroot = erase(EEroot, prev);
+            break;
+        case 1:
+            if(prev != L"")
+            EVroot = erase(EVroot, prev);
+            break;
+        case 2:
+            if(prev != L"")
+            VEroot = VieErase(VEroot, prev);
+            break;
+        
+        default:
+            break;
+        }
+        searchscreen.isDel = false;
+    }
+
     if(mainmenu.menubuttons.selected != prevScreen)
     {
         CurScreen = mainmenu.menubuttons.selected;
         prevScreen = mainmenu.menubuttons.selected;
+        if(searchscreen.isEdit)
+        searchscreen.isEdit = false;
     } else if(screenIndex == 6)
     {
         switch (settingscreen.dataSet)
@@ -85,50 +111,50 @@ void Dictionary::render()
 
 void Dictionary::handleEngVieSearch()
 {
-    // if(input != L"")
-    // {
-    //     TrieNode* temp = find(EVroot, input);
-    //     if(!temp) 
-    //     {
-    //         passedContent = L"Not found!";
-    //         prev = L"";
-    //     }
-    //     else 
-    //     {
-    //         prev = input;
-    //         passedContent = temp->definition;
-    //         handleHistory();
-    //     }
-    //     handleFavouriteColor();
-    //     input = L"";
-    //     CurScreen = screenIndex;
-    // }
+    if(input != L"")
+    {
+        TrieNode* temp = find(EVroot, input);
+        if(!temp) 
+        {
+            passedContent = nullptr;
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = &temp->definition;
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
 
-    // handleFavourite();
+    handleFavourite();
 }
 
 void Dictionary::handleEngEngSearch()
 {
-    // if(input != L"")
-    // {
-    //     TrieNode* temp = find(EEroot, input);
-    //     if(!temp) 
-    //     {
-    //         passedContent = L"Not found!";
-    //         prev = L"";
-    //     }
-    //     else 
-    //     {
-    //         prev = input;
-    //         passedContent = temp->definition;
-    //         handleHistory();
-    //     }
-    //     handleFavouriteColor();
-    //     input = L"";
-    //     CurScreen = screenIndex;
-    // }
+    if(input != L"")
+    {
+        TrieNode* temp = find(EEroot, input);
+        if(!temp) 
+        {
+            passedContent = nullptr;
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = &temp->definition;
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
 
-    // handleFavourite();
+    handleFavourite();
 }
 
 void Dictionary::handleVieEngSearch()

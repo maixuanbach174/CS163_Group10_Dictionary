@@ -2,18 +2,11 @@
 
 void readDatasetEngVie(TrieNode* root)
 {
-     _setmode(_fileno(stdin), _O_U16TEXT);
-  _setmode(_fileno(stdout), _O_U16TEXT);
    locale loc(locale(), new codecvt_utf8_utf16<wchar_t>);
    wifstream fi;
- // wofstream fo;
   fi.open("DataSet/english-vietnamese.txt");
   fi.imbue(loc);
-  wofstream fo("DataSet/test.txt");
-  fo.imbue(loc);
-
       wstring s;
-
     getline (fi,s,L'\n');
     wstring def=L"";
     queue <wstring> q;
@@ -29,37 +22,54 @@ void readDatasetEngVie(TrieNode* root)
                 if ((s[i]==L' ')&&(s[i+1]==L'/')) break;
                 else word+=tolower(s[i]);
             }
-
-            //wcout<<word<<endl;
             q.push(word);
             if ((def!=L"")or(q.front()!=L"a"))
             {
-                insert(root,q.front(),def);
-                //wcout<<def<<endl;
-                //wcout<<q.front()<<endl<<def<<endl;
+                vector<wstring> top = splitDefinition(def);
+                vector<wstring> bot = splitExample(def);
+                top.insert(top.end(), bot.begin(), bot.end());
+                insert(root,q.front(),top);
                 def=L"";
                 q.pop();
             }
-
-
         }
         else
         {
-
             def+=s+L'\n';
         }
-
-
-
-
-      fo<<s<<endl;
     }
-
-
-
   fi.close();
+}
 
+vector <wstring> splitDefinition(wstring definition)
+{
+   vector <wstring> res;
+   wstringstream ss(definition);
+   wstring line;
+   while (getline(ss,line))
+   {
+       if ((line[0]==L'-')or(iswalpha(line[0]))or(line[0]==L'+'))
+       {
+          if(line[0] == L'-' || line[0] == L'+') line.erase(line.begin(), line.begin() + 2);
+          res.push_back(line);
+       }
+    }  
+   return res;
+}
 
-
+vector <wstring> splitExample(wstring definition)
+{
+   vector <wstring> res;
+   wstringstream ss(definition);
+   wstring line;
+   while (getline(ss,line))
+   {
+       if (line[0]==L'=') 
+       {
+          line.erase(line.begin());
+          res.push_back(line);
+       }
+   }
+   return res;
 }
 

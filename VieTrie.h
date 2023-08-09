@@ -17,6 +17,9 @@ struct VieTrieNode
 
 bool VieInsert(VieTrieNode *& root, wstring vieword, vector<wstring> def);
 VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword);
+VieTrieNode* VieRemove(VieTrieNode* root, string key, int depth);
 void VieDeallocate(VieTrieNode * root);
+bool isEmpty(VieTrieNode* root);
+VieTrieNode* VieErase(VieTrieNode* root, wstring vieword);
 
 #endif

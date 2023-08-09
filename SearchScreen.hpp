@@ -11,6 +11,7 @@
 #include "FavouriteButton.hpp"
 #include "Announcement.hpp"
 #include "TextList.hpp"
+#include "Cursor.hpp"
 using namespace std;
 
 class SearchScreen : public cscreen
@@ -18,6 +19,8 @@ class SearchScreen : public cscreen
 public:
     sf::Sprite closeSprite;
     FavouriteButton favouriteButton;
+    bool isEdit = false;
+    bool isDel = false;
 private:
     TitleBar titleBar;
     vector<wstring>* content = nullptr;
@@ -28,7 +31,12 @@ private:
     sf::Texture editTexture;
     sf::Sprite editSprite;
     Button editButton;
-    bool isEdit = false;
+    Cursor cursor;
+    sf::Clock cursorTimer;
+    bool isTyping = false;
+    sf::Texture binTexture;
+    sf::Sprite binSprite;
+    Button binButton;
 public:
     SearchScreen();
     ~SearchScreen();
@@ -38,6 +46,8 @@ public:
     void HandleCloseColor(sf::RenderWindow& App);
     int HandleCloseClick(sf::Vector2i mousepos);
     void HandleEditClick(sf::Vector2i mousepos);
+    void HandleBinColor(sf::RenderWindow& App);
+    int HandleBinClick(sf::Vector2i mousepos);
     void HandleScroll(int delta);
 };
 
