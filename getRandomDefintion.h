@@ -1,6 +1,6 @@
 #ifndef GETRANDOMDEFINTION_H_INCLUDED
 #define GETRANDOMDEFINTION_H_INCLUDED
 
-wstring getRandomDefintion(TrieNode* root);
+vector <wstring> getRandomDefintion(TrieNode* root);
 
 #endif // GETRANDOMDEFINTION_H_INCLUDED
