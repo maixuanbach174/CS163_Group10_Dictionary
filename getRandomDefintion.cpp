@@ -17,7 +17,7 @@ vector <wstring> getRandomDefintion(TrieNode* root)
         }
         while (!cur->children[index]);
         cur=cur->children[index];
-        if ((cur)&&(cur->isEndOfWord)) return root->definition[0];
+        if ((cur)&&(cur->isEndOfWord)) return root->definition[1];
     }
 
 
