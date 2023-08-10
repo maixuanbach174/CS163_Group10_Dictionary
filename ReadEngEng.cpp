@@ -14,37 +14,47 @@ void readEngEng(TrieNode* root)
     while (getline(dict, line))
     {
         size_t firstCommaPos = line.find(L',');
-        wstring word = line.substr(0, firstCommaPos), subDef = L"";
+        wstring word = line.substr(0, firstCommaPos);
         def = line.substr(firstCommaPos + 1);
-        for (int i = 0; i < def.size(); i++)
-        {
-            if (def[i] == L',')
-            {
-                subDef += def.substr(0, i) + L"\n" + def.substr(i + 1);
-            }
-        }
-        vector<wstring> top = splitEngEng(subDef);
+        vector<wstring> top = splitEngEng(def);
         insert(root, word, top);
     }
 }
 
 vector<wstring> splitEngEng(wstring definition)
 {
-	    vector<wstring> Split; 
-		wstring temp = definition;
-	    while (!temp.empty())
-		{
-			int count1;
-			count1 = temp.find(L'\n');
-			wstring def = temp.substr(0, count1);
-			Split.push_back(def);
-			temp=temp.erase(0, count1+1);
-			int count2;
-			count2 = temp.find(L'.');
-			wstring ex = temp.substr(0, count2 + 1);
-			Split.push_back(ex);
-			temp=temp.erase(0, count2+2);
-		}
-		return Split;
+    vector<wstring> top;
+    bool isInQuote = false;
+    for(int i = 0; i < definition.size(); ++i)
+    {
+        if(!isInQuote && definition[i] == L';' )
+        {
+            if(i != 0) top.push_back(definition.substr(0, i));
+            definition.erase(0, i + 1);
+            i = -1;
+        }
+
+        if(!isInQuote && definition[i] == L',')
+        {
+            if(i != 0 ) top.push_back(definition.substr(0, i));
+            definition.erase(0, i + 1);
+            i = -1;
+        }
+
+        if(definition[i] == L'\"')
+        {
+            isInQuote = !isInQuote;
+            if(!isInQuote)
+            {
+                if(i != 0)
+                top.push_back(definition.substr(1, i - 1));
+                definition.erase(0, i + 1);
+                i = -1;
+            }
+        }
+
+    }
+    if(definition.size() != 0) top.push_back(definition);
     
+    return top;
 }

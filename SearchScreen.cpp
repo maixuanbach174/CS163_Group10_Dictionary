@@ -32,7 +32,7 @@ SearchScreen::SearchScreen()
     scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
 
     favouriteButton.heartSprite.setPosition(sf::Vector2f(1110.f, 34.f));
-    textlist.addText(L"Not found!");
+    textlist.addText(L"Not found!", 0);
 
     editTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/EditIcon.png");
     editSprite.setTexture(editTexture);
@@ -137,6 +137,12 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
             closeButton.position += mainmenu.movement;
             favouriteButton.heartSprite.move(mainmenu.movement);
             textlist.moveText(mainmenu.movement);
+            editSprite.move(mainmenu.movement);
+            editButton.position += mainmenu.movement;
+            binSprite.move(mainmenu.movement);
+            binButton.position += mainmenu.movement;
+            binButton.rect.move(mainmenu.movement);
+            editButton.rect.move(mainmenu.movement);
         } else
         {
             titleBar.Move(-1.f * mainmenu.movement);
@@ -145,6 +151,12 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
             closeButton.position += -1.f * mainmenu.movement;
             favouriteButton.heartSprite.move(-1.f * mainmenu.movement);
             textlist.moveText(-1.f * mainmenu.movement);
+            editSprite.move(-1.f * mainmenu.movement);
+            editButton.position += -1.f * mainmenu.movement;
+            editButton.rect.move(-1.f * mainmenu.movement);
+            binSprite.move(-1.f * mainmenu.movement);
+            binButton.position += -1.f * mainmenu.movement;
+            binButton.rect.move(-1.f * mainmenu.movement);
         }
 
         titleBar.isMove = mainmenu.openedMenu;
@@ -159,13 +171,17 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
         textlist.clearAll();
         if(content)
         {
-            for(int i = content->size() - 1; i >= 0; i--)
+            // for(int i = content->size() - 1; i >= 0; i--)
+            // {
+            //     textlist.addText((*content)[i], 0);
+            // }
+            for(int i = 0; i < content->size(); i++)
             {
-                textlist.addText((*content)[i]);
+                textlist.addText((*content)[i], i);
             }
         } else 
         {
-            textlist.addText(L"Not Found!");
+            textlist.addText(L"Not Found!", 0);
         }
     }
 

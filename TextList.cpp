@@ -12,7 +12,7 @@ TextList::TextList(sf::Color color)
     hover = color;
 }
 
-void TextList::addText(wstring newText)
+void TextList::addText(wstring newText, int pos)
 {
     sf::Text* textTemp = new sf::Text;
     textTemp->setFont(fontContents);
@@ -27,14 +27,17 @@ void TextList::addText(wstring newText)
     textTemp->setPosition(sf::Vector2f(150.f, 197.f));
     buttonTemp->setPosition(sf::Vector2f(100.f, 190.f));
 
-    for(int i = 0; i < contents.size(); ++i)
+    for(int i = pos; i < contents.size(); ++i)
     {
         contents[i]->move(sf::Vector2f(0.f, 55.f));
         buttons[i]->move(sf::Vector2f(0.f, 55.f));
     }
 
-    contents.insert(contents.begin(), textTemp);
-    buttons.insert(buttons.begin(), buttonTemp);
+    textTemp->move(sf::Vector2f(0.f, 55.f * pos));
+    buttonTemp->move(sf::Vector2f(0.f, 55.f * pos));
+
+    contents.insert(contents.begin() + pos, textTemp);
+    buttons.insert(buttons.begin() + pos, buttonTemp);
 }
 
 void TextList::HandleTextListColor(sf::Vector2i mousepos)
@@ -59,25 +62,19 @@ int TextList::isInBound(sf::Vector2i mousepos)
     return index;
 }
 
-void TextList::removeText(wstring remText)
+void TextList::removePos(int pos)
 {
-    int i = 0;
-    for(i; i < contents.size(); ++i)
-    {
-        if(contents[i]->getString() == remText)
-        {
-            delete contents[i];
-            delete buttons[i];
-            contents.erase(contents.begin() + i);
-            buttons.erase(buttons.begin() + i);
-            break;
-        }
-    }
+    if(pos < 0 || pos >= contents.size()) return;
+
+    delete contents[pos];
+    delete buttons[pos];
+    contents.erase(contents.begin() + pos);
+    buttons.erase(buttons.begin() + pos);
     
-    for(i; i < contents.size(); ++i)
+    for(pos; pos < contents.size(); ++pos)
     {
-        contents[i]->move(sf::Vector2f(0.f, -55.f));
-        buttons[i]->move(sf::Vector2f(0.f, -55.f));
+        contents[pos]->move(sf::Vector2f(0.f, -55.f));
+        buttons[pos]->move(sf::Vector2f(0.f, -55.f));
     }
 }
 
@@ -95,3 +92,21 @@ void TextList::moveText(sf::Vector2f delta)
         buttons[i]->move(delta);
     }
 }
+
+int TextList::findText(wstring text)
+{
+    for(int i = 0; i < contents.size(); ++i)
+    {
+        if(contents[i]->getString() == text) return i;
+    }
+    return -1;
+}
+
+void TextList::removeText(wstring text)
+{
+    int pos = findText(text);
+    if(pos == -1) return;
+    removePos(pos);
+}
+
+

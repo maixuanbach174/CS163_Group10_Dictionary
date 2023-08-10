@@ -185,7 +185,7 @@ void Dictionary::handleHistory()
 {
     if(prevScreen == 0 && EVHistory.find(input) == nullptr) 
     {
-        historyscreen.textList.addText(input);
+        historyscreen.textList.addText(input, 0);
         EVHistory.insert(input, 1);
         if(historyscreen.titleBar.isMove) 
         {
@@ -213,7 +213,7 @@ void Dictionary::handleFavourite()
     if(prev != L"" && searchscreen.favouriteButton.isFavourite && EVFavourite.find(prev) == nullptr)
     {
         EVFavourite.insert(prev, 1);
-        favouritescreen.textList.addText(prev);
+        favouritescreen.textList.addText(prev, 0);
         if(favouritescreen.titleBar.isMove) 
         {
             favouritescreen.textList.contents[0]->move(mainmenu.movement);
