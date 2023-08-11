@@ -54,6 +54,30 @@ bool VieInsert(VieTrieNode *& root, wstring vieword, vector<wstring> def)
     return pCrawl->isEndOfWord;
 }
 
+bool VieInsert(VieTrieNode *& root, wstring vieword, int index)
+{
+    if(root == nullptr) root = new VieTrieNode();
+
+    VieTrieNode* pCrawl = root;
+    string encode = unicodeToUtf8(vieword);
+    
+    for (int i = 0; i < encode.length(); i++)
+    {
+        int index;
+        if(isdigit(encode[i])) index = encode[i] - '0';
+        else index = encode[i] - 'A' + 10;
+
+        if (!pCrawl->children[index])
+            pCrawl->children[index] = new VieTrieNode();
+
+        pCrawl = pCrawl->children[index];
+    }
+
+    pCrawl->isEndOfWord = true;
+    pCrawl->value = index;
+    return pCrawl->isEndOfWord;
+}
+
 void VieDeallocate(VieTrieNode * root)
 {
     if(root == nullptr) return;

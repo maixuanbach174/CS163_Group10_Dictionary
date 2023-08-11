@@ -1,6 +1,6 @@
 #include "ReadEngEng.hpp"
 
-void readEngEng(TrieNode* root)                                                  
+void readEngEng(TrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs)                                                  
 {
     string filename = "DataSet/engwords.csv";
     wifstream dict(filename, std::ios::binary);
@@ -15,9 +15,13 @@ void readEngEng(TrieNode* root)
     {
         size_t firstCommaPos = line.find(L',');
         wstring word = line.substr(0, firstCommaPos);
+        while(line[firstCommaPos + 1] == L' ') ++firstCommaPos;
         def = line.substr(firstCommaPos + 1);
+        while(def.back() == L' ') def.pop_back();
         vector<wstring> top = splitEngEng(def);
-        insert(root, word, top);
+        words.push_back(word);
+        defs.push_back(top);
+        // insert(root, word, top);
     }
 }
 

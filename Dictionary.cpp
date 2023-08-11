@@ -8,11 +8,11 @@ Dictionary::Dictionary()
 , EVFavourite(100000)
 {
     EVroot = new TrieNode();
-    readDatasetEngVie(EVroot);
+    readDatasetEngVie(EVroot, evwords, evdefs);
     EEroot = new TrieNode();
-    readEngEng(EEroot);
+    readEngEng(EEroot, eewords, eedefs);
     VEroot = new VieTrieNode();
-    VieEng(VEroot);
+    VieEng(VEroot, vewords, vedefs);
     screens.push_back(&homescreen);
     screens.push_back(&historyscreen);
     screens.push_back(&favouritescreen);
@@ -20,6 +20,21 @@ Dictionary::Dictionary()
     screens.push_back(&quizscreen);
     screens.push_back(&aboutscreen);
     screens.push_back(&searchscreen);
+
+    for(int i = 0; i < eewords.size(); i++)
+    {
+        insert(EEroot, eewords[i], i);
+    }
+
+    for(int i = 0; i < vewords.size(); i++)
+    {
+        VieInsert(VEroot, vewords[i], i);
+    }
+
+    for(int i = 0; i < evwords.size(); i++)
+    {
+        insert(EVroot, evwords[i], i);
+    }
 }
 
 Dictionary::~Dictionary() {
@@ -122,7 +137,7 @@ void Dictionary::handleEngVieSearch()
         else 
         {
             prev = input;
-            passedContent = &temp->definition;
+            passedContent = &evdefs[temp->value];
             handleHistory();
         }
         handleFavouriteColor();
@@ -146,7 +161,7 @@ void Dictionary::handleEngEngSearch()
         else 
         {
             prev = input;
-            passedContent = &temp->definition;
+            passedContent = &eedefs[temp->value];
             handleHistory();
         }
         handleFavouriteColor();
@@ -170,7 +185,7 @@ void Dictionary::handleVieEngSearch()
         else 
         {
             prev = input;
-            passedContent = &temp->definition;
+            passedContent = &vedefs[temp->value];
             handleHistory();
         }
         handleFavouriteColor();

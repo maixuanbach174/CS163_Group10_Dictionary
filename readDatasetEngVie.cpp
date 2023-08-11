@@ -1,6 +1,6 @@
 #include "readDatasetEngVie.hpp"
 
-void readDatasetEngVie(TrieNode* root)
+void readDatasetEngVie(TrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs)
 {
    locale loc(locale(), new codecvt_utf8_utf16<wchar_t>);
    wifstream fi;
@@ -28,7 +28,9 @@ void readDatasetEngVie(TrieNode* root)
                 vector<wstring> top = splitDefinition(def);
                 vector<wstring> bot = splitExample(def);
                 top.insert(top.end(), bot.begin(), bot.end());
-                insert(root,q.front(),top);
+                words.push_back(q.front());
+                defs.push_back(top);
+                // insert(root,q.front(),top);
                 def=L"";
                 q.pop();
             }

@@ -41,6 +41,12 @@ private:
     vector<wstring>* passedContent;
     MyHashMap <wstring, int> EVHistory;
     MyHashMap <wstring, int> EVFavourite;
+    vector<wstring> eewords;
+    vector<vector<wstring>> eedefs;
+    vector<vector<wstring>> vedefs;
+    vector<wstring> vewords;
+    vector<wstring> evwords;
+    vector<vector<wstring>> evdefs;
 private:
     void processEvent();
     void update();

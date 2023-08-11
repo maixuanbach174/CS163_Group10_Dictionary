@@ -1,6 +1,6 @@
 #include "ReadVieEng.hpp"
 
-void VieEng(VieTrieNode* root)
+void VieEng(VieTrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs)
 {
     if (!root)
         return;
@@ -27,7 +27,9 @@ void VieEng(VieTrieNode* root)
         size_t wordPos = line.find(wordFlag);
         word = word.substr(0, wordPos);
         vector<wstring> temp = FormatVieEng(def);
-        VieInsert(root, word, temp);
+        words.push_back(word);
+        defs.push_back(temp);
+        // VieInsert(root, word, temp);
     }
 
     in.close();
