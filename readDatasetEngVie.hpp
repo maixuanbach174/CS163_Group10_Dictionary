@@ -12,7 +12,7 @@
 #include "Trie.h"
 using namespace std;
 
-void readDatasetEngVie(TrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs);
+void readDatasetEngVie(vector<wstring>& words, vector<vector<wstring>>& defs, vector<vector<wstring>>& examples);
 vector <wstring> splitDefinition(wstring definition);
 vector <wstring> splitExample(wstring definition);
 

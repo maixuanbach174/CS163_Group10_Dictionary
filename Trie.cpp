@@ -57,7 +57,7 @@ bool insert(TrieNode*& root, wstring word, int index)
         pCrawl = pCrawl->children[index];
     }
     pCrawl->isEndOfWord = true;
-    pCrawl->value = index;
+    pCrawl->value.push_back(index);
     return pCrawl->isEndOfWord;
 }
 

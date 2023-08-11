@@ -10,7 +10,7 @@
 #include <fstream>
 using namespace std;
 
-void VieEng(VieTrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs);
-vector<wstring> FormatVieEng(wstring def);
+void VieEng(vector<wstring>& words, vector<vector<wstring>>& defs, vector<vector<wstring>>& examples);
+void FormatVieEng(wstring def, vector<wstring>& definitions, vector<wstring>& examples);
 
 #endif

@@ -10,7 +10,7 @@
 #include <cctype>
 using namespace std;
 
-void readEngEng(TrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs);
-vector<wstring> splitEngEng(wstring definition);
+void readEngEng(vector<wstring>& words, vector<vector<wstring>>& defs, vector<vector<wstring>>& examples);
+void splitEngEng(wstring definition, vector<wstring>& defs, vector<wstring>& examples);
 
 #endif

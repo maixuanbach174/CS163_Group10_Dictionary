@@ -74,7 +74,7 @@ bool VieInsert(VieTrieNode *& root, wstring vieword, int index)
     }
 
     pCrawl->isEndOfWord = true;
-    pCrawl->value = index;
+    pCrawl->value.push_back(index);
     return pCrawl->isEndOfWord;
 }
 

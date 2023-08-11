@@ -38,15 +38,18 @@ private:
     VieTrieNode * VEroot = nullptr;
     wstring input;
     wstring prev;
-    vector<wstring>* passedContent;
+    vector<wstring>* passedContent = nullptr;
     MyHashMap <wstring, int> EVHistory;
     MyHashMap <wstring, int> EVFavourite;
     vector<wstring> eewords;
     vector<vector<wstring>> eedefs;
+    vector<vector<wstring>> eeexamples;
     vector<vector<wstring>> vedefs;
     vector<wstring> vewords;
+    vector<vector<wstring>> veexamples;
     vector<wstring> evwords;
     vector<vector<wstring>> evdefs;
+    vector<vector<wstring>> evexamples;
 private:
     void processEvent();
     void update();

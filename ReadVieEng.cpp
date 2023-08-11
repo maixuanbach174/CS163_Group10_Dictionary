@@ -1,9 +1,7 @@
 #include "ReadVieEng.hpp"
 
-void VieEng(VieTrieNode* root, vector<wstring>& words, vector<vector<wstring>>& defs)
+void VieEng(vector<wstring>& words, vector<vector<wstring>>& defs, vector<vector<wstring>>& examples)
 {
-    if (!root)
-        return;
     int count = 0;
     wifstream in("DataSet/Text.txt");
     _setmode(_fileno(stdin), _O_U8TEXT);
@@ -26,18 +24,19 @@ void VieEng(VieTrieNode* root, vector<wstring>& words, vector<vector<wstring>>& 
         def = line.substr(pos + 1);
         size_t wordPos = line.find(wordFlag);
         word = word.substr(0, wordPos);
-        vector<wstring> temp = FormatVieEng(def);
+        vector<wstring> deftemp;
+        vector<wstring> examp;
+        FormatVieEng(def, deftemp, examp);
         words.push_back(word);
-        defs.push_back(temp);
-        // VieInsert(root, word, temp);
+        defs.push_back(deftemp);
+        examples.push_back(examp);
     }
 
     in.close();
 }
 
-vector<wstring> FormatVieEng(wstring def)
+void FormatVieEng(wstring def, vector<wstring>& definitions, vector<wstring>& examples)
 {
-    vector<wstring> sol;
     int temp;
     wstring type;
     for(temp = 0; def[temp] != L';' && def[temp] != L'+' &&
@@ -51,11 +50,11 @@ vector<wstring> FormatVieEng(wstring def)
         type.erase(type.begin());
     }
 
-    sol.push_back(type);
+    definitions.push_back(type);
 
     if(temp == def.size())
     {
-        return sol;
+        return;
     }
 
     for(int index = temp; index < def.size(); ++index)
@@ -76,7 +75,7 @@ vector<wstring> FormatVieEng(wstring def)
                 definition.erase(definition.begin());
             }
 
-            sol.push_back(definition);
+            definitions.push_back(definition);
         }
 
         if(def[index] == L'=' || def[index] == L'+')
@@ -95,9 +94,8 @@ vector<wstring> FormatVieEng(wstring def)
                 ex.erase(ex.begin());
             }
 
-            sol.push_back(ex);           
+            examples.push_back(ex);           
         }
     }
 
-    return sol;
 }

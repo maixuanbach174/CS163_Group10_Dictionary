@@ -12,7 +12,7 @@ struct TrieNode
     TrieNode *children[ALPHABET_SIZE];
     bool isEndOfWord;
     vector<wstring> definition;
-    int value;
+    vector<int> value;
     TrieNode();
 };
 

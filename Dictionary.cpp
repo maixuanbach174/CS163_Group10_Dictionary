@@ -8,11 +8,11 @@ Dictionary::Dictionary()
 , EVFavourite(100000)
 {
     EVroot = new TrieNode();
-    readDatasetEngVie(EVroot, evwords, evdefs);
+    readDatasetEngVie(evwords, evdefs, evexamples);
     EEroot = new TrieNode();
-    readEngEng(EEroot, eewords, eedefs);
+    readEngEng(eewords, eedefs, eeexamples);
     VEroot = new VieTrieNode();
-    VieEng(VEroot, vewords, vedefs);
+    VieEng(vewords, vedefs, veexamples);
     screens.push_back(&homescreen);
     screens.push_back(&historyscreen);
     screens.push_back(&favouritescreen);
@@ -129,6 +129,7 @@ void Dictionary::handleEngVieSearch()
     if(input != L"")
     {
         TrieNode* temp = find(EVroot, input);
+         if(passedContent) delete passedContent;
         if(!temp) 
         {
             passedContent = nullptr;
@@ -137,7 +138,10 @@ void Dictionary::handleEngVieSearch()
         else 
         {
             prev = input;
-            passedContent = &evdefs[temp->value];
+            passedContent = new vector<wstring>;
+            passedContent->insert(passedContent->end(), evdefs[temp->value[0]].begin(), evdefs[temp->value[0]].end());            
+            passedContent->insert(passedContent->end(), evexamples[temp->value[0]].begin(), evexamples[temp->value[0]].end());
+            // passedContent = &evdefs[temp->value[0]];
             handleHistory();
         }
         handleFavouriteColor();
@@ -153,6 +157,7 @@ void Dictionary::handleEngEngSearch()
     if(input != L"")
     {
         TrieNode* temp = find(EEroot, input);
+        if(passedContent) delete passedContent;
         if(!temp) 
         {
             passedContent = nullptr;
@@ -161,7 +166,10 @@ void Dictionary::handleEngEngSearch()
         else 
         {
             prev = input;
-            passedContent = &eedefs[temp->value];
+            passedContent = new vector<wstring>;
+            passedContent->insert(passedContent->end(), eedefs[temp->value[0]].begin(), eedefs[temp->value[0]].end());            
+            passedContent->insert(passedContent->end(), eeexamples[temp->value[0]].begin(), eeexamples[temp->value[0]].end());
+            // passedContent = &eedefs[temp->value[0]];
             handleHistory();
         }
         handleFavouriteColor();
@@ -177,6 +185,7 @@ void Dictionary::handleVieEngSearch()
     if(input != L"")
     {
         VieTrieNode* temp = VieFind(VEroot, input);
+        if(passedContent) delete passedContent;
         if(!temp) 
         {
             passedContent = nullptr;
@@ -185,7 +194,10 @@ void Dictionary::handleVieEngSearch()
         else 
         {
             prev = input;
-            passedContent = &vedefs[temp->value];
+            passedContent = new vector<wstring>;
+            passedContent->insert(passedContent->end(), vedefs[temp->value[0]].begin(), vedefs[temp->value[0]].end());            
+            passedContent->insert(passedContent->end(), veexamples[temp->value[0]].begin(), veexamples[temp->value[0]].end());
+            // passedContent = &vedefs[temp->value[0]];
             handleHistory();
         }
         handleFavouriteColor();

@@ -12,7 +12,7 @@ struct VieTrieNode
     VieTrieNode *children[16];
     bool isEndOfWord;
     vector<wstring> definition;
-    int value;
+    vector<int> value;
     VieTrieNode();
 };
 
