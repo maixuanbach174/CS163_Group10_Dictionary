@@ -1,6 +1,6 @@
 #ifndef GETRANDOMWORD_H_INCLUDED
 #define GETRANDOMWORD_H_INCLUDED
 
-wstring getRandomWord(TrieNode *root);
+wstring getRandomWord(vector <wstring> words);
 
 #endif // GETRANDOMWORD_H_INCLUDED

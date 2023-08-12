@@ -2,23 +2,12 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-vector <wstring> getRandomDefintion(TrieNode* root)
+vector <wstring> getRandomDefintion(vector <vector <wstring>> definition)
 {
-    TrieNode *cur = root;
-    wstring fulldef = L"";
     srand(time(0));
-
-    while ((cur != nullptr) && (!cur->isEndOfWord))
-    {
-        int index;
-        do
-        {
-            index=rand()%26;
-        }
-        while (!cur->children[index]);
-        cur=cur->children[index];
-        if ((cur)&&(cur->isEndOfWord)) return root->definition[1];
-    }
+    int s=definition.size();
+    int randomIndex=rand()%s;
+    return definition[randomIndex];
 
 
 }
