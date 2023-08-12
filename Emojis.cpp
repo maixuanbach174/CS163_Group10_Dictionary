@@ -16,6 +16,7 @@ void readEmoji(VieTrieNode* root)
 	_setmode(_fileno(stdout), _O_U8TEXT);
 	locale loc(locale(), new codecvt_utf8_utf16<wchar_t>);
 	in.imbue(loc);
+	//out.imbue(loc);
 	if (!in)
 		cout << "Can't open";
 	wstring line, emo, limiter = L",", def;
