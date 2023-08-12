@@ -21,9 +21,9 @@ public:
     FavouriteButton favouriteButton;
     bool isEdit = false;
     bool isDel = false;
+    vector<wstring>* content = nullptr;
 private:
     TitleBar titleBar;
-    vector<wstring>* content = nullptr;
     Button closeButton;
     sf::Texture closeTexture;
     ScrollBar scrollBar;

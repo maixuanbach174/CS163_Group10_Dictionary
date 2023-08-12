@@ -25,24 +25,6 @@ TrieNode* find(TrieNode*& root, wstring word)
     return nullptr;
 }
 
-// bool insert(TrieNode*& root, wstring word, vector<wstring> def)
-// {
-//     if(root == nullptr) root = new TrieNode();
-//     TrieNode* pCrawl = root;
-//     for (int i = 0; i < word.length(); i++)
-//     {
-//         if (!isalpha(word[i])) continue;
-//         int index = tolower(word[i]) - L'a';
-//         if (!pCrawl->children[index])
-//             pCrawl->children[index] = new TrieNode();
-
-//         pCrawl = pCrawl->children[index];
-//     }
-//     pCrawl->isEndOfWord = true;
-//     pCrawl->definition = def;
-//     return pCrawl->isEndOfWord;
-// }
-
 bool insert(TrieNode*& root, wstring word, int index)
 {
     if(root == nullptr) root = new TrieNode();
@@ -57,6 +39,10 @@ bool insert(TrieNode*& root, wstring word, int index)
         pCrawl = pCrawl->children[index];
     }
     pCrawl->isEndOfWord = true;
+    for(auto &i : pCrawl->value)
+    {
+        if(i == index) return pCrawl->isEndOfWord;
+    }
     pCrawl->value.push_back(index);
     return pCrawl->isEndOfWord;
 }

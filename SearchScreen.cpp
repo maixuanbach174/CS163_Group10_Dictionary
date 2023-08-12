@@ -165,18 +165,12 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
     if(content != passedContent)
     {
         content = passedContent;
-        // textContent.setString(content);
-        // scrollBar.remain = textContent.getPosition().y + textContent.getLocalBounds().height - 1000;
-        // scrollBar.bar.setSize(sf::Vector2f(20.f, 885.f - scrollBar.remain));
         textlist.clearAll();
         if(content)
         {
-            // for(int i = content->size() - 1; i >= 0; i--)
-            // {
-            //     textlist.addText((*content)[i], 0);
-            // }
             for(int i = 0; i < content->size(); i++)
             {
+            wcout << (*content)[i] << endl;
                 textlist.addText((*content)[i], i);
             }
         } else 

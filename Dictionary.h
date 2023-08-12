@@ -13,6 +13,7 @@
 #include "ReadEngEng.hpp"
 #include "VieTrie.h"
 #include "ReadVieEng.hpp"
+#include "SearchByDef.hpp"
 using namespace std;
 
 class Dictionary
@@ -36,6 +37,9 @@ private:
     TrieNode * EVroot = nullptr;
     TrieNode * EEroot = nullptr;
     VieTrieNode * VEroot = nullptr;
+    TrieNode * VErootdef = nullptr;
+    TrieNode * EErootdef = nullptr;
+    VieTrieNode * EVrootdef = nullptr;
     wstring input;
     wstring prev;
     vector<wstring>* passedContent = nullptr;
@@ -57,6 +61,9 @@ private:
     void handleEngVieSearch();
     void handleEngEngSearch();
     void handleVieEngSearch();
+    void handleEngVieDefSearch();
+    void handleEngEngDefSearch();
+    void handleVieEngDefSearch();
     void handleHistory();
     void handleFavourite();
     void handleFavouriteColor();

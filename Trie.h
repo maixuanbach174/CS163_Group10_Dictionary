@@ -11,7 +11,6 @@ struct TrieNode
 {
     TrieNode *children[ALPHABET_SIZE];
     bool isEndOfWord;
-    vector<wstring> definition;
     vector<int> value;
     TrieNode();
 };

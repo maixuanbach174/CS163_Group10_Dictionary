@@ -7,11 +7,8 @@ Dictionary::Dictionary()
 , EVHistory(100000)
 , EVFavourite(100000)
 {
-    EVroot = new TrieNode();
     readDatasetEngVie(evwords, evdefs, evexamples);
-    EEroot = new TrieNode();
     readEngEng(eewords, eedefs, eeexamples);
-    VEroot = new VieTrieNode();
     VieEng(vewords, vedefs, veexamples);
     screens.push_back(&homescreen);
     screens.push_back(&historyscreen);
@@ -24,16 +21,28 @@ Dictionary::Dictionary()
     for(int i = 0; i < eewords.size(); i++)
     {
         insert(EEroot, eewords[i], i);
+        for(int j = 0; j < eedefs[i].size(); j++)
+        {
+            insertdef(EErootdef, eedefs[i][j], i);
+        }
     }
 
     for(int i = 0; i < vewords.size(); i++)
     {
         VieInsert(VEroot, vewords[i], i);
+        for(int j = 0; j < vedefs[i].size(); ++j)
+        {
+            insertdef(VErootdef, vedefs[i][j], i);
+        }
     }
 
     for(int i = 0; i < evwords.size(); i++)
     {
         insert(EVroot, evwords[i], i);
+        for(int j = 0; j < evdefs[i].size(); j++)
+        {
+            Vieinsertdef(EVrootdef, evdefs[i][j], i);
+        }
     }
 }
 
@@ -94,19 +103,45 @@ void Dictionary::update()
         searchscreen.isEdit = false;
     } else if(screenIndex == 6)
     {
-        switch (settingscreen.dataSet)
+        switch (settingscreen.mode)
         {
         case 0:
-            handleEngEngSearch();
+            switch (settingscreen.dataSet)
+            {
+            case 0:
+                handleEngEngSearch();
+                break;
+            case 1:
+                handleEngVieSearch();
+                break;
+            case 2:
+                handleVieEngSearch();
+                break;
+            default:
+            break;
+            }
             break;
         case 1:
-            handleEngVieSearch();
+            switch (settingscreen.dataSet)
+            {
+            case 0:
+                handleEngEngDefSearch();
+                break;
+            case 1:
+                handleEngVieDefSearch();
+                break;
+            case 2:
+                handleVieEngDefSearch();
+                break;
+            default:
             break;
-        case 2:
-            handleVieEngSearch();
+            }
+            break;
+        
         default:
             break;
         }
+        
 
     } else
     {
@@ -129,7 +164,12 @@ void Dictionary::handleEngVieSearch()
     if(input != L"")
     {
         TrieNode* temp = find(EVroot, input);
-         if(passedContent) delete passedContent;
+        if(passedContent) 
+        {
+            delete passedContent;
+            passedContent = nullptr;
+            searchscreen.content = nullptr;
+        }
         if(!temp) 
         {
             passedContent = nullptr;
@@ -141,7 +181,6 @@ void Dictionary::handleEngVieSearch()
             passedContent = new vector<wstring>;
             passedContent->insert(passedContent->end(), evdefs[temp->value[0]].begin(), evdefs[temp->value[0]].end());            
             passedContent->insert(passedContent->end(), evexamples[temp->value[0]].begin(), evexamples[temp->value[0]].end());
-            // passedContent = &evdefs[temp->value[0]];
             handleHistory();
         }
         handleFavouriteColor();
@@ -157,7 +196,12 @@ void Dictionary::handleEngEngSearch()
     if(input != L"")
     {
         TrieNode* temp = find(EEroot, input);
-        if(passedContent) delete passedContent;
+         if(passedContent) 
+        {
+            delete passedContent;
+            passedContent = nullptr;
+            searchscreen.content = nullptr;
+        }
         if(!temp) 
         {
             passedContent = nullptr;
@@ -169,7 +213,7 @@ void Dictionary::handleEngEngSearch()
             passedContent = new vector<wstring>;
             passedContent->insert(passedContent->end(), eedefs[temp->value[0]].begin(), eedefs[temp->value[0]].end());            
             passedContent->insert(passedContent->end(), eeexamples[temp->value[0]].begin(), eeexamples[temp->value[0]].end());
-            // passedContent = &eedefs[temp->value[0]];
+            wcout << (*passedContent)[0] << endl;
             handleHistory();
         }
         handleFavouriteColor();
@@ -185,7 +229,12 @@ void Dictionary::handleVieEngSearch()
     if(input != L"")
     {
         VieTrieNode* temp = VieFind(VEroot, input);
-        if(passedContent) delete passedContent;
+          if(passedContent) 
+        {
+            delete passedContent;
+            passedContent = nullptr;
+            searchscreen.content = nullptr;
+        }
         if(!temp) 
         {
             passedContent = nullptr;
@@ -197,7 +246,108 @@ void Dictionary::handleVieEngSearch()
             passedContent = new vector<wstring>;
             passedContent->insert(passedContent->end(), vedefs[temp->value[0]].begin(), vedefs[temp->value[0]].end());            
             passedContent->insert(passedContent->end(), veexamples[temp->value[0]].begin(), veexamples[temp->value[0]].end());
-            // passedContent = &vedefs[temp->value[0]];
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
+
+    handleFavourite();
+}
+
+void Dictionary::handleEngVieDefSearch()
+{
+    if(input != L"")
+    {
+        vector<int> temp = Viefinddef(EVrootdef, input);
+         if(passedContent) 
+        {
+            delete passedContent;
+            passedContent = nullptr;
+            searchscreen.content = nullptr;
+        }
+        if(temp.empty()) 
+        {
+            passedContent = nullptr;
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = new vector<wstring>;
+            for(int i = 0; i < temp.size(); i++)
+            {
+                passedContent->push_back(evwords[temp[i]]);        
+            }
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
+
+    handleFavourite();
+}
+
+void Dictionary::handleEngEngDefSearch()
+{
+    if(input != L"")
+    {
+        vector<int> temp = finddef(EErootdef, input);
+          if(passedContent) 
+        {
+            delete passedContent;
+            passedContent = nullptr;
+            searchscreen.content = nullptr;
+        }
+        if(temp.empty()) 
+        {
+            passedContent = nullptr;
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = new vector<wstring>;
+            for(int i = 0; i < temp.size(); i++)
+            {
+                passedContent->push_back(eewords[temp[i]]);        
+            }
+            handleHistory();
+        }
+        handleFavouriteColor();
+        input = L"";
+        CurScreen = screenIndex;
+    }
+
+    handleFavourite();
+}
+
+void Dictionary::handleVieEngDefSearch()
+{
+    if(input != L"")
+    {
+        vector<int> temp = finddef(VErootdef, input);
+          if(passedContent) 
+        {
+            delete passedContent;
+            passedContent = nullptr;
+            searchscreen.content = nullptr;
+        }
+        if(temp.empty()) 
+        {
+            passedContent = nullptr;
+            prev = L"";
+        }
+        else 
+        {
+            prev = input;
+            passedContent = new vector<wstring>;
+            for(int i = 0; i < temp.size(); i++)
+            {
+                passedContent->push_back(vewords[temp[i]]);        
+            }
             handleHistory();
         }
         handleFavouriteColor();

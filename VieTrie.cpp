@@ -30,30 +30,6 @@ VieTrieNode * VieFind(VieTrieNode *& root, wstring vieword)
     return nullptr;
 }
 
-bool VieInsert(VieTrieNode *& root, wstring vieword, vector<wstring> def)
-{
-    if(root == nullptr) root = new VieTrieNode();
-
-    VieTrieNode* pCrawl = root;
-    string encode = unicodeToUtf8(vieword);
-    
-    for (int i = 0; i < encode.length(); i++)
-    {
-        int index;
-        if(isdigit(encode[i])) index = encode[i] - '0';
-        else index = encode[i] - 'A' + 10;
-
-        if (!pCrawl->children[index])
-            pCrawl->children[index] = new VieTrieNode();
-
-        pCrawl = pCrawl->children[index];
-    }
-
-    pCrawl->isEndOfWord = true;
-    pCrawl->definition = def;
-    return pCrawl->isEndOfWord;
-}
-
 bool VieInsert(VieTrieNode *& root, wstring vieword, int index)
 {
     if(root == nullptr) root = new VieTrieNode();
@@ -74,6 +50,10 @@ bool VieInsert(VieTrieNode *& root, wstring vieword, int index)
     }
 
     pCrawl->isEndOfWord = true;
+    for(auto &i : pCrawl->value)
+    {
+        if(i == index) return pCrawl->isEndOfWord;
+    }
     pCrawl->value.push_back(index);
     return pCrawl->isEndOfWord;
 }
@@ -112,7 +92,7 @@ VieTrieNode* VieRemove(VieTrieNode* root, string key, int depth)
         if (root->isEndOfWord)
             {
                 root->isEndOfWord = false;
-                root->definition.clear();
+                root->value.clear();
             }
         if (isEmpty(root)) {
             delete (root);
