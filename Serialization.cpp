@@ -155,9 +155,9 @@ using namespace std;
 //        examples.push_back(t2);
 //    }
 //}
-//
-//
-//
+
+
+
 //bool insert(TrieNode*& root, wstring word, vector <wstring> def)
 //{
 //    if(root == nullptr) root = new TrieNode();
@@ -298,7 +298,7 @@ void saveTrie(const std::string& filename,vector <wstring> &allWords,vector <vec
 
 
 void loadTrie(const std::string& filename,vector<wstring> &allWords,vector <vector <wstring>> &allDefinitions,vector <vector<wstring>> &allExamples) {
-    TrieNode* root = new TrieNode();
+  //  TrieNode* root = new TrieNode();
     std::wifstream file(filename);
       locale loc(locale(), new codecvt_utf8_utf16<wchar_t>);
    file.imbue(loc);
@@ -382,6 +382,35 @@ file.close();
 //    if(cur->isEndOfWord) return cur;
 //    return nullptr;
 //}
+//vector<wstring> getRandomWord(vector<wstring> words, vector<vector<wstring>> definitions) {
+//    vector<wstring> res;
+//    srand(time(0));
+//    int s = words.size();
+//    int randomIndex = rand() % s;
+//    res.push_back(words[randomIndex]);
+//
+////    std::random_device rd;
+////    std::mt19937 rng(rd());
+//
+//    vector<wstring> def;
+//    int randomLine = rand() % definitions[randomIndex].size();
+//    def.push_back(definitions[randomIndex][randomLine]);
+//
+//    for (int i = 0; i < 3; i++) {
+//        int nums = rand() % s;
+//        int ss = definitions[nums].size();
+//        int line = rand() % ss;
+//        def.push_back(definitions[nums][line]);
+//    }
+//
+//    std::random_device rd;
+//    std::mt19937 rng(rd());
+//    std::shuffle(def.begin(), def.end(), rng);
+//    // Append the elements of 'def' to 'res'
+//    res.insert(res.end(), def.begin(), def.end());
+//
+//    return res;
+//}
 //int main() {
 //    _setmode(_fileno(stdin), _O_U16TEXT);
 //
@@ -418,34 +447,39 @@ file.close();
 //            wcout<<"**"<<allExamples2[2][i]<<endl;
 //        }
 //         wcout<<sss<<endl;
-////
-////    wstring word;
-////    word=L"cow";
-////    int s= find(root,word)->definition.size();
-////    for (int i=0;i<s;i++)
-////    {
-////        wcout<<find(root,word)->definition[i]<<endl;
-////    }
-////     TrieNode* loadroot=loadTrie("trie_data.txt",allDefinitions,allWords);
-////    int ss=find(loadroot,word)->definition.size();
-////    for (int i=0;i<ss;i++)
-////    {
-////        wcout<<find(loadroot,word)->definition[i]<<endl;
-////    }
-////    int sized=allDefinitions.size();
-////    for (int i=0;i<sized;i++)
-////    {
-////        int s3=allDefinitions[i].size();
-////        wcout<<allWords[i]<<endl;
-////        if (allDefinitions[i].empty()) wcout<<L"";
-////        else{
-////            for(int j=0;j<s3;j++)
-////        {
-////
-////            wcout<<allDefinitions[i][j]<<endl;
-////        }
-////        }
-////
-////    }
+//
+//    wstring word;
+//    word=L"cow";
+//    int s= find(root,word)->definition.size();
+//    for (int i=0;i<s;i++)
+//    {
+//        wcout<<find(root,word)->definition[i]<<endl;
+//    }
+//     TrieNode* loadroot=loadTrie("trie_data.txt",allDefinitions,allWords);
+//    int ss=find(loadroot,word)->definition.size();
+//    for (int i=0;i<ss;i++)
+//    {
+//        wcout<<find(loadroot,word)->definition[i]<<endl;
+//    }
+//    int sized=allDefinitions.size();
+//    for (int i=0;i<sized;i++)
+//    {
+//        int s3=allDefinitions[i].size();
+//        wcout<<allWords[i]<<endl;
+//        if (allDefinitions[i].empty()) wcout<<L"";
+//        else{
+//            for(int j=0;j<s3;j++)
+//        {
+//
+//            wcout<<allDefinitions[i][j]<<endl;
+//        }
+//        }
+//
+//    }
+//    vector <wstring> random = getRandomWord(allWords2,allDefinitions2);
+//    for (int i=0;i<random.size();i++)
+//    {
+//        wcout<<random[i]<<endl;
+//    }
 //    return 0;
 //}
