@@ -21,13 +21,16 @@ public:
     FavouriteButton favouriteButton;
     bool isEdit = false;
     bool isDel = false;
-    vector<wstring>* content = nullptr;
+    vector<vector<wstring>*> content;
 private:
+    bool isLocked = false;
     TitleBar titleBar;
     Button closeButton;
     sf::Texture closeTexture;
     ScrollBar scrollBar;
     TextList textlist;
+    TextList textlist_def;
+    TextList textlist_ex;
     sf::Texture editTexture;
     sf::Sprite editSprite;
     Button editButton;
@@ -41,7 +44,7 @@ public:
     SearchScreen();
     ~SearchScreen();
     virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input);
-    virtual void update(MainMenu& mainmenu, vector<wstring>*& passedContent);
+    virtual void update(MainMenu& mainmenu, vector<vector<wstring>*>& passedContent);
     virtual void render(sf::RenderWindow& App);
     void HandleCloseColor(sf::RenderWindow& App);
     int HandleCloseClick(sf::Vector2i mousepos);

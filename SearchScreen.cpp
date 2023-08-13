@@ -2,7 +2,8 @@
 
 SearchScreen::SearchScreen()
 : closeButton(70, 50, 1180, 25)
-, textlist(sf::Color(50, 50, 100, 255))
+, textlist_def(sf::Color(50, 50, 100, 255))
+, textlist_ex(sf::Color(50, 50, 100, 255))
 , editButton(70, 50, 1003, 25)
 , binButton(70, 50, 913, 25)
 , cursor(5.0f, 45.f)
@@ -32,7 +33,7 @@ SearchScreen::SearchScreen()
     scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
 
     favouriteButton.heartSprite.setPosition(sf::Vector2f(1110.f, 34.f));
-    textlist.addText(L"Not found!", 0);
+    textlist_def.addText(L"Not found!", 0);
 
     editTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/EditIcon.png");
     editSprite.setTexture(editTexture);
@@ -87,8 +88,9 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
                     else favouriteButton.heartSprite.setColor(sf::Color::White);
                 }
 
-                if(isEdit) textlist.HandleTextListColor(mousepos);
-                HandleEditClick(mousepos);
+                if(isEdit) textlist_def.HandleTextListColor(mousepos);
+                if(isEdit) textlist_ex.HandleTextListColor(mousepos);
+                if(!isLocked)HandleEditClick(mousepos);
             }
 
             break;
@@ -96,22 +98,41 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
             HandleScroll(event.mouseWheel.delta);
             break;
         case sf::Event::TextEntered:
-            if(isEdit && textlist.inBound != -1)
+            if(isEdit && textlist_def.inBound != -1)
             {
                 if(event.text.unicode < 128 && event.text.unicode != '\b')
                 {
-                    (*content)[textlist.inBound] += wchar_t(event.text.unicode);
+                    (*content[0])[textlist_def.inBound] += wchar_t(event.text.unicode);
                 } else if(event.text.unicode >= 128)
                 {
-                    (*content)[textlist.inBound] += event.text.unicode;
-                } else if(!(*content)[textlist.inBound].empty()) (*content)[textlist.inBound].pop_back();
+                    (*content[0])[textlist_def.inBound] += event.text.unicode;
+                } else if(!(*content[0])[textlist_def.inBound].empty()) (*content[0])[textlist_def.inBound].pop_back();
 
                 int index = 0;
-                textlist.contents[textlist.inBound]->setString((*content)[textlist.inBound].substr(index, (*content)[textlist.inBound].size() - index));
-                while( textlist.contents[textlist.inBound]->getLocalBounds().width > 1390)
+                textlist_def.contents[textlist_def.inBound]->setString((*content[0])[textlist_def.inBound].substr(index, (*content[0])[textlist_def.inBound].size() - index));
+                while( textlist_def.contents[textlist_def.inBound]->getLocalBounds().width > 1390)
                 {
                     index++;
-                    textlist.contents[textlist.inBound]->setString((*content)[textlist.inBound].substr(index, (*content)[textlist.inBound].size() - index));
+                    textlist_def.contents[textlist_def.inBound]->setString((*content[0])[textlist_def.inBound].substr(index, (*content[0])[textlist_def.inBound].size() - index));
+                }
+            }
+
+            if(isEdit && textlist_ex.inBound != -1)
+            {
+                if(event.text.unicode < 128 && event.text.unicode != '\b')
+                {
+                    (*content[1])[textlist_ex.inBound] += wchar_t(event.text.unicode);
+                } else if(event.text.unicode >= 128)
+                {
+                    (*content[1])[textlist_ex.inBound] += event.text.unicode;
+                } else if(!(*content[1])[textlist_ex.inBound].empty()) (*content[1])[textlist_ex.inBound].pop_back();
+
+                int index = 0;
+                textlist_ex.contents[textlist_ex.inBound]->setString((*content[1])[textlist_ex.inBound].substr(index, (*content[1])[textlist_ex.inBound].size() - index));
+                while( textlist_ex.contents[textlist_ex.inBound]->getLocalBounds().width > 1390)
+                {
+                    index++;
+                    textlist_ex.contents[textlist_ex.inBound]->setString((*content[1])[textlist_ex.inBound].substr(index, (*content[1])[textlist_ex.inBound].size() - index));
                 }
             }
             isTyping = true;
@@ -124,7 +145,7 @@ void SearchScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& 
     }
 }
 
-void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
+void SearchScreen::update(MainMenu& mainmenu, vector<vector<wstring>*>& passedContent)
 {
 
     if(mainmenu.openedMenu != titleBar.isMove)
@@ -136,7 +157,8 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
             closeButton.rect.move(mainmenu.movement);
             closeButton.position += mainmenu.movement;
             favouriteButton.heartSprite.move(mainmenu.movement);
-            textlist.moveText(mainmenu.movement);
+            textlist_def.moveText(mainmenu.movement);
+            textlist_ex.moveText(mainmenu.movement);
             editSprite.move(mainmenu.movement);
             editButton.position += mainmenu.movement;
             binSprite.move(mainmenu.movement);
@@ -150,7 +172,8 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
             closeButton.rect.move(-1.f * mainmenu.movement);
             closeButton.position += -1.f * mainmenu.movement;
             favouriteButton.heartSprite.move(-1.f * mainmenu.movement);
-            textlist.moveText(-1.f * mainmenu.movement);
+            textlist_def.moveText(-1.f * mainmenu.movement);
+            textlist_ex.moveText(-1.f * mainmenu.movement);
             editSprite.move(-1.f * mainmenu.movement);
             editButton.position += -1.f * mainmenu.movement;
             editButton.rect.move(-1.f * mainmenu.movement);
@@ -165,24 +188,40 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
     if(content != passedContent)
     {
         content = passedContent;
-        textlist.clearAll();
-        if(content)
+        textlist_def.clearAll();
+        textlist_ex.clearAll();
+        if(content[0])
         {
-            for(int i = 0; i < content->size(); i++)
+            for(int i = 0; i < content[0]->size(); i++)
             {
-            wcout << (*content)[i] << endl;
-                textlist.addText((*content)[i], i);
+                textlist_def.addText((*content[0])[i], i);
             }
-        } else 
+            isLocked = false;
+        } else
         {
-            textlist.addText(L"Not Found!", 0);
+            textlist_def.addText(L"Not Found!", 0);
+            isLocked = true;
+            isEdit = false;
+        }
+        
+        if(content[1])     
+        {
+            for(int i = 0; i < content[1]->size(); ++i)
+            {
+                textlist_ex.addText((*content[1])[i], i);
+            }
+        }
+        if(content[0] && content[1])
+        {
+            textlist_ex.moveText(sf::Vector2f(0.f, textlist_def.buttons.back()->getPosition().y + textlist_def.buttons.back()->getLocalBounds().height
+            - textlist_ex.buttons.front()->getPosition().y));
         }
     }
 
-    if(isEdit && textlist.inBound != -1)
+    if(isEdit && textlist_def.inBound != -1)
     {
-        int si = textlist.contents[textlist.inBound]->getString().getSize();
-        cursor.cursorShape.setPosition(textlist.contents[textlist.inBound]->findCharacterPos(si));
+        int si = textlist_def.contents[textlist_def.inBound]->getString().getSize();
+        cursor.cursorShape.setPosition(textlist_def.contents[textlist_def.inBound]->findCharacterPos(si));
         if(isTyping) cursor.showCursor = true;
         else if(cursorTimer.getElapsedTime() >= cursor.cursorBlinkTime)
         {
@@ -190,7 +229,22 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
             cursorTimer.restart();
         }
         isTyping = false;
-    } else if(textlist.inBound == -1)
+    } 
+
+    if(isEdit && textlist_ex.inBound != -1)
+    {
+        int si = textlist_ex.contents[textlist_ex.inBound]->getString().getSize();
+        cursor.cursorShape.setPosition(textlist_ex.contents[textlist_ex.inBound]->findCharacterPos(si));
+        if(isTyping) cursor.showCursor = true;
+        else if(cursorTimer.getElapsedTime() >= cursor.cursorBlinkTime)
+        {
+            cursor.showCursor = !cursor.showCursor;
+            cursorTimer.restart();
+        }
+        isTyping = false;
+    } 
+
+    if(!isEdit && textlist_def.inBound == -1 && textlist_ex.inBound == -1)
     {
         cursor.showCursor = false;
     }
@@ -199,12 +253,22 @@ void SearchScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
 
 void SearchScreen::render(sf::RenderWindow& App)
 {
-    for(auto &i : textlist.buttons)
+    for(auto &i : textlist_def.buttons)
     {
         App.draw(*i);
     }
 
-    for(auto &i : textlist.contents)
+    for(auto &i : textlist_def.contents)
+    {
+        App.draw(*i);
+    }
+
+    for(auto &i : textlist_ex.buttons)
+    {
+        App.draw(*i);
+    }
+
+    for(auto &i : textlist_ex.contents)
     {
         App.draw(*i);
     }
@@ -242,10 +306,16 @@ int SearchScreen::HandleCloseClick(sf::Vector2i mousepos)
         scrollBar.bar.setPosition(sf::Vector2f(1530, 115));
         isEdit = false;
         editButton.rect.setFillColor(sf::Color::Transparent);
-        if(textlist.inBound != -1)
+        if(textlist_def.inBound != -1)
         {
-            textlist.buttons[textlist.inBound]->setFillColor(sf::Color::Transparent);
-            textlist.inBound = -1;
+            textlist_def.buttons[textlist_def.inBound]->setFillColor(sf::Color::Transparent);
+            textlist_def.inBound = -1;
+        }
+
+        if(textlist_ex.inBound != -1)
+        {
+            textlist_ex.buttons[textlist_ex.inBound]->setFillColor(sf::Color::Transparent);
+            textlist_ex.inBound = -1;
         }
         return -1;
     }
@@ -254,11 +324,13 @@ int SearchScreen::HandleCloseClick(sf::Vector2i mousepos)
 
 void SearchScreen::HandleScroll(int delta)
 {
-    if((delta > 0 && textlist.contents[0]->getPosition().y < 197)
-    || (delta < 0 && textlist.contents[textlist.contents.size() - 1]->getPosition().y + textlist.contents[textlist.contents.size() - 1]->getLocalBounds().height > 918))
+    if((delta > 0 && textlist_def.contents[0]->getPosition().y < 197)
+    || (delta < 0 && textlist_ex.contents.empty() && textlist_def.contents[textlist_def.contents.size() - 1]->getPosition().y + textlist_def.contents[textlist_def.contents.size() - 1]->getLocalBounds().height > 918)
+    || (delta < 0 && !textlist_ex.contents.empty() && textlist_ex.contents[textlist_ex.contents.size() - 1]->getPosition().y + textlist_ex.contents[textlist_ex.contents.size() - 1]->getLocalBounds().height > 918))
     {
         // scrollBar.bar.move(-1.f * float(delta) * sf::Vector2f(0, 70));
-        textlist.moveText(float(delta) * sf::Vector2f(0, 60));
+        textlist_def.moveText(float(delta) * sf::Vector2f(0, 60));
+        textlist_ex.moveText(float(delta) * sf::Vector2f(0, 60));
     }
 }
 

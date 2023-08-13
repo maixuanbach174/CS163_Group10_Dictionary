@@ -39,7 +39,7 @@ void QuizScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
     }
 }
 
-void QuizScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
+void QuizScreen::update(MainMenu& mainmenu, vector<vector<wstring>*>& passedContent)
 {
 
 }

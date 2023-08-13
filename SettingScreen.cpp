@@ -144,7 +144,7 @@ void SettingScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int&
     }
 }
 
-void SettingScreen::update(MainMenu& mainmenu, vector<wstring>*& passedContent)
+void SettingScreen::update(MainMenu& mainmenu, vector<vector<wstring>*>& passedContent)
 {
      if(mainmenu.openedMenu != titleBar.isMove)
     {

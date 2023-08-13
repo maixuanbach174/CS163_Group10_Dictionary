@@ -9,5 +9,6 @@
 #include "QuizScreen.hpp"
 #include "AboutScreen.hpp"
 #include "SearchScreen.hpp"
+#include "HintScreen.hpp"
 
 #endif

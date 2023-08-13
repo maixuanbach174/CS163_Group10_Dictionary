@@ -30,6 +30,7 @@ private:
     QuizScreen quizscreen;
     AboutScreen aboutscreen;
     SearchScreen searchscreen;
+    HintScreen hintscreen;
     vector<cscreen*> screens;
     int CurScreen = 0;
     int screenIndex = -1;
@@ -42,7 +43,7 @@ private:
     VieTrieNode * EVrootdef = nullptr;
     wstring input;
     wstring prev;
-    vector<wstring>* passedContent = nullptr;
+    vector<vector<wstring>*> passedContent;
     MyHashMap <wstring, int> EVHistory;
     MyHashMap <wstring, int> EVFavourite;
     vector<wstring> eewords;
