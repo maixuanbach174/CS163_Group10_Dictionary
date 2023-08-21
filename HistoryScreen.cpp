@@ -39,6 +39,9 @@ void HistoryScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int&
         case sf::Event::LostFocus : 
             mainmenu.mIsPaused = true;
             break;
+        case sf::Event::MouseWheelMoved:
+            HandleScroll(event.mouseWheel.delta);
+            break;
         case sf::Event::MouseMoved :
             mainmenu.HandleMenuColor(App);
             textList.HandleTextListColor(sf::Mouse::getPosition(App));
@@ -112,5 +115,14 @@ void HistoryScreen::render(sf::RenderWindow& App)
     for(auto &i : textList.contents)
     {
         App.draw(*i);
+    }
+}
+
+void HistoryScreen::HandleScroll(int delta)
+{
+    if((delta > 0 && textList.contents[0]->getPosition().y < 197)
+    || (delta < 0 && textList.contents[textList.contents.size() - 1]->getPosition().y + textList.contents[textList.contents.size() - 1]->getLocalBounds().height > 918))
+    {
+        textList.moveText(float(delta) * sf::Vector2f(0, 60));
     }
 }

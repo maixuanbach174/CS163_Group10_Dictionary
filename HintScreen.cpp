@@ -12,7 +12,7 @@ HintScreen::HintScreen()
     titleBar.lineshape.setPosition(sf::Vector2f(100.f, 100.f));
     titleBar.titleFont.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Fonts/menuFont.ttf");
     titleBar.titleText.setFont(titleBar.titleFont);
-    titleBar.titleText.setString("Hint");
+    titleBar.titleText.setString("Suggestions");
     titleBar.titleText.setCharacterSize(40);
     titleBar.titleText.setFillColor(sf::Color::White);
     titleBar.titleText.setPosition(sf::Vector2f(250.f, 25.f));
@@ -44,6 +44,9 @@ void HintScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
         case sf::Event::LostFocus : 
             mainmenu.mIsPaused = true;
             break;
+        case sf::Event::MouseWheelMoved:
+            HandleScroll(event.mouseWheel.delta);
+            break;
         case sf::Event::MouseMoved :
             mainmenu.HandleMenuColor(App);
             HandleCloseColor(App);
@@ -55,7 +58,7 @@ void HintScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
                 sf::Vector2i mousepos = sf::Mouse::getPosition(App);
                 mainmenu.HandleMenuClick(mousepos);
                 if(screenIndex != -1) screenIndex = HandleCloseClick(mousepos);
-                if(textList.inBound != -1)
+                if(textList.inBound != -1 && textList.contents[0]->getString() != L"Not Found!")
                 {
                     screenIndex = 6;
                     input = textList.contents[textList.inBound]->getString(); 
@@ -112,11 +115,6 @@ void HintScreen::update(MainMenu& mainmenu, vector<vector<wstring>*>& passedCont
 
 void HintScreen::render(sf::RenderWindow& App)
 {
-    App.draw(titleBar.titleShape);
-    App.draw(titleBar.titleText);
-    App.draw(titleBar.lineshape);
-    App.draw(closeButton.rect);
-    App.draw(closeSprite);
 
     for(auto &i : textList.buttons)
     {
@@ -127,6 +125,12 @@ void HintScreen::render(sf::RenderWindow& App)
     {
         App.draw(*i);
     }
+
+    App.draw(titleBar.titleShape);
+    App.draw(titleBar.titleText);
+    App.draw(titleBar.lineshape);
+    App.draw(closeButton.rect);
+    App.draw(closeSprite);
 }
 
 void HintScreen::HandleCloseColor(sf::RenderWindow& App)
@@ -152,4 +156,13 @@ int HintScreen::HandleCloseClick(sf::Vector2i mousepos)
         return -1;
     }
     return 7;
+}
+
+void HintScreen::HandleScroll(int delta)
+{
+    if((delta > 0 && textList.contents[0]->getPosition().y < 197)
+    || (delta < 0 && textList.contents[textList.contents.size() - 1]->getPosition().y + textList.contents[textList.contents.size() - 1]->getLocalBounds().height > 918))
+    {
+        textList.moveText(float(delta) * sf::Vector2f(0, 60));
+    }
 }

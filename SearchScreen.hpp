@@ -21,6 +21,7 @@ public:
     FavouriteButton favouriteButton;
     bool isEdit = false;
     bool isDel = false;
+    int isSearchDef = 0;
     vector<vector<wstring>*> content;
 private:
     bool isLocked = false;

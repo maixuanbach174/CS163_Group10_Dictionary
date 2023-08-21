@@ -20,6 +20,7 @@ public:
     virtual void processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& screenIndex, wstring& input);
     virtual void update(MainMenu& mainmenu, vector<vector<wstring>*>& passedContent);
     virtual void render(sf::RenderWindow& App);
+    void HandleScroll(int delta);
 };
 
 #endif

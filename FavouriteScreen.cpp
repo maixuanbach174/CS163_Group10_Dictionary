@@ -113,3 +113,12 @@ void FavouriteScreen::render(sf::RenderWindow& App)
         App.draw(*i);
     }
 }
+
+void FavouriteScreen::HandleScroll(int delta)
+{
+    if((delta > 0 && textList.contents[0]->getPosition().y < 197)
+    || (delta < 0 && textList.contents[textList.contents.size() - 1]->getPosition().y + textList.contents[textList.contents.size() - 1]->getLocalBounds().height > 918))
+    {
+        textList.moveText(float(delta) * sf::Vector2f(0, 60));
+    }
+}

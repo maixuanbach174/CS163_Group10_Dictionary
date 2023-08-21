@@ -40,7 +40,6 @@ MainMenu::MainMenu()
     MenuHome.setPosition(22.f, 160.f);
     MenuTexts[0].setString("Home");
     MenuTexts[0].setPosition(145.f, 168.f);
-    MenuHome.setColor(sf::Color(0, 0, 200, 255));
 
     if(!HistoryTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/HistoryButton.png"))
     {
@@ -51,7 +50,6 @@ MainMenu::MainMenu()
     MenuHistory.setPosition(25.f, 280.f);
     MenuTexts[1].setString("History");
     MenuTexts[1].setPosition(145.f, 282.f);
-    MenuHistory.setColor(sf::Color::Yellow);
 
     if(!FavoriteTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/FavoriteButton.png"))
     {
@@ -62,7 +60,6 @@ MainMenu::MainMenu()
     MenuFavorite.setPosition(25.f, 383.f);
     MenuTexts[2].setString("Favorite");
     MenuTexts[2].setPosition(145.f, 390.f);
-    MenuFavorite.setColor(sf::Color(128, 0, 128, 255));
 
     if(!SettingTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/SettingButton.png"))
     {
@@ -73,7 +70,6 @@ MainMenu::MainMenu()
     MenuSetting.setPosition(25.f, 494.f);
     MenuTexts[3].setString("Setting");
     MenuTexts[3].setPosition(145.f, 500.f);
-    MenuSetting.setColor(sf::Color(200, 200, 200, 255));
 
     if(!QuizTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/QuizButton.png"))
     {
@@ -84,7 +80,6 @@ MainMenu::MainMenu()
     MenuQuiz.setPosition(20.f, 594.f);
     MenuTexts[4].setString("Quiz");
     MenuTexts[4].setPosition(145.f, 600.f);
-    MenuQuiz.setColor(sf::Color::Yellow);
 
     if(!AboutTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/AboutButton.png"))
     {
@@ -93,7 +88,6 @@ MainMenu::MainMenu()
     MenuAbout.setTexture(AboutTexture);
     MenuAbout.setScale(sf::Vector2f(60.f / AboutTexture.getSize().x * 0.75,  60.f / AboutTexture.getSize().y * 0.75));
     MenuAbout.setPosition(25.f, 710.f);
-    MenuAbout.setColor(sf::Color::Cyan);
 
     MenuTexts[5].setString("About");
     MenuTexts[5].setPosition(145.f, 714.f);

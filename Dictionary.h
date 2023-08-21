@@ -14,6 +14,10 @@
 #include "VieTrie.h"
 #include "ReadVieEng.hpp"
 #include "SearchByDef.hpp"
+#include "serialize.hpp"
+#include "getRandomWord.h"
+#include "getRandomDefinition.hpp"
+#include "emoji.hpp"
 using namespace std;
 
 class Dictionary
@@ -35,12 +39,14 @@ private:
     int CurScreen = 0;
     int screenIndex = -1;
     int prevScreen = 0;
+    int prevIndex = -1;
     TrieNode * EVroot = nullptr;
     TrieNode * EEroot = nullptr;
     VieTrieNode * VEroot = nullptr;
     TrieNode * VErootdef = nullptr;
     TrieNode * EErootdef = nullptr;
     VieTrieNode * EVrootdef = nullptr;
+    VieTrieNode * emojiroot = nullptr;
     wstring input;
     wstring prev;
     vector<vector<wstring>*> passedContent;
@@ -55,6 +61,8 @@ private:
     vector<wstring> evwords;
     vector<vector<wstring>> evdefs;
     vector<vector<wstring>> evexamples;
+    vector<wstring> emoji;
+    vector<vector<wstring>> emojiDef;
 private:
     void processEvent();
     void update();
@@ -68,6 +76,8 @@ private:
     void handleHistory();
     void handleFavourite();
     void handleFavouriteColor();
+    void handleEmojiSearch();
+    TrieNode * eraseTrieDef(TrieNode * root, wstring def, int index);
 public:
     Dictionary();
     ~Dictionary();

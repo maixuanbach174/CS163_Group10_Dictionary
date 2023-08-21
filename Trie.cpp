@@ -84,3 +84,37 @@ TrieNode* erase(TrieNode* root, wstring word)
 {
     return remove(root, word, 0);
 }
+
+TrieNode* eraseOneIndex(TrieNode* root, wstring word, int val)
+{
+    return removeIndex(root, word, val, 0);
+}
+
+TrieNode * removeIndex(TrieNode* root, wstring key, int val, int depth)
+{
+    TrieNode * cur = find(root, key);
+    if(cur)
+    {
+        for(int i = 0; i < cur->value.size(); ++i)
+        {
+            if(cur->value[i] == val)
+            {
+                cur->value.erase(cur->value.begin() + i);
+            }
+        }
+
+        if(cur->value.empty()) cur->isEndOfWord = false;
+    }
+}
+
+void deallocate(TrieNode*& root)
+{
+    if(root == nullptr) return;
+    for(int i = 0; i < ALPHABET_SIZE; ++i)
+    {
+        deallocate(root->children[i]);
+    }
+    delete root;
+    root = nullptr;
+}
+

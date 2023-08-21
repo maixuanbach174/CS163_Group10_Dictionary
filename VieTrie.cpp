@@ -58,18 +58,6 @@ bool VieInsert(VieTrieNode *& root, wstring vieword, int index)
     return pCrawl->isEndOfWord;
 }
 
-void VieDeallocate(VieTrieNode * root)
-{
-    if(root == nullptr) return;
-
-    for(int i = 0; i < 17; ++i)
-    {
-        VieDeallocate(root->children[i]);
-    }
-    
-    delete root;
-}
-
 bool isEmpty(VieTrieNode* root)
 {
     for (int i = 0; i < 16; i++)
@@ -112,3 +100,13 @@ VieTrieNode* VieRemove(VieTrieNode* root, string key, int depth)
     return root;
 }
 
+void Viedeallocate(VieTrieNode*& root)
+{
+    if(root == nullptr) return;
+    for(int i = 0; i < 16; ++i)
+    {
+        Viedeallocate(root->children[i]);
+    }
+    delete root;
+    root = nullptr;
+}

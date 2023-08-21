@@ -27,6 +27,7 @@ public:
     virtual void render(sf::RenderWindow& App);
     void HandleCloseColor(sf::RenderWindow& App);
     int HandleCloseClick(sf::Vector2i mousepos);
+    void HandleScroll(int delta);
 };
 
 #endif

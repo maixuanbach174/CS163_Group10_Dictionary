@@ -13,6 +13,8 @@ using namespace std;
 
 class HomeScreen : public cscreen
 {
+public:
+    int isSearchDef = 0;
 private:
     sf::Texture SearchTexture;
     sf::Sprite SearchSprite;
@@ -29,6 +31,8 @@ private:
     Cursor cursor;
     sf::Clock cursorTimer;
     bool isTyping = false;
+    sf::Sprite resetSprite;
+    sf::Texture resetTexture;
 private:
     void HandleSearchColor(sf::RenderWindow& App);
     int HandleSearchClick(sf::Vector2i mousepos);

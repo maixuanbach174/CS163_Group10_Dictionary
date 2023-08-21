@@ -317,6 +317,7 @@ int SearchScreen::HandleCloseClick(sf::Vector2i mousepos)
             textlist_ex.buttons[textlist_ex.inBound]->setFillColor(sf::Color::Transparent);
             textlist_ex.inBound = -1;
         }
+        if(isSearchDef) return 7;
         return -1;
     }
     return 6;

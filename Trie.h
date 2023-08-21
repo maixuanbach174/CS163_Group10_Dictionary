@@ -15,7 +15,6 @@ struct TrieNode
     TrieNode();
 };
 
-// bool insert(TrieNode*& root, wstring word, vector<wstring> def);
 bool insert(TrieNode*& root, wstring word, int index);
 
 TrieNode* find(TrieNode*& root, wstring word);
@@ -25,5 +24,11 @@ bool isEmpty(TrieNode* root);
 TrieNode* remove(TrieNode* root, wstring key, int depth);
 
 TrieNode* erase(TrieNode* root, wstring word);
+
+TrieNode* eraseOneIndex(TrieNode* root, wstring word, int val);
+
+TrieNode * removeIndex(TrieNode* root, wstring key, int val, int depth);
+
+void deallocate(TrieNode*& root);
 
 #endif
