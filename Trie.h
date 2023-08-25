@@ -25,9 +25,9 @@ TrieNode* remove(TrieNode* root, wstring key, int depth);
 
 TrieNode* erase(TrieNode* root, wstring word);
 
-TrieNode* eraseOneIndex(TrieNode* root, wstring word, int val);
+TrieNode* eraseOneIndex(TrieNode* root, wstring word, int& val);
 
-TrieNode * removeIndex(TrieNode* root, wstring key, int val, int depth);
+TrieNode * removeIndex(TrieNode* root, wstring key, int& val, int depth);
 
 void deallocate(TrieNode*& root);
 

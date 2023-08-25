@@ -81,7 +81,7 @@ MainMenu::MainMenu()
     MenuTexts[4].setString("Quiz");
     MenuTexts[4].setPosition(145.f, 600.f);
 
-    if(!AboutTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/AboutButton.png"))
+    if(!AboutTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/AddIcon.png"))
     {
         cout << "Cannot load immage" << endl;
     }
@@ -89,7 +89,7 @@ MainMenu::MainMenu()
     MenuAbout.setScale(sf::Vector2f(60.f / AboutTexture.getSize().x * 0.75,  60.f / AboutTexture.getSize().y * 0.75));
     MenuAbout.setPosition(25.f, 710.f);
 
-    MenuTexts[5].setString("About");
+    MenuTexts[5].setString("Add");
     MenuTexts[5].setPosition(145.f, 714.f);
 
 

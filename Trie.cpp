@@ -85,26 +85,57 @@ TrieNode* erase(TrieNode* root, wstring word)
     return remove(root, word, 0);
 }
 
-TrieNode* eraseOneIndex(TrieNode* root, wstring word, int val)
+TrieNode* eraseOneIndex(TrieNode* root, wstring word, int& val)
 {
     return removeIndex(root, word, val, 0);
 }
 
-TrieNode * removeIndex(TrieNode* root, wstring key, int val, int depth)
+TrieNode * removeIndex(TrieNode* root, wstring key, int& val, int depth)
 {
-    TrieNode * cur = find(root, key);
-    if(cur)
-    {
-        for(int i = 0; i < cur->value.size(); ++i)
-        {
-            if(cur->value[i] == val)
-            {
-                cur->value.erase(cur->value.begin() + i);
-            }
-        }
+    // TrieNode * cur = find(root, key);
+    // if(cur)
+    // {
+    //     for(int i = 0; i < cur->value.size(); ++i)
+    //     {
+    //         if(cur->value[i] == val)
+    //         {
+    //             cur->value.erase(cur->value.begin() + i);
+    //         }
+    //     }
 
-        if(cur->value.empty()) cur->isEndOfWord = false;
+    //     if(cur->value.empty()) cur->isEndOfWord = false;
+    // }
+     if (!root)
+        return NULL;
+    if (depth == key.size()) {
+
+        if (root->isEndOfWord)
+            {
+                for(int i = 0; i < root->value.size(); ++i)
+                {
+                    if(root->value[i] == val)
+                    {
+                        root->value.erase(root->value.begin() + i);
+                    }
+                }
+                if(root->value.empty())
+                root->isEndOfWord = false;
+            }
+        if (isEmpty(root) && root->isEndOfWord == false) {
+            delete (root);
+            root = NULL;
+        }
+ 
+        return root;
     }
+    int index = key[depth] - L'a';
+    root->children[index] =
+          removeIndex(root->children[index], key, val,depth + 1);
+    if (isEmpty(root) && root->isEndOfWord == false) {
+        delete (root);
+        root = NULL;
+    }
+    return root;
 }
 
 void deallocate(TrieNode*& root)

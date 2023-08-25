@@ -101,7 +101,7 @@ void QuizScreen::update(MainMenu& mainmenu, vector<vector<wstring>*>& passedCont
 {
     if(isNext)
     {
-        resetAnswerBox();\
+        resetAnswerBox();
         wstring question;
         if(index == 0)
             question = L"Which of the following is the meaning of " + random[0] + L" ?";

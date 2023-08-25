@@ -6,6 +6,8 @@ HomeScreen::HomeScreen()
 , DarkGrey(30, 30, 30, 30)
 , LightGrey(80, 80, 80, 80)
 , cursor(3.0f, 32.f)
+,randomList(sf::Color(50, 50, 100, 255))
+, reloadButton(50, 50, 800.f, 255.f)
 {
      if(!SearchTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/SearchIcon.png"));
     {
@@ -30,6 +32,26 @@ HomeScreen::HomeScreen()
     VieSearchText.setString(L"Search");
 
     cursor.cursorShape.setFillColor(sf::Color::White);
+
+    randomBox.setSize(sf::Vector2f(700.f, 500.f));
+    randomBox.setPosition(200.f, 250.f);
+    randomBox.setOutlineColor(sf::Color(100, 100, 255, 255));
+    randomBox.setOutlineThickness(6.f);
+    randomBox.setFillColor(sf::Color::Transparent);
+
+    lineShade.setFillColor(sf::Color(100, 100, 255, 255));
+    lineShade.setSize(sf::Vector2f(700.f, 6.f));
+    lineShade.setPosition(200.f, 300.f);
+
+    randomTitle.setFont(VieSearchFont);
+    randomTitle.setFillColor(sf::Color::White);
+    randomTitle.setCharacterSize(30);
+    randomTitle.setString(L"Random words");
+    randomTitle.setPosition(250.f, 260.f);
+
+    reloadTexture.loadFromFile("D:/SE/GroupProject/CS163_Group10_Dictionary/Images/Reload.png");
+    reloadSprite.setTexture(reloadTexture);
+    reloadSprite.setPosition(800.f, 255.f);
 }
 
 HomeScreen::~HomeScreen() {}
@@ -57,6 +79,8 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
         case sf::Event::MouseMoved :
             mainmenu.HandleMenuColor(App);
             HandleSearchColor(App);
+            randomList.HandleTextList2Color(sf::Mouse::getPosition(App));
+            HandleReloadColor(App);
             break;
         case sf::Event::MouseButtonPressed : 
             if(event.mouseButton.button == sf::Mouse::Left)
@@ -72,6 +96,13 @@ void HomeScreen::processEvent(sf::RenderWindow& App, MainMenu& mainmenu, int& sc
                     screenIndex = 7;
                     input = InputText;
                 }
+                if(randomList.inBound != -1)
+                {
+                    screenIndex = 6;
+                    input = randomList.contents[randomList.inBound]->getString(); 
+                    randomList.buttons[randomList.inBound]->setFillColor(sf::Color::Transparent);           
+                }
+                HandleReloadClick(mousepos);
             }
             break;
         case sf::Event::TextEntered:
@@ -141,6 +172,55 @@ void HomeScreen::update(MainMenu& mainmenu, vector<vector<wstring>*>& passedCont
         }
         isTyping = false;
     }
+
+    if(isNext)
+    {
+        randomList.clearAll();
+        for(auto& w : words)
+        {
+            randomList.addText(w, 0);
+        }
+        isNext = false;
+    }
+
+    if(mainmenu.openedMenu != isMove)
+    {
+        if(mainmenu.openedMenu)
+        {
+            randomBox.move(mainmenu.movement);
+            lineShade.move(mainmenu.movement);
+            randomTitle.move(mainmenu.movement);
+            reloadButton.position += mainmenu.movement;
+            reloadSprite.move(mainmenu.movement);
+            for(auto &i : randomList.contents)
+            {
+                i->move(mainmenu.movement);
+            }
+
+            for(auto &i : randomList.buttons)
+            {
+                i->move(mainmenu.movement);
+            }
+        } else
+        {
+            randomBox.move(-1.f * mainmenu.movement);
+            lineShade.move(-1.f * mainmenu.movement);
+            randomTitle.move(-1.f * mainmenu.movement);
+            reloadButton.position -= mainmenu.movement;
+            reloadSprite.move(-1.f * mainmenu.movement);
+            for(auto &i : randomList.contents)
+            {
+                i->move(-1.f * mainmenu.movement);
+            }
+
+            for(auto &i : randomList.buttons)
+            {
+                i->move(-1.f * mainmenu.movement);
+            }
+        }
+
+        isMove = mainmenu.openedMenu;
+    }
 }
 
 void HomeScreen::render(sf::RenderWindow& App)
@@ -150,7 +230,21 @@ void HomeScreen::render(sf::RenderWindow& App)
     App.draw(searchbutton.rect);
     App.draw(SearchSprite);
     App.draw(VieSearchText);
+    for(auto &i : randomList.buttons)
+    {
+        App.draw(*i);
+    }
+
+    for(auto &i : randomList.contents)
+    {
+        App.draw(*i);
+    }
+    App.draw(reloadButton.rect);
+    App.draw(randomBox);
+    App.draw(lineShade);
+    App.draw(randomTitle);
     if(cursor.showCursor) App.draw(cursor.cursorShape);
+    App.draw(reloadSprite);
 }
 
 void HomeScreen::HandleSearchColor(sf::RenderWindow& App)
@@ -177,5 +271,23 @@ int HomeScreen::HandleSearchClick(sf::Vector2i mousepos)
     }
 
     return 0;
+}
+
+void HomeScreen::HandleReloadColor(sf::RenderWindow& App)
+{
+    sf::Vector2i mousepos= sf::Mouse::getPosition(App);
+
+    if(reloadButton.isInBound(mousepos))
+    {
+        reloadButton.rect.setFillColor(sf::Color(50, 50, 100, 255));
+    } else reloadButton.rect.setFillColor(sf::Color::Transparent);
+}
+
+void HomeScreen::HandleReloadClick(sf::Vector2i mousepos)
+{
+    if(reloadButton.isInBound(mousepos))
+    {
+        isNext = true;
+    }
 }
 

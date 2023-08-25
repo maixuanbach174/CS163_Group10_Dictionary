@@ -5,10 +5,23 @@
 #include "cscreen.hpp"
 using namespace std;
 #include <vector>
+#include <string>
+#include "Cursor.hpp"
+#include "TextList.hpp"
+#include "TextList3.hpp"
 
 class AboutScreen : public cscreen
 {
+public:
+    vector<wstring> content;
+    bool init = true;
 private:
+    Cursor cursor;
+    sf::Clock cursorTimer;
+    bool isTyping = false;
+    TextList3 textList;
+    sf::Font font;
+    vector<sf::Text> text;
 public:
     AboutScreen();
     ~AboutScreen();

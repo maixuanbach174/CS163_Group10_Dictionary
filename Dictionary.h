@@ -77,6 +77,9 @@ private:
     void handleFavourite();
     void handleFavouriteColor();
     void handleEmojiSearch();
+    void randomEngEngWord();
+    void randomEngVieWord();
+    void randomVieEngWord();
     TrieNode * eraseTrieDef(TrieNode * root, wstring def, int index);
 public:
     Dictionary();

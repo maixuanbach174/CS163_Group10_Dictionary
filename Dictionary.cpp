@@ -7,12 +7,12 @@ Dictionary::Dictionary()
 , EVHistory(100000)
 , EVFavourite(100000)
 {
-    // readDatasetEngVie(evwords, evdefs, evexamples);
-    // readEngEng(eewords, eedefs, eeexamples);
-    // VieEng(vewords, vedefs, veexamples);
-    loadTrie("DataSave/EEdata.txt", eewords, eedefs, eeexamples);
-    loadTrie("DataSave/EVdata.txt", evwords, evdefs, evexamples);
-    loadTrie("DataSave/VEdata.txt", vewords, vedefs, veexamples);
+    readDatasetEngVie(evwords, evdefs, evexamples);
+    readEngEng(eewords, eedefs, eeexamples);
+    VieEng(vewords, vedefs, veexamples);
+    // loadTrie("DataSave/EEdata.txt", eewords, eedefs, eeexamples);
+    // loadTrie("DataSave/EVdata.txt", evwords, evdefs, evexamples);
+    // loadTrie("DataSave/VEdata.txt", vewords, vedefs, veexamples);
     readEmoji(emoji, emojiDef);
 
     screens.push_back(&homescreen);
@@ -183,6 +183,23 @@ void Dictionary::update()
             break;
         }
     }
+
+    if(mainmenu.menubuttons.selected == 0 && homescreen.isNext)
+    {
+        homescreen.words.clear();
+        switch (settingscreen.dataSet)
+        {
+        case 0:
+            randomEngEngWord();
+            break;
+        case 1:
+            randomEngVieWord();
+            break;
+        case 2:
+            randomVieEngWord();
+            break;
+        }
+    }
     searchscreen.isSearchDef = homescreen.isSearchDef = settingscreen.mode;
     if(searchscreen.isDel)
     {
@@ -190,14 +207,15 @@ void Dictionary::update()
         {
         case 0:
             if(prev != L"")
-            {EEroot = erase(EEroot, prev);
-            for(auto &def : eedefs[prevIndex])
             {
-                EErootdef = eraseOneIndex(EErootdef, def, prevIndex);
-            }
-            eedefs.erase(eedefs.begin() + prevIndex);
-            eewords.erase(eewords.begin() + prevIndex);
-            eeexamples.erase(eeexamples.begin() + prevIndex);
+                EEroot = erase(EEroot, prev);
+                for(auto &def : eedefs[prevIndex])
+                {
+                    EErootdef = eraseTrieDef(EErootdef, def, prevIndex);
+                }
+                eedefs.erase(eedefs.begin() + prevIndex);
+                eewords.erase(eewords.begin() + prevIndex);
+                eeexamples.erase(eeexamples.begin() + prevIndex);
             }
             break;
         case 1:
@@ -214,9 +232,9 @@ void Dictionary::update()
             if(prev != L"")
             {
                 VEroot = VieErase(VEroot, prev);
-                for(auto &def : vedefs[prevIndex])
+                for(auto &def : eedefs[prevIndex])
                 {
-                    VErootdef = eraseOneIndex(VErootdef, def, prevIndex);
+                    VErootdef = eraseTrieDef(VErootdef, def, prevIndex);
                 }
                 vedefs.erase(vedefs.begin() + prevIndex);
                 vewords.erase(vewords.begin() + prevIndex);
@@ -509,6 +527,7 @@ void Dictionary::handleFavourite()
 TrieNode * Dictionary::eraseTrieDef(TrieNode * root, wstring def, int index)
 {
     vector<wstring> words = splitToWords(def);
+     wcout << "hihi" << endl;
     for(auto &w : words)
     {
         root = eraseOneIndex(root, w, index);
@@ -516,5 +535,29 @@ TrieNode * Dictionary::eraseTrieDef(TrieNode * root, wstring def, int index)
     return root;
 }
 
+void Dictionary::randomEngEngWord()
+{
+    for(int i = 0; i < 6; ++i)
+    {
+        int index = rand() % eewords.size();
+        homescreen.words.push_back(eewords[index]);
+    }
+}
 
+void Dictionary::randomEngVieWord()
+{
+    for(int i = 0; i < 6; ++i)
+    {
+        int index = rand() % evwords.size();
+        homescreen.words.push_back(evwords[index]);
+    }
+}
 
+void Dictionary::randomVieEngWord()
+{
+    for(int i = 0; i < 6; ++i)
+    {
+        int index = rand() % vewords.size();
+        homescreen.words.push_back(vewords[index]);
+    }
+}
