@@ -92,6 +92,40 @@ void Dictionary::processEvent()
 
 void Dictionary::update()
 {
+    if(aboutscreen.isSave)
+    {
+         wcout << L"hihi" << endl;
+        switch (settingscreen.dataSet)
+        {
+        case 0:
+            eewords.push_back(aboutscreen.content[0]);
+            eedefs.push_back({aboutscreen.content[1]});
+            eeexamples.push_back({aboutscreen.content[2]});
+            insert(EEroot, eewords.back(), eewords.size() - 1);
+            insertdef(EErootdef, eedefs.back()[0], eewords.size() - 1);
+            break;
+        case 1:
+            evwords.push_back(aboutscreen.content[0]);
+            evdefs.push_back({aboutscreen.content[1]});
+            evexamples.push_back({aboutscreen.content[2]});
+            insert(EVroot, evwords.back(), evwords.size() - 1);
+            break;
+        case 2:
+            vewords.push_back(aboutscreen.content[0]);
+            vedefs.push_back({aboutscreen.content[1]});
+            veexamples.push_back({aboutscreen.content[2]});
+            VieInsert(VEroot, vewords.back(), vewords.size() - 1);
+            insertdef(VErootdef, vedefs.back()[0], vewords.size() - 1);
+            break;
+        default:
+            break;
+        }
+        aboutscreen.isSave = false;
+        aboutscreen.content.clear();
+        aboutscreen.content.resize(3);
+        aboutscreen.init = true;
+    }
+    
     if(settingscreen.isReset)
     {
         deallocate(EVroot);

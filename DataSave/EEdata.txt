@@ -3,6 +3,7 @@ A Priori#something that is believed to be true without actual reinforcement with
 Aardvark#a large|@ long-eared nocturnal animal that uses its long tongue to eat ants and termites|The long-eared aardvark slept all day and ate insects all night.|
 Aback #in amazement|@ shocked|I was taken aback by the serverï¿½s rude comment about my hair.|
 Abaft#toward the stern|@ behind|The wind was abaft which made the ship glide faster towards our destination.|
+Abandon#to stop caring and leave or to desert|@Since the young girl was unable to care for the newborn, she decided to abandon the child at a fire station.||
 Abase#to lower so as to hurt feelings|@My stepmother is an evil woman who likes to abase little children because she had a miserable childhood herself.|
 Abaser#someone who degrades or lowers someone|@After the abaser would make fun of her daughter-in-lawï¿½s cooking, she would then continue to talk bad about the young womanï¿½s appearance as well.||
 Abash#to humiliate someone and make them feel embarrassed or ashamed|@The officer tried to abash the inmates, humiliating them and treating them like dogs.||
@@ -12975,3 +12976,4 @@ Zone#an area or division|@The zone only has houses and no stores or shops can be
 Zoology#that portion of science that deals with the analysis of animals and their behaviors|@Since Chamberlain had a fierce love for animals, choosing zoology as a college major was a natural choice for him.||
 Zoom#to move very quickly|@The cars began to zoom around the racetrack, moving faster and faster with each lap.||
 Zygote#the fertilized egg that results from the union of sex cells|@A zygote is formed when a sperm cell and an egg cell merge.|
+Mai Xuan Bach#Dep Trai|@Co tai|
