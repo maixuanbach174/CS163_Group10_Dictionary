@@ -66,13 +66,13 @@ bool MyHashMap<K, V>::insert(K nkey, V nval)
     if(si == capacity) return false;
     int index = hash(nkey);
 
-    while(arr[index] != nullptr && arr[index]->key != nkey && arr[index]->key != "")
+    while(arr[index] != nullptr && arr[index]->key != nkey && arr[index]->key != L"")
     {
         index++;
         index %= capacity;
     }
 
-    if(arr[index] == nullptr || arr[index]->key == "")
+    if(arr[index] == nullptr || arr[index]->key == L"")
     {
         arr[index] = new HashNode<K, V>(nkey, nval);
         si++;
@@ -89,7 +89,7 @@ HashNode<K, V>* MyHashMap<K, V>::erase(K nkey)
     HashNode<K, V> *tempptr = find(nkey);
     if(tempptr == nullptr) return nullptr;
 
-    tempptr->key = "";
+    tempptr->key = L"";
     si--;
 
     return tempptr;
